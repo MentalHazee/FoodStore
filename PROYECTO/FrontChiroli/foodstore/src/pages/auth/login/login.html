@@ -5,17 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" href="/public/icono3.svg" type="image/x-icon">
     <link rel="stylesheet" href="/src/style.css">
 </head>
 
 <body>
+
     <div class="container">
+        <div class="cardImage">
+            <img src="/public/frankysLogo-04.svg" alt="Imagen de registro">
+        </div>
         <div class="loginContainer">
             <h2>Iniciar Sesión</h2>
             <form id="loginForm">
                 <input type="email" id="email" placeholder="Email" required />
                 <input type="password" id="password" placeholder="Contraseña" required />
-                <button type="submit">Ingresar</button>
+                <button type="submit" class="btn btnPrimary">Ingresar</button>
                 <p>¿No tienes cuenta? <a href="../register/register.html">Regístrate</a></p>
             </form>
             <div id="error" class="error" style="display: none;"></div>
