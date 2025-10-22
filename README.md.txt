@@ -30,8 +30,9 @@ A TENER EN CUENTA
 
 
 PREGUNTAS
-
-
+¿Las clases DTO deben recibir las relaciones en el tipo DTO?
+¿Como seria el PedidoCreate, ya que es una lista de DetallePedido?
+¿El rol del usuario como se asigna?
 
 
 
