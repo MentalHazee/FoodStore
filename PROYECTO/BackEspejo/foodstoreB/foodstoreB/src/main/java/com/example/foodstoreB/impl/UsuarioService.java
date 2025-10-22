@@ -1,5 +1,6 @@
 package com.example.foodstoreB.impl;
 
+import com.example.foodstoreB.entity.Usuario;
 import com.example.foodstoreB.entity.dto.UsuarioCreate;
 import com.example.foodstoreB.entity.dto.UsuarioDto;
 import com.example.foodstoreB.entity.dto.UsuarioEdit;

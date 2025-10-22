@@ -27,12 +27,15 @@ BACK - ESPEJO
 A TENER EN CUENTA
 - Crear DTO personalizados para cada una de las secciones
 - La contraseña del usuario debe ser encriptada con el video que paso el profe. Tiene que ser el encriptada ANTES de ser guardada en la BD
-
+- Como asignar el rol de usuario (cliente o admin) al momento de crear el usuario
 
 PREGUNTAS
-¿Las clases DTO deben recibir las relaciones en el tipo DTO?
-¿Como seria el PedidoCreate, ya que es una lista de DetallePedido?
-¿El rol del usuario como se asigna?
+-¿Las clases DTO deben recibir las relaciones en el tipo DTO?
+-¿Como seria el PedidoCreate, ya que es una lista de DetallePedido?
+-¿El rol del usuario como se asigna?
+-¿Como es el paso a paso para encriptar la contraseña?
+-¿Los controladores deben estar separados?
+
 
 
 

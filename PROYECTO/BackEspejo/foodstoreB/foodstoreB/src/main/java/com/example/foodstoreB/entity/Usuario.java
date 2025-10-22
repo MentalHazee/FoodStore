@@ -28,7 +28,9 @@ public class Usuario {
 
     private String contrasena;
 
-    private Rol rol;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private Rol rol = Rol.USUARIO;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @Builder.Default
