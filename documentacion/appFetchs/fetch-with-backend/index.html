@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD DNI - Ejemplo Fetch</title>
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>📋 Gestión de DNI</h1>
+      <p class="subtitle">Ejemplo de uso de Fetch API con Spring Boot</p>
+    </header>
+
+    <!-- Formulario de Crear DNI -->
+    <section class="form-section">
+      <h2>Crear Nuevo DNI</h2>
+      <form id="dniForm">
+        <div class="form-group">
+          <label for="nombre">Nombre Completo:</label>
+          <input type="text" id="nombre" required placeholder="Ej: Juan Pérez">
+        </div>
+
+        <div class="form-group">
+          <label for="numero">Número de DNI:</label>
+          <input type="number" id="numero" required placeholder="Ej: 12345678">
+        </div>
+
+        <div class="form-group">
+          <label for="fechaVencimiento">Fecha de Vencimiento:</label>
+          <input type="date" id="fechaVencimiento" required>
+        </div>
+
+        <div class="form-group">
+          <label for="fotoNombre">Nombre de la Foto:</label>
+          <input type="text" id="fotoNombre" required placeholder="Ej: foto_dni.jpg">
+        </div>
+
+        <div class="form-group">
+          <label for="fotoUrl">URL de la Foto:</label>
+          <input type="url" id="fotoUrl" required placeholder="https://ejemplo.com/foto.jpg">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear DNI</button>
+      </form>
+    </section>
+
+    
+
+    <!-- Lista de DNIs -->
+    <section class="list-section">
+      <div class="list-header">
+        <h2>Lista de DNIs</h2>
+        <button id="refreshBtn" class="btn btn-secondary">🔄 Actualizar</button>
+      </div>
+      <div id="dniList" class="dni-grid"></div>
+    </section>
+
+    <!-- Modal para Ver/Editar DNI -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="modalTitle">Detalle del DNI</h2>
+          <button id="closeModal" class="close-btn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Vista de solo lectura -->
+          <div id="viewMode">
+            <div class="detail-section">
+              <img id="viewFoto" src="" alt="Foto DNI" class="detail-foto">
+              <div class="detail-info">
+                <p><strong>ID:</strong> <span id="viewId"></span></p>
+                <p><strong>Nombre:</strong> <span id="viewNombre"></span></p>
+                <p><strong>Número:</strong> <span id="viewNumero"></span></p>
+                <p><strong>Fecha Creación:</strong> <span id="viewCreacion"></span></p>
+                <p><strong>Fecha Vencimiento:</strong> <span id="viewVencimiento"></span></p>
+                <p><strong>Foto:</strong> <span id="viewFotoNombre"></span></p>
+              </div>
+            </div>
+            <div class="modal-actions">
+              <button id="editBtn" class="btn btn-primary">✏️ Editar</button>
+              <button id="deleteBtn" class="btn btn-danger">🗑️ Eliminar</button>
+            </div>
+          </div>
+
+          <!-- Modo de edición -->
+          <div id="editMode" class="hidden">
+            <form id="editForm">
+              <input type="hidden" id="editId">
+
+              <div class="form-group">
+                <label for="editNombre">Nombre Completo:</label>
+                <input type="text" id="editNombre" required>
+              </div>
+
+              <div class="form-group">
+                <label for="editNumero">Número de DNI:</label>
+                <input type="number" id="editNumero" required>
+              </div>
+
+              <div class="form-group">
+                <label for="editFechaVencimiento">Fecha de Vencimiento:</label>
+                <input type="date" id="editFechaVencimiento" required>
+              </div>
+
+              <div class="form-group">
+                <label for="editFotoNombre">Nombre de la Foto:</label>
+                <input type="text" id="editFotoNombre" required>
+              </div>
+
+              <div class="form-group">
+                <label for="editFotoUrl">URL de la Foto:</label>
+                <input type="url" id="editFotoUrl" required>
+              </div>
+
+              <div class="modal-actions">
+                <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                <button type="button" id="cancelEditBtn" class="btn btn-secondary">❌ Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Mensajes -->
+    <div id="message" class="message hidden"></div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
