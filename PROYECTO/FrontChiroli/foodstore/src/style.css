@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #e94232;
+  --primaryColor: #E63323;
+  --secondaryColor: #ece5d6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -93,4 +93,11 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.container {
+  background-color: var(--secondaryColor);
+}
+.loginContainer {
+  background-color: var(--primaryColor);
 }
