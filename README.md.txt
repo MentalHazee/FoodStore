@@ -18,8 +18,8 @@ VITE v7.1.11  ready in 217 ms
 
 PREGUNTAS
 ¿Cómo registrar clientes y administradores?
-Que configuraciones deberiamos tener en el vite.congig.ts?
-Como hacer la funcion de navegateTo?
+¿Qué configuraciones deberiamos tener en el vite.congig.ts?
+¿Cómo hacer la funcion de navegateTo?
 
 
 -----------------------------------------------------------------------------------------
