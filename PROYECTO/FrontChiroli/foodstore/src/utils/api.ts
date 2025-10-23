@@ -10,7 +10,7 @@
 
 import type { IUsers } from "../types/IUser";
 
-const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
+const API_URL = ''; // dirección base del backend (localhost en desarrollo)
 
 /**
  * Registra un nuevo usuario en el servidor.
@@ -26,7 +26,7 @@ export async function registrarUsuario(userData: Omit<IUsers, 'id' | 'rol'>): Pr
     const response = await fetch(`${API_URL}/api/crear`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...userData, rol: 'cliente' })  // solo los clientes se pueden registrar
+        body: JSON.stringify({ ...userData})  // solo los clientes se pueden registrar
     });
 
     // Si la respuesta no es 2xx, intentamos leer el texto de error y lanzar una excepción.

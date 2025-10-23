@@ -8,19 +8,31 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     form?.addEventListener('submit', async (e) =>{
         e.preventDefault();
-        const name = (document.getElementById('name') as HTMLInputElement).value;
-        const surname = (document.getElementById('surname') as HTMLInputElement).value;
-        const phone = (document.getElementById('phone') as HTMLInputElement).value;
-        const email = (document.getElementById('email') as HTMLInputElement).value;
-        const password = (document.getElementById('password') as HTMLInputElement).value;
+        const nombre = (document.getElementById('name') as HTMLInputElement).value;
+        const apellido = (document.getElementById('surname') as HTMLInputElement).value;
+        const celularStr = (document.getElementById('phone') as HTMLInputElement).value;
+        const mail = (document.getElementById('email') as HTMLInputElement).value;
+        const contrasena = (document.getElementById('password') as HTMLInputElement).value;
 
-        if (password.length < 6){
+        // convertir y validar celular como número (elimina cualquier no dígito)
+        const celularDigits = celularStr.replace(/\D/g, '');
+        if (!celularDigits) {
+            alert('Ingrese un número de teléfono válido.');
+            return;
+        }
+        const celular = Number(celularDigits);
+        if (Number.isNaN(celular)) {
+            alert('Ingrese un número de teléfono válido.');
+            return;
+        }
+
+        if (contrasena.length < 6){
             alert('La contraseña debe contener al menos 6 caracteres.');
             return;
         }
 
         try{
-            const user = await registrarUsuario({ name, surname, phone, email, password });
+            const user = await registrarUsuario({ nombre, apellido, celular, mail, contrasena });
             saveSession(user); //para hacer auto-login
             navigateTo('/store/home/home.html')
         } catch (error) {

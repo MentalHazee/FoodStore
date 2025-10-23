@@ -1,9 +1,9 @@
 export interface IUsers {
     id: number;
-    name: string;
-    email: string;
-    password: string;
-    surname: string;
-    phone: string;
+    nombre: string;
+    mail: string;
+    contrasena: string;
+    apellido: string;
+    celular: number;
     rol: "admin" | "user";
 }

@@ -11,6 +11,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 import java.util.List;
 
 @Service
@@ -21,8 +24,10 @@ public class UsuarioServiceImp implements UsuarioService {
     @Override
     public UsuarioDto crear(UsuarioCreate uc) {
         Usuario usuario = UsuarioMapper.toEntity(uc);
-        Usuario usuarioEntidad = usuarioRepository.save(usuario);
-        return UsuarioMapper.toDTO(usuarioEntidad);
+        Usuario usuarioEntidad = usuario;
+        usuarioEntidad.setContrasena(hashPassword(usuario.getContrasena()));
+        Usuario usuarioEncriptado = usuarioRepository.save(usuarioEntidad);
+        return UsuarioMapper.toDTO(usuarioEncriptado);
     }
 
     @Override
@@ -53,5 +58,22 @@ public class UsuarioServiceImp implements UsuarioService {
     public void eliminar(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
         usuario.setEliminado(true);
+    }
+
+    private String hashPassword(String password) {
+        try {
+            // Obtener la instancia del algoritmo SHA-256
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+            // Aplicar el hash a la contraseña
+            byte[] hash = digest.digest(password.getBytes());
+
+            // Convertir el array de bytes a una cadena hexadecimal
+            return HexFormat.of().formatHex(hash);
+
+        } catch (NoSuchAlgorithmException e) {
+            // Esto solo ocurre si el algoritmo SHA-256 no existe (muy raro)
+            throw new RuntimeException("Error al hashear la contraseña con SHA-256", e);
+        }
     }
 }
