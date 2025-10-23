@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./adminHome.css">
+    <!--<link rel="stylesheet" href="/PROYECTO/FrontChiroli/foodstore/src/style.css">-->
+    <title>Panel de Administrador - FoodStore</title>
+</head>
+
+<body>
+    <!-- Botonera principal -->
+    <header>
+        <div><img src="/PROYECTO/FrontChiroli/foodstore/public/icono3.svg" alt="Hamburguesa con lentes" width="100px">
+            <h1>Franky´s Store</h1>
+        </div>
+        <nav class="header-nav">
+            <a href="/PROYECTO/FrontChiroli/foodstore/src/pages/store/home/home.html">Tienda</a>
+            <a href="#" class="active">Panel Admin</a>
+            <span id="userNameHeader" class="user-name"></span>
+            <button id="logoutBtn" class="btn btn-secondary">Cerrar Sesión</button>
+        </nav>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Administración</h3>
+                <p>Panel de control</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="../categories/categories.html">Categorías</a></li>
+                    <li><a href="../products/products.html">Productos</a></li>
+                    <li><a href="../orders/orders.html">Pedidos</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/PROYECTO/FrontChiroli/foodstore/src/pages/store/home/home.html">Ver Tienda</a>
+            </div>
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <h2>Panel de Administración</h2>
+
+            <!--Tarjetas de resumen-->
+            <div class="stats-cards">
+                <div class="stat-card card-purple">
+                    <div class="card-header">
+                        <h3>Categorías</h3>
+                    </div>
+                    <div class="card-value">0</div>
+                    <button class="btn btn-light">Gestionar</button>
+                </div>
+
+                <div class="stat-card card-pink">
+                    <div class="card-header">
+                        <h3>Productos</h3>
+                    </div>
+                    <div class="card-value">0</div>
+                    <button class="btn btn-light">Gestionar</button>
+                </div>
+
+                <div class="stat-card card-blue">
+                    <div class="card-header">
+                        <h3>Pedidos</h3>
+                    </div>
+                    <div class="card-value">0</div>
+                    <button class="btn btn-light">Gestionar</button>
+                </div>
+
+                <div class="stat-card card-green">
+                    <div class="card-header">
+                        <h3>Disponibles</h3>
+                    </div>
+                    <div class="card-value">0</div>
+                    <p class="card-subtext">Productos activos</p>
+                    <button class="btn btn-light">Gestionar</button>
+                </div>
+            </div>
+
+            <!--Resumen rapido-->
+            <section class="quick-summary">
+                <h3>Resumen Rápido</h3>
+                <p>Cargando estadísticas...</p>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="./adminHome.ts"></script>
+</body>
+
+</html>
