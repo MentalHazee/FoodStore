@@ -1,9 +1,9 @@
 package com.example.foodstoreB.service;
 
+import com.example.foodstoreB.entity.Rol;
 import com.example.foodstoreB.entity.Usuario;
-import com.example.foodstoreB.entity.dto.UsuarioCreate;
-import com.example.foodstoreB.entity.dto.UsuarioDto;
-import com.example.foodstoreB.entity.dto.UsuarioEdit;
+import com.example.foodstoreB.entity.dto.*;
+import com.example.foodstoreB.entity.mapper.UsuarioLoginMapper;
 import com.example.foodstoreB.entity.mapper.UsuarioMapper;
 import com.example.foodstoreB.impl.UsuarioService;
 import com.example.foodstoreB.repository.UsuarioRepository;
@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,6 +29,40 @@ public class UsuarioServiceImp implements UsuarioService {
         usuarioEntidad.setContrasena(hashPassword(usuario.getContrasena()));
         Usuario usuarioEncriptado = usuarioRepository.save(usuarioEntidad);
         return UsuarioMapper.toDTO(usuarioEncriptado);
+    }
+
+    @Override
+    public UsuarioLoginDto login(UsuarioLogin us) throws Exception { // Cambiado a UsuarioLoginDto y parámetro 'us'
+
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByMail(us.getMail()); // Usando findByMail y getMail()
+
+        // Verifica si el usuario no existe antes de intentar usar get()
+        if (usuarioOpt.isEmpty()) {
+            throw new Exception("Email invalido.");
+        }
+
+        Usuario usuario = usuarioOpt.get(); // Obtenemos el usuario (ya verificado)
+
+        try {
+            // Aplicamos el hash a la contraseña recibida
+            String hashContrasena = hashPassword(us.getContrasena());
+
+            // Comparamos el hash generado con el de la base de datos
+            if (hashContrasena.equals(usuario.getContrasena())) { // Usando getContrasena()
+
+                us.setRol(usuario.getRol());
+                // Conversión al DTO (Asumo que UsuarioLoginMapper existe y funciona)
+                UsuarioLoginDto uldto = UsuarioLoginMapper.toDTO(us);
+                return uldto;
+                //throw new UnsupportedOperationException("Autenticación exitosa. Implementar la conversión de Usuario a UsuarioLoginDto aquí.");
+
+            } else {
+                throw new Exception("Contraseña invalida."); // Contraseña incorrecta
+            }
+        } catch(RuntimeException e) {
+            // Capturamos errores inesperados (como fallos en el hasheo) y relanzamos como Exception
+            throw new Exception("Error interno de autenticación.", e);
+        }
     }
 
     @Override
@@ -60,7 +95,7 @@ public class UsuarioServiceImp implements UsuarioService {
         usuario.setEliminado(true);
     }
 
-    private String hashPassword(String password) {
+    public String hashPassword(String password) {
         try {
             // Obtener la instancia del algoritmo SHA-256
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -75,5 +110,17 @@ public class UsuarioServiceImp implements UsuarioService {
             // Esto solo ocurre si el algoritmo SHA-256 no existe (muy raro)
             throw new RuntimeException("Error al hashear la contraseña con SHA-256", e);
         }
+    }
+
+    public void crear() {
+        Usuario admin = Usuario.builder()
+                .nombre("Super")
+                .apellido("Admin")
+                .mail("admin@admin.com")
+                .contrasena(hashPassword("admin123"))
+                .rol(Rol.ADMIN)
+                .build();
+
+        usuarioRepository.save(admin);
     }
 }

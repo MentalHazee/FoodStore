@@ -2,6 +2,7 @@ package com.example.foodstoreB.controller;
 
 import com.example.foodstoreB.entity.dto.UsuarioCreate;
 import com.example.foodstoreB.entity.dto.UsuarioEdit;
+import com.example.foodstoreB.entity.dto.UsuarioLogin;
 import com.example.foodstoreB.impl.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,15 @@ public class UsuarioController {
     public ResponseEntity<?> crear (@RequestBody UsuarioCreate c){
         try {
             return ResponseEntity.ok().body(usuarioService.crear(c));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login (@RequestBody UsuarioLogin ul){
+        try {
+            return ResponseEntity.ok().body(usuarioService.login(ul));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }

@@ -21,13 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Recuperamos los valores de los campos email y password.
         // Usamos aserciones de tipo para indicar que son HTMLInputElement.
-        const email = (document.getElementById('email') as HTMLInputElement).value;
-        const password = (document.getElementById('password') as HTMLInputElement).value;
+        const mail = (document.getElementById('email') as HTMLInputElement).value;
+        const contrasena = (document.getElementById('password') as HTMLInputElement).value;
+        const rol = null;
 
         try {
             // Llamamos a la función de la API para autenticar al usuario.
             // Se asume que loginUsuario devuelve un objeto usuario con al menos la propiedad 'rol'.
-            const user = await loginUsuario(email, password);
+            const user = await loginUsuario(mail, contrasena, rol);
 
             // Guardamos la sesión (por ejemplo en localStorage) usando la utilidad correspondiente.
             saveSession(user); // lo guarda en localstorage
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redirigimos al usuario según su rol:
             // - Si es 'admin' -> página de administración
             // - Si no -> página de tienda/usuario
-            navigateTo(user.rol === 'admin' ? '/admin/adminHome/adminHome.html' : '/store/home/home.html');
+            navigateTo(user.rol === 'ADMIN' ? '/src/pages/admin/adminHome/adminHome.html' : '/src/pages/store/home/home.html');
         } catch (error) {
             // En caso de error (credenciales inválidas, fallo de red, etc.) mostramos una alerta
             // con el mensaje de error. Convertimos 'error' a Error para acceder a message.

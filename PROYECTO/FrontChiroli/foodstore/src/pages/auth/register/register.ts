@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () =>{
             alert('La contraseña debe contener al menos 6 caracteres.');
             return;
         }
-
+            
         try{
             const user = await registrarUsuario({ nombre, apellido, celular, mail, contrasena });
             saveSession(user); //para hacer auto-login

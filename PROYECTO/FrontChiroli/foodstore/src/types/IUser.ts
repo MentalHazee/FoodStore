@@ -1,9 +1,9 @@
 export interface IUsers {
-    id: number;
+    //id: number;
     nombre: string;
     mail: string;
     contrasena: string;
     apellido: string;
     celular: number;
-    rol: "admin" | "user";
+    rol: "ADMIN" | "USUARIO";
 }

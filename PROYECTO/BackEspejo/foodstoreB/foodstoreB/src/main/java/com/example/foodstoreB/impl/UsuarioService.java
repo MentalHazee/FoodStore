@@ -1,9 +1,6 @@
 package com.example.foodstoreB.impl;
 
-import com.example.foodstoreB.entity.Usuario;
-import com.example.foodstoreB.entity.dto.UsuarioCreate;
-import com.example.foodstoreB.entity.dto.UsuarioDto;
-import com.example.foodstoreB.entity.dto.UsuarioEdit;
+import com.example.foodstoreB.entity.dto.*;
 
 import java.util.List;
 
@@ -13,4 +10,6 @@ public interface UsuarioService {
     UsuarioDto buscaId(Long id);
     List<UsuarioDto> buscaTodos();
     void eliminar(Long id);
+    UsuarioLoginDto login(UsuarioLogin ul) throws Exception;
+    void crear();
 }
