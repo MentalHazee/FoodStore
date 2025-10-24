@@ -9,6 +9,6 @@ import lombok.*;
 @Builder
 public class UsuarioEdit {
     private String mail;
-    private int celular;
+    private String celular;
     private String contrasena;
 }

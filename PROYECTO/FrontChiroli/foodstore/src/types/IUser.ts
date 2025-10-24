@@ -4,6 +4,6 @@ export interface IUsers {
     mail: string;
     contrasena: string;
     apellido: string;
-    celular: number;
+    celular: string;
     rol: "ADMIN" | "USUARIO";
 }

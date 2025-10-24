@@ -24,7 +24,7 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String mail;
 
-    private int celular;
+    private String celular;
 
     private String contrasena;
 
