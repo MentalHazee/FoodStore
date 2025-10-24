@@ -48,12 +48,12 @@ export async function registrarUsuario(userData: Omit<IUsers, 'id' | 'rol'>): Pr
  * @returns Promise<IUsers> - Datos del usuario autenticado (puede incluir token, rol, id, etc.)
  * @throws Error - Si la respuesta HTTP no es OK, lanza un Error con el mensaje devuelto por la API.
  */
-export async function loginUsuario(mail: string, contrasena: string, rol: string | null): Promise<IUsers>{
+export async function loginUsuario(mail: string, contrasena: string): Promise<IUsers>{
     // Petición POST a /auth/login con credenciales en el body.
     const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mail, contrasena, rol })
+        body: JSON.stringify({ mail, contrasena})
     });
 
     // Manejo de errores: leer el texto devuelto por la API y lanzar Error.

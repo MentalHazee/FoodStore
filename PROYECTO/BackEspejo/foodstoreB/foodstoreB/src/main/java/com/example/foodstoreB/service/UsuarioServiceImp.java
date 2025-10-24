@@ -3,7 +3,6 @@ package com.example.foodstoreB.service;
 import com.example.foodstoreB.entity.Rol;
 import com.example.foodstoreB.entity.Usuario;
 import com.example.foodstoreB.entity.dto.*;
-import com.example.foodstoreB.entity.mapper.UsuarioLoginMapper;
 import com.example.foodstoreB.entity.mapper.UsuarioMapper;
 import com.example.foodstoreB.impl.UsuarioService;
 import com.example.foodstoreB.repository.UsuarioRepository;
@@ -32,29 +31,23 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public UsuarioLoginDto login(UsuarioLogin us) throws Exception { // Cambiado a UsuarioLoginDto y parámetro 'us'
+    public UsuarioDto login(UsuarioLogin us) throws Exception { // Cambiado a UsuarioLoginDto y parámetro 'us'
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findByMail(us.getMail()); // Usando findByMail y getMail()
-
         // Verifica si el usuario no existe antes de intentar usar get()
         if (usuarioOpt.isEmpty()) {
             throw new Exception("Email invalido.");
         }
-
         Usuario usuario = usuarioOpt.get(); // Obtenemos el usuario (ya verificado)
 
         try {
             // Aplicamos el hash a la contraseña recibida
             String hashContrasena = hashPassword(us.getContrasena());
-
             // Comparamos el hash generado con el de la base de datos
             if (hashContrasena.equals(usuario.getContrasena())) { // Usando getContrasena()
-
-                us.setRol(usuario.getRol());
                 // Conversión al DTO (Asumo que UsuarioLoginMapper existe y funciona)
-                UsuarioLoginDto uldto = UsuarioLoginMapper.toDTO(us);
-                return uldto;
-                //throw new UnsupportedOperationException("Autenticación exitosa. Implementar la conversión de Usuario a UsuarioLoginDto aquí.");
+                UsuarioDto udto = UsuarioMapper.toDTO(usuario);
+                return udto;
 
             } else {
                 throw new Exception("Contraseña invalida."); // Contraseña incorrecta

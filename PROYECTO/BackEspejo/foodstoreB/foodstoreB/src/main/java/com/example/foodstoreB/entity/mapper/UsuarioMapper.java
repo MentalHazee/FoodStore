@@ -9,11 +9,13 @@ public class UsuarioMapper {
         if (u == null || u.isEliminado()) return null;
 
         return UsuarioDto.builder()
+                .id(u.getId())
                 .nombre(u.getNombre())
                 .apellido(u.getApellido())
                 .mail(u.getMail())
                 .celular(u.getCelular())
                 .pedidos(u.getPedidos())
+                .rol(u.getRol())
                 .build();
     }
 

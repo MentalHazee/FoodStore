@@ -11,5 +11,4 @@ import lombok.*;
 public class UsuarioLogin {
     private String mail;
     private String contrasena;
-    private Rol rol;
 }

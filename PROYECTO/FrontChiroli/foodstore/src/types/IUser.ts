@@ -1,5 +1,5 @@
 export interface IUsers {
-    //id: number;
+    id: number;
     nombre: string;
     mail: string;
     contrasena: string;

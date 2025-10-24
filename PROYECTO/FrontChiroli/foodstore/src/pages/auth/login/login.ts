@@ -23,12 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Usamos aserciones de tipo para indicar que son HTMLInputElement.
         const mail = (document.getElementById('email') as HTMLInputElement).value;
         const contrasena = (document.getElementById('password') as HTMLInputElement).value;
-        const rol = null;
 
         try {
             // Llamamos a la función de la API para autenticar al usuario.
             // Se asume que loginUsuario devuelve un objeto usuario con al menos la propiedad 'rol'.
-            const user = await loginUsuario(mail, contrasena, rol);
+            const user = await loginUsuario(mail, contrasena);
 
             // Guardamos la sesión (por ejemplo en localStorage) usando la utilidad correspondiente.
             saveSession(user); // lo guarda en localstorage

@@ -10,6 +10,6 @@ public interface UsuarioService {
     UsuarioDto buscaId(Long id);
     List<UsuarioDto> buscaTodos();
     void eliminar(Long id);
-    UsuarioLoginDto login(UsuarioLogin ul) throws Exception;
+    UsuarioDto login(UsuarioLogin ul) throws Exception;
     void crear();
 }
