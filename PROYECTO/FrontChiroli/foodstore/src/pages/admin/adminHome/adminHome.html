@@ -4,22 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./adminHome.css">
-    <!--<link rel="stylesheet" href="/PROYECTO/FrontChiroli/foodstore/src/style.css">-->
-    <title>Panel de Administrador - FoodStore</title>
+    <link rel="stylesheet" href="/src/style.css">
+    <link rel="icon" href="/public/icono3.svg" type="image/x-icon">
+    <title>Panel de Administrador</title>
 </head>
 
 <body>
     <!-- Botonera principal -->
     <header>
-        <div><img src="/PROYECTO/FrontChiroli/foodstore/public/icono3.svg" alt="Hamburguesa con lentes" width="100px">
-            <h1>Franky´s Store</h1>
+        <div><img src="/public/frankysLogo-04.svg" alt="Hamburguesa con lentes" width="100px">
         </div>
         <nav class="header-nav">
-            <a href="/PROYECTO/FrontChiroli/foodstore/src/pages/store/home/home.html">Tienda</a>
+            <a href="/src/pages/store/home/home.html">Tienda</a>
             <a href="#" class="active">Panel Admin</a>
             <span id="userNameHeader" class="user-name"></span>
-            <button id="logoutBtn" class="btn btn-secondary">Cerrar Sesión</button>
+            <button id="logoutBtn" class="btn btnPrimary">Cerrar Sesión</button>
         </nav>
     </header>
 
@@ -40,7 +39,7 @@
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <a href="/PROYECTO/FrontChiroli/foodstore/src/pages/store/home/home.html">Ver Tienda</a>
+                <a href="/src/pages/store/home/home.html">Ver Tienda</a>
             </div>
         </aside>
 
@@ -51,7 +50,7 @@
 
             <!--Tarjetas de resumen-->
             <div class="stats-cards">
-                <div class="stat-card card-purple">
+                <div class="stat-card">
                     <div class="card-header">
                         <h3>Categorías</h3>
                     </div>
@@ -59,7 +58,7 @@
                     <button class="btn btn-light">Gestionar</button>
                 </div>
 
-                <div class="stat-card card-pink">
+                <div class="stat-card">
                     <div class="card-header">
                         <h3>Productos</h3>
                     </div>
@@ -67,7 +66,7 @@
                     <button class="btn btn-light">Gestionar</button>
                 </div>
 
-                <div class="stat-card card-blue">
+                <div class="stat-card">
                     <div class="card-header">
                         <h3>Pedidos</h3>
                     </div>
@@ -75,7 +74,7 @@
                     <button class="btn btn-light">Gestionar</button>
                 </div>
 
-                <div class="stat-card card-green">
+                <div class="stat-card">
                     <div class="card-header">
                         <h3>Disponibles</h3>
                     </div>
