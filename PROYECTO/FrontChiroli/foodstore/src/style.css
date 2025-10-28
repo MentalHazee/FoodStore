@@ -38,8 +38,20 @@ a:hover {
 
 body {
   margin: 0;
-  place-items: center;
   padding: 20px;
+  background-color: var(--secondaryColor);
+  background-image: url('../public/frankys.png');
+  background-repeat: no-repeat;
+  background-position: bottom right; /* podés cambiar a 'bottom left', 'center', etc. */
+  background-attachment: fixed; /* hace que quede anclada */
+  background-size: 100% auto; /* ajustá el tamaño según la imagen */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 40px;
   background-color: var(--secondaryColor);
 }
 
@@ -207,12 +219,18 @@ button {
 }
 
 /* ----------- ADMINHOME ----------- */
+
 .admin-layout{
     display: flex;
     height: calc(100hv - 60px);
-    margin-top: 60px;
 }
 
+.admin-layout main {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+/* Header Superior */
 .top-header {
     position: fixed;
     top: 0;
@@ -238,9 +256,11 @@ button {
     margin-left: 30px;
     font-weight: bold;
     color: #e74c3c;
+    width: 150px;
 }
 
 .header-nav {
+    justify-content: right;
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -265,7 +285,6 @@ button {
 }
 
 #logoutBtn {
-    margin-left: 20px;
     padding: 8px 16px;
     font-size: 0.9em;
     border-radius: 5px;
@@ -279,6 +298,7 @@ button {
     border-right: 1px solid #ddd;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    max-height: 395px;
 }
 
 .sidebar-section h3 {
@@ -343,6 +363,8 @@ button {
 .main-content {
     flex: 1;
     padding: 30px;
+    padding-top: 0px;
+    padding-bottom: 20px;
     overflow-y: auto;
 }
 
@@ -370,11 +392,12 @@ button {
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.2s;
-    background: linear-gradient(135deg, var(--primaryColor), #ff8b1e);
+    background: linear-gradient(135deg, var(--primaryColor));
 }
 
 .stat-card:hover {
     transform: translateY(-5px);
+    background: linear-gradient(135deg, var(--primaryColor), #ff8b1e)
 }
 
 .stat-card .card-header {
@@ -416,7 +439,7 @@ button {
 }
 
 .stat-card button:hover {
-    background: rgba(255,255,255,0.2);
+    background: black;
 }
 
 /* Resumen Rápido */

@@ -21,6 +21,11 @@ PREGUNTAS
 ¿Qué configuraciones deberiamos tener en el vite.congig.ts?
 ¿Cómo hacer la funcion de navegateTo?
 
+HACER
+- Crear una función en home.ts que vea el localstorage y verifique el rol y en base a si es admin o usuario eliminar 
+el boton que te redirecciona a el panel admin.
+- En el home.ts cuando yo selecciono alguna categoria en especifico, ocultar las tarjetas de las categorias restantes.
+
 
 -----------------------------------------------------------------------------------------
 
@@ -37,6 +42,22 @@ PREGUNTAS
 -¿Los controladores deben estar separados?
 
 
+Próxima entrega
+========= Video ==========
+--Mostrar frontend (código)
+--Mostrar backend (código)
+CRUD Categoria
+--Leer categoria
+--Crear categoria
+--Actualizar categoria
+--Delete categoria
+CRUD producto
+--Leer producto
+--Crear producto
+--Actualizar producto
+--Delete producto
+
+La parte del admin debe tener una tabla ya que es el formato estandard para un dashboard en el aspecto de mostrar categorias y productos
 
 
 

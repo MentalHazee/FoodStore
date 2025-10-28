@@ -12,13 +12,12 @@
 <body>
     <!-- Botonera principal -->
     <header>
-        <div><img src="/public/frankysLogo-04.svg" alt="Hamburguesa con lentes" width="100px">
-        </div>
+        <img src="/public/frankysLogo-04.svg" alt="Hamburguesa con lentes" width="100px" class="header-logo">
         <nav class="header-nav">
             <a href="/src/pages/store/home/home.html">Tienda</a>
             <a href="#" class="active">Panel Admin</a>
             <span id="userNameHeader" class="user-name"></span>
-            <button id="logoutBtn" class="btn btnPrimary">Cerrar Sesión</button>
+            <button id="logoutBtn" class="btn btnPrimary" onclick="window.location.href='/src/pages/auth/login/login.html'">Cerrar Sesión</button>
         </nav>
     </header>
 
@@ -80,7 +79,6 @@
                     </div>
                     <div class="card-value">0</div>
                     <p class="card-subtext">Productos activos</p>
-                    <button class="btn btn-light">Gestionar</button>
                 </div>
             </div>
 
