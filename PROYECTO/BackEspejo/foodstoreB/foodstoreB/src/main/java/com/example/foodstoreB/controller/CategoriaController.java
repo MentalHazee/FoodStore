@@ -1,42 +1,32 @@
 package com.example.foodstoreB.controller;
 
-import com.example.foodstoreB.entity.dto.UsuarioCreate;
-import com.example.foodstoreB.entity.dto.UsuarioEdit;
-import com.example.foodstoreB.entity.dto.UsuarioLogin;
-import com.example.foodstoreB.impl.UsuarioService;
+import com.example.foodstoreB.entity.dto.CategoriaCreate;
+import com.example.foodstoreB.entity.dto.CategoriaEdit;
+import com.example.foodstoreB.impl.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/usuario")
-public class UsuarioController {
+@RequestMapping("/categoria")
+public class CategoriaController {
     @Autowired
-    UsuarioService usuarioService;
+    CategoriaService categoriaService;
 
     @PostMapping("/crear")
-    public ResponseEntity<?> crear (@RequestBody UsuarioCreate c){
+    public ResponseEntity<?> crear (@RequestBody CategoriaCreate cc){
         try {
-            return ResponseEntity.ok().body(usuarioService.crear(c));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
-        }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login (@RequestBody UsuarioLogin ul){
-        try {
-            return ResponseEntity.ok().body(usuarioService.login(ul));
+            return ResponseEntity.ok().body(categoriaService.crear(cc));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody UsuarioEdit usuarioEdit){
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody CategoriaEdit categoriaEdit){
         try{
-            return ResponseEntity.ok().body(usuarioService.actualizar(id, usuarioEdit));
+            return ResponseEntity.ok().body(categoriaService.actualizar(id, categoriaEdit));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }
@@ -45,7 +35,7 @@ public class UsuarioController {
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<?> borrar(@PathVariable Long id){
         try{
-            usuarioService.eliminar(id);
+            categoriaService.eliminar(id);
             return ResponseEntity.ok().body("Entidad eliminada");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
@@ -55,7 +45,7 @@ public class UsuarioController {
     @GetMapping("/buscarTodos")
     public ResponseEntity<?> buscarTodos(){
         try {
-            return ResponseEntity.ok().body(usuarioService.buscarTodos());
+            return ResponseEntity.ok().body(categoriaService.buscarTodos());
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }
@@ -64,7 +54,7 @@ public class UsuarioController {
     @GetMapping("/buscarId/{id}")
     public ResponseEntity<?> buscaId(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(usuarioService.buscaId(id));
+            return ResponseEntity.ok(categoriaService.buscaId(id));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }

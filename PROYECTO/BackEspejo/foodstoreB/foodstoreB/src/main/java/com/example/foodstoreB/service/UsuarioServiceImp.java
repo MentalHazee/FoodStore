@@ -75,7 +75,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioDto> buscaTodos() {
+    public List<UsuarioDto> buscarTodos() {
         List<Usuario> usuarios = usuarioRepository.findAllByEliminadoFalse();
         return usuarios.stream()
                 .map(UsuarioMapper::toDTO)
@@ -86,6 +86,7 @@ public class UsuarioServiceImp implements UsuarioService {
     public void eliminar(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
         usuario.setEliminado(true);
+
     }
 
     public String hashPassword(String password) {

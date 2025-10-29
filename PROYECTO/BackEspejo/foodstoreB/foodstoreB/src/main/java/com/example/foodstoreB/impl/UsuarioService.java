@@ -8,7 +8,7 @@ public interface UsuarioService {
     UsuarioDto crear(UsuarioCreate c);
     UsuarioDto actualizar(Long id, UsuarioEdit p);
     UsuarioDto buscaId(Long id);
-    List<UsuarioDto> buscaTodos();
+    List<UsuarioDto> buscarTodos();
     void eliminar(Long id);
     UsuarioDto login(UsuarioLogin ul) throws Exception;
     void crear();
