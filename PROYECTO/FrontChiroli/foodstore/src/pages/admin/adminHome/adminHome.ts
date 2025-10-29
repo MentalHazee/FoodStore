@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     //Mostramos el nombre del admin en el header
     const userNameElement = document.getElementById('userNameHeader');
     if (userNameElement){
-        userNameElement.textContent = session.nombre || session.mail || 'Admin';
+        userNameElement.textContent = session?.nombre || session?.mail || 'ADMIN';
     }
 
 

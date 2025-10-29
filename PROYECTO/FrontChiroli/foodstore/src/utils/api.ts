@@ -9,8 +9,10 @@
  */
 
 import type { IUsers } from "../types/IUser";
+import type { ICategoria } from "../types/ICategoria";
+import type { IProduct } from "../types/IProduct";
 
-const API_URL = ''; // dirección base del backend (localhost en desarrollo)
+const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
 
 /**
  * Registra un nuevo usuario en el servidor.
@@ -23,7 +25,7 @@ const API_URL = ''; // dirección base del backend (localhost en desarrollo)
  */
 export async function registrarUsuario(userData: Omit<IUsers, 'id' | 'rol'>): Promise<IUsers>{
     // Construimos la petición POST con el body en JSON. Añadimos rol: 'cliente'.
-    const response = await fetch(`${API_URL}/api/crear`,{
+    const response = await fetch(`${API_URL}/usuario/crear`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...userData})  // solo los clientes se pueden registrar
@@ -50,7 +52,7 @@ export async function registrarUsuario(userData: Omit<IUsers, 'id' | 'rol'>): Pr
  */
 export async function loginUsuario(mail: string, contrasena: string): Promise<IUsers>{
     // Petición POST a /auth/login con credenciales en el body.
-    const response = await fetch(`${API_URL}/api/login`, {
+    const response = await fetch(`${API_URL}/usuario/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mail, contrasena})
@@ -64,4 +66,23 @@ export async function loginUsuario(mail: string, contrasena: string): Promise<IU
 
     // Devolver el JSON con los datos del usuario autenticado.
     return response.json();
+}
+
+export async function getCategorias(): Promise<ICategoria[]> {
+    const response = await fetch(`${API_URL}/categoria/buscarTodos`);
+    if (!response.ok) {
+        throw new Error('No se pudieron cargar las categorias');
+    }
+    return response.json();//devuelve un array de icategoria
+}
+
+
+//obtiene los productos. Filtra por categoria opcionalmente
+export async function getProductos(categoriaId?: number): Promise<IProduct[]> {
+    const url = categoriaId ? `${API_URL}/producto/?categoriaId=${categoriaId}` : `${API_URL}/producto/buscarTodos`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error('No se pudieron cargar los productos');
+    }
+    return response.json();//devuelve un array de IProduct
 }

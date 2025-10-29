@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="495834f9-bfdd-4058-ab30-5c557912ea2b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/pages/admin/categories/categories.ts" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/pages/admin/categories/categories.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/pages/admin/products/products.ts" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/pages/admin/products/products.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/pages/store/home/home.ts" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/pages/store/home/home.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/types/ICategoria.ts" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/types/ICategoria.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/types/IProduct.ts" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/types/IProduct.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/utils/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO/FrontChiroli/foodstore/src/utils/api.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="34k4yfxLaB835WqbU9vOPObaydc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="495834f9-bfdd-4058-ab30-5c557912ea2b" name="Changes" comment="" />
+      <created>1761744499223</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761744499223</updated>
+    </task>
+    <servers />
+  </component>
+</project>
