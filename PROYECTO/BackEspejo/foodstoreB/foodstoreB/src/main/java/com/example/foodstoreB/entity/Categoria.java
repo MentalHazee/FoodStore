@@ -3,6 +3,7 @@ package com.example.foodstoreB.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,5 +21,9 @@ public class Categoria {
     private String nombre;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private List<Producto> productos;
+    @Builder.Default
+    private List<Producto> productos = new ArrayList<>();
+
+    @Builder.Default
+    private boolean eliminado = false;
 }
