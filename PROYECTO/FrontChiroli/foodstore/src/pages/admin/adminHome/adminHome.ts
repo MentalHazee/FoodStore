@@ -4,6 +4,10 @@ import { navigateTo } from "../../../utils/navigate";
 
 document.addEventListener('DOMContentLoaded', () =>{
     const session = getCurrentUser();
+    if (!session){
+        console.log("No hay sesion, redirigiendo al login");
+        navigateTo('/auth/login/login.html');
+    }
 
     //Mostramos el nombre del admin en el header
     const userNameElement = document.getElementById('userNameHeader');
