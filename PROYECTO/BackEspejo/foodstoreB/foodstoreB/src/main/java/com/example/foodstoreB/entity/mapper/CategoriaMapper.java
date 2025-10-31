@@ -18,7 +18,9 @@ public class CategoriaMapper {
         return CategoriaAdminDto.builder()
                 .id(c.getId())
                 .nombre(c.getNombre())
+                .descripcion(c.getDescripcion())
                 .productos(productosDto)
+                .imagen(c.getImagen())
                 .build();
     }
 
@@ -26,6 +28,8 @@ public class CategoriaMapper {
         if (cc == null) return null;
         return Categoria.builder()
                 .nombre(cc.getNombre())
+                .descripcion(cc.getDescripcion())
+                .imagen(cc.getImagen())
                 .build();
     }
 

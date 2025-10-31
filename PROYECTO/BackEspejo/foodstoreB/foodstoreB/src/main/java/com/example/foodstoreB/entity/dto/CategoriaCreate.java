@@ -9,4 +9,6 @@ import lombok.*;
 @Builder
 public class CategoriaCreate {
     private String nombre;
+    private String descripcion;
+    private String imagen;
 }

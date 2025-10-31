@@ -17,6 +17,9 @@ public class ProductoMapper {
                 .precio(p.getPrecio())
                 .idCategoria(p.getCategoria().getId())
                 .nombreCategoria(p.getCategoria().getNombre())
+                .descripcion(p.getDescripcion())
+                .imagen(p.getImagen())
+                .stock(p.getStock())
                 .build();
     }
 
@@ -29,6 +32,9 @@ public class ProductoMapper {
                 .nombre(pc.getNombre())
                 .precio(pc.getPrecio())
                 .categoria(categoria)
+                .imagen(pc.getImagen())
+                .descripcion(pc.getDescripcion())
+                .stock(pc.getStock())
                 .build();
         categoria.getProductos().add(producto);
         return producto;

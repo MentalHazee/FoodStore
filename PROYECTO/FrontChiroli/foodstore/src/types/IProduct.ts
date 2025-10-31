@@ -4,7 +4,7 @@ export interface IProduct{
     descripcion: string;
     precio: number;
     stock: number;
-    imageURL: string;
+    imagen: string;
     //disponible: "true";
-    categoriaId: number;
+    idCategoria: number;
 }

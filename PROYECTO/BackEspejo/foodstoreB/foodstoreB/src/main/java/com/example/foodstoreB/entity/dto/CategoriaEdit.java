@@ -9,4 +9,6 @@ import lombok.*;
 @Builder
 public class CategoriaEdit {
     private String nombre;
+    private String descripcion;
+    private String imagen;
 }

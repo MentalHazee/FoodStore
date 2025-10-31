@@ -37,6 +37,9 @@ public class ProductoServiceImp implements ProductoService {
         producto.setNombre(pe.getNombre());
         producto.setPrecio(pe.getPrecio());
         producto.setCategoria(categoria);
+        producto.setDescripcion(pe.getDescripcion());
+        producto.setImagen(pe.getImagen());
+        producto.setStock(pe.getStock());
         return ProductoMapper.toAdminDto(productoRepository.save(producto));
     }
 

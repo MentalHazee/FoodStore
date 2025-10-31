@@ -12,4 +12,7 @@ public class ProductoCreate {
     private String nombre;
     private Double precio;
     private Long idCategoria;
+    private String descripcion;
+    private String imagen;
+    private int stock;
 }

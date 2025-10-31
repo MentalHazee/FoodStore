@@ -80,11 +80,11 @@ function renderProductosTable(): void{
     tbody.innerHTML = productosCache!.map(producto => `
         <tr>
             <td>${producto.id}</td>
-            <td><img src="${producto.imageURL}" alt="${producto.nombre}" width="50" /></td>
+            <td><img src="${producto.imagen}" alt="${producto.nombre}" width="50" /></td>
             <td>${producto.nombre}</td>
             <td>${producto.descripcion}</td>
             <td>$${producto.precio.toFixed(2)}</td>
-            <td>${categoriasCache?.find(c => c.id === producto.categoriaId)?.nombre || '—'}</td>
+            <td>${categoriasCache?.find(c => c.id === producto.idCategoria)?.nombre || '—'}</td>
             <td>${producto.stock}</td>
             <td>
                 <button class="btn-edit" data-id="${producto.id}">Editar</button>
@@ -132,9 +132,9 @@ function editProducto(id: number): void{
     (document.getElementById('descripcion') as HTMLTextAreaElement).value = producto.descripcion;
     (document.getElementById('precio') as HTMLInputElement).value = producto.precio.toString();
     (document.getElementById('stock') as HTMLInputElement).value = producto.stock.toString();
-    (document.getElementById('imageURL') as HTMLInputElement).value = producto.imageURL;
+    (document.getElementById('imageURL') as HTMLInputElement).value = producto.imagen;
     //(document.getElementById('disponible') as HTMLInputElement).value = producto.disponible;
-    (document.getElementById('categoriaId') as HTMLSelectElement).value = producto.categoriaId.toString();
+    (document.getElementById('categoriaId') as HTMLSelectElement).value = producto.idCategoria.toString();
     //guardamos el id para saber que estamos editando
     editID = id;
     abrirFormulario();
@@ -171,11 +171,11 @@ function setUpFormulario(): void{
         const descripcion = (document.getElementById('descripcion') as HTMLTextAreaElement).value;
         const precio = parseFloat((document.getElementById('precio') as HTMLInputElement).value);
         const stock = parseInt((document.getElementById('stock') as HTMLInputElement).value, 10);
-        const imageURL = (document.getElementById('imageURL') as HTMLInputElement).value;
+        const imagen = (document.getElementById('imageURL') as HTMLInputElement).value;
         //const disponible = (document.getElementById('disponible') as HTMLInputElement).value;
-        const categoriaId = parseInt((document.getElementById('categoriaId') as HTMLSelectElement).value, 10);
+        const idCategoria = parseInt((document.getElementById('categoriaId') as HTMLSelectElement).value, 10);
 
-        if (!nombre || !descripcion || !imageURL){
+        if (!nombre || !descripcion || !imagen){
             alert('Por favor, complete todos los campos obligatorios.');
             return;
         }
@@ -194,9 +194,9 @@ function setUpFormulario(): void{
                 descripcion,
                 precio,
                 stock,
-                imageURL,
+                imagen,
                 //disponible,
-                categoriaId
+                idCategoria
             } as Omit<IProduct, 'id'>;
 
             if (editID !== null) {

@@ -17,15 +17,14 @@ VITE v7.1.11  ready in 217 ms
 
 
 PREGUNTAS
-¿Cómo registrar clientes y administradores?
-¿Qué configuraciones deberiamos tener en el vite.congig.ts?
-¿Cómo hacer la funcion de navegateTo?
+
 
 HACER
-- Crear una función en home.ts que vea el localstorage y verifique el rol y en base a si es admin o usuario eliminar 
-el boton que te redirecciona a el panel admin.
-- En el home.ts cuando yo selecciono alguna categoria en especifico, ocultar las tarjetas de las categorias restantes.
 - Agregar función de evaluar disponibilidad de stock y mostrarlo en disponible
+- Acomodar y dar estilo todos los elementos del front
+- Estilo a los formularios
+- Nombre de usuario desaparece cuando se accede a pestaña productos o categorias
+- Con usuario normal se puede acceder al panel de admin
 
 -----------------------------------------------------------------------------------------
 

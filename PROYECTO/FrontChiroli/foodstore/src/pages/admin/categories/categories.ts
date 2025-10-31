@@ -80,9 +80,9 @@ function renderCategorias(): void {
     tablaBody.innerHTML = (categoriasCache ?? []).map(categoria => `
         <tr>
             <td>${categoria.id}</td>
-            <td><img src="${categoria.imageUrl}" alt="${categoria.nombre}" width="50" /></td>
+            <td><img src="${categoria.imagen}" alt="${categoria.nombre}" width="50" /></td>
             <td>${categoria.nombre}</td>
-            <td>${categoria.description}</td>
+            <td>${categoria.descripcion}</td>
             <td>
                 <!-- Botones con data-id para identificar la categoría -->
                 <button class="btn-edit" data-id="${categoria.id}">Editar</button>
@@ -113,8 +113,8 @@ function editCategoria(id: number): void {
 
     // Rellenar el formulario con los datos de la categoría
     (document.getElementById('name') as HTMLInputElement).value = categoria.nombre;
-    (document.getElementById('description') as HTMLTextAreaElement).value = categoria.description;
-    (document.getElementById('imageUrl') as HTMLInputElement).value = categoria.imageUrl;
+    (document.getElementById('description') as HTMLTextAreaElement).value = categoria.descripcion;
+    (document.getElementById('imageUrl') as HTMLInputElement).value = categoria.imagen;
 
   // Guardamos el ID para saber que estamos editando
     editID = id;
@@ -149,10 +149,10 @@ function setUpFormulario(): void {
         e.preventDefault();
 
         const nombre = (document.getElementById('name') as HTMLInputElement).value;
-        const description = (document.getElementById('description') as HTMLTextAreaElement).value;
-        const imageUrl = (document.getElementById('imageUrl') as HTMLInputElement).value;
+        const descripcion = (document.getElementById('description') as HTMLTextAreaElement).value;
+        const imagen = (document.getElementById('imageUrl') as HTMLInputElement).value;
 
-        if (!nombre || !description || !imageUrl) {
+        if (!nombre || !descripcion || !imagen) {
             alert('Todos los campos son obligatorios.');
             return;
         }
@@ -161,14 +161,14 @@ function setUpFormulario(): void {
               await actualizarCategoria(editID, {
                     id: editID,
                     nombre,
-                    description,
-                    imageUrl
+                    descripcion,
+                    imagen
                 });
             } else {
               await crearCategoria({
                     nombre,
-                    description,
-                    imageUrl
+                    descripcion,
+                    imagen
                 });
             }
             await loadCategorias();

@@ -28,6 +28,8 @@ public class CategoriaServiceImp implements CategoriaService {
     public CategoriaAdminDto actualizar(Long id, CategoriaEdit ce) {
         Categoria categoria = categoriaRepository.findById(id).orElseThrow(()-> new RuntimeException("Categoria no encontrado"));
         categoria.setNombre(ce.getNombre());
+        categoria.setDescripcion(ce.getDescripcion());
+        categoria.setImagen(ce.getImagen());
         return CategoriaMapper.toAdminDto(categoriaRepository.save(categoria));
     }
 

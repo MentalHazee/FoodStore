@@ -19,6 +19,8 @@ public class Categoria {
 
     @Column(nullable = false)
     private String nombre;
+    private String descripcion;
+    private String imagen;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     @Builder.Default
