@@ -171,8 +171,8 @@ function setUpFormulario(): void {
                     imageUrl
                 });
             }
-            setUpFormulario();
-            loadCategorias();
+            await loadCategorias();
+            cerrarFormulario();
         } catch (error) {
             console.error('Error al guardar la categoría:', error);
             alert('Error al guardar la categoría. Por favor, intente nuevamente más tarde.');

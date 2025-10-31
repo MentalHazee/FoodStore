@@ -1,11 +1,11 @@
-const API_URL = ''; // dirección base del backend (localhost en desarrollo)
+const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
 import type { IProduct } from "../../../types/IProduct";
 import { getCategorias, getProductos } from "../../../utils/api";
 import type { ICategoria } from "../../../types/ICategoria";
 
 //crear un nuevo producto (solo admin)
 export async function crearProducto(productoData: Omit<IProduct, 'id'>): Promise<IProduct>{
-    const response = await fetch(`${API_URL}/api/productos`,{
+    const response = await fetch(`${API_URL}/producto/crear`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productoData)
@@ -18,7 +18,7 @@ export async function crearProducto(productoData: Omit<IProduct, 'id'>): Promise
 
 //actualizar un producto (solo admin)
 export async function actualizarProducto(id: number, productoData: IProduct): Promise<IProduct>{
-    const response = await fetch(`${API_URL}/api/productos/${id}`,{
+    const response = await fetch(`${API_URL}/producto/actualizar/${id}`,{
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productoData)
@@ -31,7 +31,7 @@ export async function actualizarProducto(id: number, productoData: IProduct): Pr
 
 //eliminar un producto (solo admin)
 export async function eliminarProducto(id: number): Promise<void>{
-    const response = await fetch(`${API_URL}/api/productos/${id}`,{
+    const response = await fetch(`${API_URL}/producto/borrar/${id}`,{
         method: 'DELETE'
     });
     if (!response.ok) {
@@ -87,11 +87,6 @@ function renderProductosTable(): void{
             <td>${categoriasCache?.find(c => c.id === producto.categoriaId)?.nombre || '—'}</td>
             <td>${producto.stock}</td>
             <td>
-                <span class="badge ${producto.disponible ? 'available' : 'unavailable'}">
-                    ${producto.disponible ? 'Disponible' : 'No disponible'}
-                </span>
-            </td>
-            <td>
                 <button class="btn-edit" data-id="${producto.id}">Editar</button>
                 <button class="btn-delete" data-id="${producto.id}">Eliminar</button>
             </td>
@@ -138,7 +133,7 @@ function editProducto(id: number): void{
     (document.getElementById('precio') as HTMLInputElement).value = producto.precio.toString();
     (document.getElementById('stock') as HTMLInputElement).value = producto.stock.toString();
     (document.getElementById('imageURL') as HTMLInputElement).value = producto.imageURL;
-    (document.getElementById('disponible') as HTMLInputElement).checked = producto.disponible;
+    //(document.getElementById('disponible') as HTMLInputElement).value = producto.disponible;
     (document.getElementById('categoriaId') as HTMLSelectElement).value = producto.categoriaId.toString();
     //guardamos el id para saber que estamos editando
     editID = id;
@@ -169,6 +164,7 @@ function setUpFormulario(): void{
     const productoForm = document.getElementById('productoForm') as HTMLFormElement;
     if (!productoForm) return;
     productoForm.addEventListener('submit', async (e) => {
+        console.log("Enviar form")
         e.preventDefault();
 
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
@@ -176,7 +172,7 @@ function setUpFormulario(): void{
         const precio = parseFloat((document.getElementById('precio') as HTMLInputElement).value);
         const stock = parseInt((document.getElementById('stock') as HTMLInputElement).value, 10);
         const imageURL = (document.getElementById('imageURL') as HTMLInputElement).value;
-        const disponible = (document.getElementById('disponible') as HTMLInputElement).checked;
+        //const disponible = (document.getElementById('disponible') as HTMLInputElement).value;
         const categoriaId = parseInt((document.getElementById('categoriaId') as HTMLSelectElement).value, 10);
 
         if (!nombre || !descripcion || !imageURL){
@@ -199,7 +195,7 @@ function setUpFormulario(): void{
                 precio,
                 stock,
                 imageURL,
-                disponible,
+                //disponible,
                 categoriaId
             } as Omit<IProduct, 'id'>;
 

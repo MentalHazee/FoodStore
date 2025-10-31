@@ -17,7 +17,8 @@
             <a href="/src/pages/store/home/home.html">Tienda</a>
             <a href="#" class="active">Panel Admin</a>
             <span id="userNameHeader" class="user-name"></span>
-            <button id="logoutBtn" class="btn btnPrimary" onclick="window.location.href='/src/pages/auth/login/login.html'">Cerrar Sesión</button>
+            <button id="logoutBtn" class="btn btnPrimary"
+                onclick="window.location.href='/src/pages/auth/login/login.html'">Cerrar Sesión</button>
         </nav>
     </header>
 
@@ -45,10 +46,64 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            
+            <div>
+                <h2>Gestion de Productos</h2>
+                <button id="btnNewProducto" class="btnPrimary">+ Nuevo Producto</button>
+            </div>
+
+            <!-- Tabla de productos -->
+            <table id="productosTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Categoria</th>
+                        <th>Stock</th>
+                        <th>Disponible</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <!-- Formulario para crear y editar productos -->
+            <div id="formularioContainer" class="modal-overlay" style="display: none;">
+                <div class="modal-content">
+                    <form id="productoForm" class="form-producto">
+                        <h3 id="form-title">Nuevo Producto</h3>
+
+                        <label for="nombre">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" required>
+
+                        <label for="descripcion">Descripción</label>
+                        <textarea name="descripcion" id="descripcion" required></textarea>
+
+                        <label for="precio">Precio</label>
+                        <input type="number" name="precio" id="precio" required>
+
+                        <label for="stock">Stock</label>
+                        <input type="number" name="stock" id="stock" required>
+
+                        <label for="imageURL">URL de imagen</label>
+                        <input type="text" name="imageURL" id="imageURL" required>
+
+                        <label for="categoriaId">Categoria</label>
+                        <select name="categoriaId" id="categoriaId">
+                            <option value="">Seleccione una categoria</option>
+                        </select>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btnPrimary">Guardar</button>
+                            <button type="button" id="btnCancelar" class="btnPrimary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </main>
     </div>
-    <script type="module" src="./adminHome.ts"></script>
+    <script type="module" src="./products.ts"></script>
 </body>
 
 </html>

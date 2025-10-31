@@ -5,6 +5,6 @@ export interface IProduct{
     precio: number;
     stock: number;
     imageURL: string;
-    disponible: boolean;
+    //disponible: "true";
     categoriaId: number;
 }

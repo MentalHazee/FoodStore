@@ -521,3 +521,23 @@ button {
   justify-content: flex-end;
   gap: 10px;
 }
+
+/* Inputs y textarea */
+.form-producto input,
+.form-producto textarea {
+  width: 100%;
+  padding: 10px 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box; 
+}
+
+/* Botones del formulario */
+.form-producto .form-action{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
