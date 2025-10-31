@@ -468,3 +468,56 @@ button {
     color: #777;
     font-style: italic;
 }
+
+
+
+/* ESTILOS DE CATEGORIES */
+.modal-overlay{
+  position: fixed;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  background: red;
+  z-index: 100;
+}
+
+.modal-content{
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0; left: 0;
+  background-color: rgba(91, 93, 94, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* Animacion de aparicion */
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
+/* Inputs y textarea */
+.form-categoria input,
+.form-categoria textarea {
+  width: 100%;
+  padding: 10px 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box; 
+}
+
+/* Botones del formulario */
+.form-categoria .form-action{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
