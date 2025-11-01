@@ -8,7 +8,7 @@ let currentCategoriaId: number | null = null;//categoria seleccionada actualment
 
 //verificar si el usuario es cliente y ocultar boton de admin
 document.addEventListener('DOMContentLoaded', async () => {
-    hidenAdminButton();
+    hideAdminButton();
     try{
         const categorias = await getCategorias();
         allProductos = await getProductos();
@@ -23,13 +23,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function hidenAdminButton(){
-    const adminButton = document.getElementById('adminButton') as HTMLElement | null;
+function hideAdminButton(){
+    const adminButton = document.getElementById('adminPanelButton') as HTMLElement | null;
     if (!adminButton) return;
-    const rol = localStorage.getItem('rol');
-    if (rol === 'ADMIN'){
-        adminButton.style.display = '';
-    } else {
+
+    const userStr = localStorage.getItem('user');
+    if (!userStr) {
+        // Si no hay sesión, ocultamos el botón por seguridad
+        adminButton.style.display = 'none';
+        return;
+    }
+
+    try {
+        const user = JSON.parse(userStr);
+        // El TP usa "admin" y "cliente" en minúsculas
+        if (user.role === 'ADMIN') {
+            adminButton.style.display = ''; // visible
+        } else {
+            adminButton.style.display = 'none'; // oculto para cliente
+        }
+    } catch (e) {
+        // Si el JSON es inválido, ocultamos el botón
         adminButton.style.display = 'none';
     }
 }
@@ -63,7 +77,7 @@ function applyFiltersAndSort(): void {
     //filtrar por categoria
     let filtrarProductos = allProductos;
     if (currentCategoriaId !== null) {
-        filtrarProductos = allProductos.filter(p => p.categoriaId === currentCategoriaId);
+        filtrarProductos = allProductos.filter(p => p.idCategoria === currentCategoriaId);
     }
 
     //ordenar 
@@ -93,45 +107,45 @@ function sortProducts(products: IProduct[], sortBy: string): IProduct[] {
 
 //renderiza las tarjetas de productos en el contenedor principal
 function renderProductos(productos: IProduct[]): void {
-    const container = document.getElementById('productGrid');
-    if (!container) return;
+    const grid = document.getElementById('productGrid');
+    if (!grid) return;
 
     //mostrar contador
     const counter = document.getElementById('productCount');
     if (counter) {
         const totalVisible = productos.length;
         const totalAll = currentCategoriaId 
-        ? allProductos.filter(p => p.categoriaId === currentCategoriaId).length 
+        ? allProductos.filter(p => p.idCategoria === currentCategoriaId).length 
         : allProductos.length;
         counter.textContent = `Mostrando ${totalVisible} de ${totalAll} productos`;
     }
 
     if (productos.length === 0) {
-        container.innerHTML = '<p>No hay productos disponibles en esta categoría.</p>';
+        grid.innerHTML = '<p>No hay productos disponibles en esta categoría.</p>';
         return;
     }
 
     //generar tarjetas de productos
-    let html = '';
-    for (const producto of productos) {
-        html += `
-        <div class="product-card"> data-id="${producto.id}">
-            <img src="${producto.imageURL}" alt="${producto.nombre}" class="product-image"/>
-            <h3 class="product-name">${producto.nombre}</h3>
-            <p class="product-description">${producto.descripcion}</p>
-            <p class="product-price">$${producto.precio.toFixed(2)}</p>
-            <span class="product-stock"${producto.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+    grid.innerHTML = productos.map(producto =>{
+        const disponible = producto.stock > 0;
+        return `
+         <div class="product-card" data-id="${producto.id}">
+            <img src="${producto.imagen || '/assets/default-product.png'}" alt="${producto.nombre}" />
+            <h3>${producto.nombre}</h3>
+            <p class="description">${producto.descripcion}</p>
+            <p class="price">$${producto.precio.toFixed(2)}</p>
+            <span class="badge ${disponible ? 'available' : 'unavailable'}">
+              ${disponible ? 'Disponible' : 'Agotado'}
+            </span>
         </div>
-        `;
-    }
+    `;
+  }).join('');
 
-    container.innerHTML = html;
-
-    //agregar eventos a las tarjetas de productos
-    container.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const id = card.getAttribute('data-id');
-            window.location.href = `productDetail.html?id=${id}`;
+  grid.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => {
+          const id = card.getAttribute('data-id');
+          window.location.href = `/pages/store/product/productDetail.html?id=${id}`;
         });
     });
+
 }
