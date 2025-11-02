@@ -368,6 +368,13 @@ button {
     overflow-y: auto;
 }
 
+.action-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .main-content h2 {
     margin-bottom: 20px;
     color: #333;
@@ -540,4 +547,70 @@ button {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+
+
+/* ESTILOS DE LA TABLA */
+
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--primaryColor);
+  margin-top: 1rem;
+  padding: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.table th{
+  color: #ffff;
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.table td{
+  padding: 10px;
+  border-bottom: 1px solid #c7c7c7;
+  vertical-align: middle;
+}
+
+.table td button{
+  margin-top: 5px;
+}
+
+
+.table img{
+  border-radius: 8px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.table tbody{
+  background-color: #ffff;
+  color: #000000;
+  font-weight: 600;
+}
+
+.btn-edit{
+  background-color: #b4b4b4;
+  color: #000000;
+  font-weight: bold;
+}
+
+.btn-edit:hover{
+  background-color: #9e9e9e;
+}
+
+.btn-delete{
+  background-color: #c71717;
+  font-weight: bold
+}
+
+.btn-delete:hover{
+  background-color: #ff0000;
 }
