@@ -73,7 +73,7 @@ function renderProductosTable(): void{
     if (!tbody) return;
 
     if (productosCache?.length === 0){
-        tbody.innerHTML = '<tr><td colspan="6">No hay productos disponibles.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7">No hay productos disponibles.</td></tr>';
         return;
     }
 
@@ -86,6 +86,7 @@ function renderProductosTable(): void{
             <td>$${producto.precio.toFixed(2)}</td>
             <td>${categoriasCache?.find(c => c.id === producto.idCategoria)?.nombre || '—'}</td>
             <td>${producto.stock}</td>
+            <td>${producto.stock > 0 ? 'Disponible' : 'Sin stock'}</td>
             <td>
                 <button class="btn-edit" data-id="${producto.id}">Editar</button>
                 <button class="btn-delete" data-id="${producto.id}">Eliminar</button>
