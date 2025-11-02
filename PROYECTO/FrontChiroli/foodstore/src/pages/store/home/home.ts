@@ -6,9 +6,8 @@ import type {IProduct} from "../../../types/IProduct";
 let allProductos: IProduct[] = [];//todos los productos cargados
 let currentCategoriaId: number | null = null;//categoria seleccionada actualmente
 
-//verificar si el usuario es cliente y ocultar boton de admin
 document.addEventListener('DOMContentLoaded', async () => {
-    hideAdminButton();
+    setupAdminButton();
     try{
         const categorias = await getCategorias();
         allProductos = await getProductos();
@@ -23,28 +22,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function hideAdminButton(){
-    const adminButton = document.getElementById('adminPanelButton') as HTMLElement | null;
-    if (!adminButton) return;
-
+/**
+ * Si el usuario logueado es ADMIN, crea y añade un botón "Panel Admin" a la barra de navegación.
+ * Si no es ADMIN o no hay sesión, no hace nada.
+ */
+function setupAdminButton(){
     const userStr = localStorage.getItem('user');
-    if (!userStr) {
-        // Si no hay sesión, ocultamos el botón por seguridad
-        adminButton.style.display = 'none';
-        return;
-    }
+    // Si no hay sesión, no hacer nada.
+    if (!userStr) return;
 
     try {
         const user = JSON.parse(userStr);
-        // El TP usa "admin" y "cliente" en minúsculas
-        if (user.role === 'ADMIN') {
-            adminButton.style.display = ''; // visible
-        } else {
-            adminButton.style.display = 'none'; // oculto para cliente
+        
+        // Solo si el rol es ADMIN, procedemos a crear y añadir el botón.
+        if (user && user.rol === 'ADMIN') {
+            const navContainer = document.querySelector('.header-nav');
+            if (!navContainer) return;
+
+            // Crear el nuevo botón como un elemento 'a'
+            const adminButton = document.createElement('a');
+            adminButton.href = "/src/pages/admin/adminHome/adminHome.html";
+            adminButton.id = "adminPanelButton";
+            adminButton.className = "active adminButton";
+            adminButton.textContent = "Panel Admin";
+
+            // Insertarlo después del enlace "Tienda"
+            const tiendaLink = navContainer.querySelector('a[href*="home.html"]');
+            tiendaLink?.insertAdjacentElement('afterend', adminButton);
         }
     } catch (e) {
-        // Si el JSON es inválido, ocultamos el botón
-        adminButton.style.display = 'none';
+        // Si el JSON en localStorage es inválido, el botón permanecerá oculto.
+        console.error("Error al parsear datos de usuario desde localStorage:", e);
     }
 }
 

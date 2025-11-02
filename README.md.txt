@@ -20,11 +20,8 @@ PREGUNTAS
 
 
 HACER
-- Agregar función de evaluar disponibilidad de stock y mostrarlo en disponible
-- Acomodar y dar estilo todos los elementos del front
 - Estilo a los formularios
 - Nombre de usuario desaparece cuando se accede a pestaña productos o categorias
-- Con usuario normal se puede acceder al panel de admin
 
 -----------------------------------------------------------------------------------------
 
