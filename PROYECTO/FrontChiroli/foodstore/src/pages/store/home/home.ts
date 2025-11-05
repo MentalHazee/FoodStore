@@ -58,22 +58,22 @@ function setupAdminButton(){
 
 //renderiza las categorias en el sidebar como botones 
 function renderCategorias(categorias: ICategoria[]): void {
-    const sidebar = document.getElementById('categorySidebar');
+    const sidebar = document.getElementById('categoryList');
     if (!sidebar) return;
 
-    //boton para todas las categorias
-    let html = `<button class="category-button" data-id="">Todas las Categorias</button>`;
+    //enlace para todas las categorias
+    let html = `<li><a href="#" class="category-link" data-id="">Todas las Categorias</a></li>`;
 
-    //botones para cada categoria
+    //enlaces para cada categoria
     for (const categoria of categorias) {
-        html += `<button class="category-button" data-id="${categoria.id}">${categoria.nombre}</button>`;
+        html += `<li><a href="#" class="category-link" data-id="${categoria.id}">${categoria.nombre}</button></li>`;
     }
     sidebar.innerHTML = html;
 
     //agregar eventos a los botones
-    sidebar.querySelectorAll('.category-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const idAttribute = button.getAttribute('data-id');
+    sidebar.querySelectorAll('.category-link').forEach(link => {
+        link.addEventListener('click', () => {
+            const idAttribute = link.getAttribute('data-id');
             currentCategoriaId = idAttribute ? Number(idAttribute) : null;
             applyFiltersAndSort();
         });
@@ -149,11 +149,11 @@ function renderProductos(productos: IProduct[]): void {
     `;
   }).join('');
 
-  grid.querySelectorAll('.product-card').forEach(card => {
-      card.addEventListener('click', () => {
-          const id = card.getAttribute('data-id');
-          window.location.href = `/pages/store/product/productDetail.html?id=${id}`;
-        });
-    });
+  //grid.querySelectorAll('.product-card').forEach(card => {
+    //  card.addEventListener('click', () => {
+      //    const id = card.getAttribute('data-id');
+        //  window.location.href = `/pages/store/product/productDetail.html?id=${id}`;
+        //});
+    //});
 
 }

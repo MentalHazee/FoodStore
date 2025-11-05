@@ -649,3 +649,32 @@ button {
 .btn-delete:hover{
   background-color: #ff0000;
 }
+
+
+/* BARRA DE BUSQUEDA Y FILTROS */
+
+.toolbar{
+  background-color: var(--primaryColor);
+  margin: 5px;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar input{
+  width: 80%;
+  background-color: var(--secondaryColor);
+  color: #000000;
+  border: 1px solid #000000;
+}
+
+.toolbar select{
+  padding: 15px;
+  margin-right: 20px;
+  background-color: var(--secondaryColor);
+  color: #000000;
+  border: 1px solid #000000;
+}

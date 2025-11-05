@@ -30,11 +30,7 @@
                 <p>Filtrar por categoría</p>
             </div>
             <nav>
-                <ul>
-                    <li><a href="#" class="active">Todas las categorías</a></li>
-                    <li><a>Hamburguesa</a></li>
-                    <li><a>Bebidas</a></li>
-                    <li><a>Adicionales</a></li>
+                <ul id="categoryList">
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -45,7 +41,22 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <div class="toolbar">
+                <input type="search" id="searchInput" name="searchInput" placeholder="Buscar productos...">
+                <select id="sortOrder">
+                    <option value="">Ordenar por</option>
+                    <option value="name-asc">A-Z</option>
+                    <option value="name-desc">Z-A</option>
+                    <option value="price-asc">Precio (menor a mayor)</option>
+                    <option value="price-desc">Precio (mayor a menor)</option>
+                </select>
+            </div>
 
+            <div>
+                <h2>Todos los productos</h2>
+                <p id="productCount"></p>
+                <div id="productGrid"></div>
+            </div>
         </main>
     </div>
     <script type="module" src="./home.ts"></script>
