@@ -69,22 +69,18 @@
             <div id="formularioContainer" class="modal-overlay" style="display: none;">
                 <div class="modal-content">
                     <form id="categoriaForm" class="form-categoria">
+                        
                         <h3 id="form-title">Nueva Categoría</h3>
-
-                        <label for="name">Nombre</label>
-                        <input type="text" name="name" id="name" required>
-
-                        <label for="description">Descripción</label>
-                        <textarea name="description" id="description" required></textarea>
-
-                        <label for="imageUrl">URL de Imagen</label>
-                        <input type="text" name="imageUrl" id="imageUrl" placeholder="https://ejemplo.com/imagen.jpg"
+                        <input type="text" name="name" id="name" placeholder="Nombre" required>
+                        <textarea name="description" id="description" placeholder="Descripción" required></textarea>
+                        <input type="text" name="imageUrl" id="imageUrl" placeholder="URL de Imagen: https://ejemplo.com/imagen.jpg"
                             required>
 
                         <div class="form-actions">
                             <button type="submit" class="btnPrimary">Guardar</button>
                             <button type="button" id="btnCancelar" class="btnPrimary">Cancelar</button>
                         </div>
+
                     </form>
                 </div>
             </div>

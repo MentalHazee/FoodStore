@@ -75,25 +75,22 @@
                     <form id="productoForm" class="form-producto">
                         <h3 id="form-title">Nuevo Producto</h3>
 
-                        <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" required>
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
 
-                        <label for="descripcion">Descripción</label>
-                        <textarea name="descripcion" id="descripcion" required></textarea>
+                        <textarea name="descripcion" id="descripcion" placeholder="Descripción" required></textarea>
 
-                        <label for="precio">Precio</label>
-                        <input type="number" name="precio" id="precio" required>
+                        <input type="number" name="precio" id="precio" placeholder="Precio" required>
 
-                        <label for="stock">Stock</label>
-                        <input type="number" name="stock" id="stock" required>
+                        <input type="number" name="stock" id="stock" placeholder="Stock" required>
 
-                        <label for="imageURL">URL de imagen</label>
-                        <input type="text" name="imageURL" id="imageURL" required>
+                        <input type="text" name="imageURL" id="imageURL" placeholder="URL de imagen" required>
 
-                        <label for="categoriaId">Categoria</label>
-                        <select name="categoriaId" id="categoriaId">
-                            <option value="">Seleccione una categoria</option>
-                        </select>
+                        <div class = "select-categoria">
+                            <label for="categoriaId">Categoría</label>
+                            <select name="categoriaId" id="categoriaId">
+                                <option value="">Seleccione una categoría</option>
+                            </select>
+                        </div>
 
                         <div class="form-actions">
                             <button type="submit" class="btnPrimary">Guardar</button>
