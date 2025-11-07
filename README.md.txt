@@ -20,8 +20,8 @@ PREGUNTAS
 
 
 HACER
-- Estilo a los formularios
 - Nombre de usuario desaparece cuando se accede a pestaña productos o categorias
+- Vincular boton gestionar del dashboard con la pestaña correspondiente
 
 -----------------------------------------------------------------------------------------
 

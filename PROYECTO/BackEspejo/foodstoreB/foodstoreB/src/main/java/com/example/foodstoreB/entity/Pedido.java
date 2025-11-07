@@ -21,7 +21,9 @@ public class Pedido {
     @Builder.Default
     private LocalDate fecha = LocalDate.now();
 
-    private Estado estado;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private Estado estado = Estado.PENDIENTE;
     private Double total;
 
     @ManyToOne
@@ -33,5 +35,6 @@ public class Pedido {
     @Builder.Default
     private List<DetallePedido> detalles = new ArrayList<>();
 
-
+    @Builder.Default
+    private boolean eliminado = false;
 }

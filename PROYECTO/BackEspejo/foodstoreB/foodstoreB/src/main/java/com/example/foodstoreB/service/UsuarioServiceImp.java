@@ -3,6 +3,7 @@ package com.example.foodstoreB.service;
 import com.example.foodstoreB.entity.Rol;
 import com.example.foodstoreB.entity.Usuario;
 import com.example.foodstoreB.entity.dto.*;
+import com.example.foodstoreB.entity.mapper.PedidoMapper;
 import com.example.foodstoreB.entity.mapper.UsuarioMapper;
 import com.example.foodstoreB.impl.UsuarioService;
 import com.example.foodstoreB.repository.UsuarioRepository;
@@ -20,7 +21,10 @@ import java.util.Optional;
 @Transactional
 public class UsuarioServiceImp implements UsuarioService {
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    UsuarioRepository usuarioRepository;
+    @Autowired
+    PedidoServiceImp pedidoServiceImp;
+
     @Override
     public UsuarioDto crear(UsuarioCreate uc) {
         Usuario usuario = UsuarioMapper.toEntity(uc);

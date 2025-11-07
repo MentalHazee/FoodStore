@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class PedidoCreate {
-    private Long idUsuario;
-    private Double total;
+public class DetallePedidoEdit {
+    private int cantidad;
+    private Double subtotal;
 }

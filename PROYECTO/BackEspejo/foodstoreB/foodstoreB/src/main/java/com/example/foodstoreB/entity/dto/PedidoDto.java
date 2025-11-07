@@ -9,5 +9,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-public record PedidoDto(LocalDate fecha, Estado estado, Double total, Usuario usuario, List<DetallePedido> detalles) {
+public record PedidoDto(Long id, LocalDate fecha, Estado estado, Double total, String nombre, String apellido, List<DetallePedidoDto> detalles) {
 }

@@ -6,5 +6,5 @@ import lombok.Builder;
 
 import java.util.List;
 @Builder
-public record UsuarioDto(Long id, String nombre, String apellido, String mail, String celular, List<Pedido> pedidos, Rol rol) {
+public record UsuarioDto(Long id, String nombre, String apellido, String mail, String celular, List<PedidoDto> pedidos, Rol rol) {
 }

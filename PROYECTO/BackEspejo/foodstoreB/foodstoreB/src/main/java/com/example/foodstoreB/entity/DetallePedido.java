@@ -24,4 +24,7 @@ public class DetallePedido {
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
+
+    @Builder.Default
+    private boolean eliminado = false;
 }
