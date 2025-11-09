@@ -1,6 +1,7 @@
-import {getCategorias, getProductos} from "../../../utils/api";
-import type {ICategoria} from "../../../types/ICategoria";
-import type {IProduct} from "../../../types/IProduct";
+import { getCategorias, getProductos } from "../../../utils/api";
+import type { ICategoria } from "../../../types/ICategoria";
+import type { IProduct } from "../../../types/IProduct";
+import { addToCart } from "../../../utils/cart";
 
 //vaiables globales para mantener el estado en memoria 
 let allProductos: IProduct[] = [];//todos los productos cargados
@@ -8,7 +9,7 @@ let currentCategoriaId: number | null = null;//categoria seleccionada actualment
 
 document.addEventListener('DOMContentLoaded', async () => {
     setupAdminButton();
-    try{
+    try {
         const categorias = await getCategorias();
         allProductos = await getProductos();
         renderCategorias(categorias);
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const sortSelect = document.getElementById('sortOrder') as HTMLSelectElement;
         sortSelect?.addEventListener('change', () => applyFiltersAndSort());
-    }catch (error) {
+    } catch (error) {
         console.error('Error al cargar la tienda:', error);
         alert('Error al cargar la tienda. Por favor, intente nuevamente más tarde.');
     }
@@ -26,14 +27,14 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Si el usuario logueado es ADMIN, crea y añade un botón "Panel Admin" a la barra de navegación.
  * Si no es ADMIN o no hay sesión, no hace nada.
  */
-function setupAdminButton(){
+function setupAdminButton() {
     const userStr = localStorage.getItem('user');
     // Si no hay sesión, no hacer nada.
     if (!userStr) return;
 
     try {
         const user = JSON.parse(userStr);
-        
+
         // Solo si el rol es ADMIN, procedemos a crear y añadir el botón.
         if (user && user.rol === 'ADMIN') {
             const navContainer = document.querySelector('.header-nav');
@@ -91,7 +92,7 @@ function applyFiltersAndSort(): void {
     //ordenar 
     const sortSelect = document.getElementById('sortOrder') as HTMLSelectElement;
     const sortBy = sortSelect?.value || 'name-asc';
-    
+
     //ordenar y mostrar
     const sorted = sortProducts(filtrarProductos, sortBy);
     renderProductos(sorted);
@@ -122,9 +123,9 @@ function renderProductos(productos: IProduct[]): void {
     const counter = document.getElementById('productCount');
     if (counter) {
         const totalVisible = productos.length;
-        const totalAll = currentCategoriaId 
-        ? allProductos.filter(p => p.idCategoria === currentCategoriaId).length 
-        : allProductos.length;
+        const totalAll = currentCategoriaId
+            ? allProductos.filter(p => p.idCategoria === currentCategoriaId).length
+            : allProductos.length;
         counter.textContent = `Mostrando ${totalVisible} de ${totalAll} productos`;
     }
 
@@ -134,7 +135,7 @@ function renderProductos(productos: IProduct[]): void {
     }
 
     //generar tarjetas de productos
-    grid.innerHTML = productos.map(producto =>{
+    grid.innerHTML = productos.map((producto, i) => {
         const disponible = producto.stock > 0;
         return `
          <div class="product-card" data-id="${producto.id}">
@@ -142,18 +143,41 @@ function renderProductos(productos: IProduct[]): void {
             <h3>${producto.nombre}</h3>
             <p class="description">${producto.descripcion}</p>
             <p class="price">$${producto.precio.toFixed(2)}</p>
-            <span class="badge ${disponible ? 'available' : 'unavailable'}">
+            <span id="boton-producto-${i}" class="badge ${disponible ? 'available' : 'unavailable'}">
               ${disponible ? 'Disponible' : 'Agotado'}
             </span>
         </div>
     `;
-  }).join('');
+    }).join('');
 
-  //grid.querySelectorAll('.product-card').forEach(card => {
+    if (productos.length > 0) {
+        productos.forEach((producto, i) => {
+            const boton = document.getElementById(`boton-producto-${i}`);
+            boton?.addEventListener('click', (ev) => funcionBoton(i, productos));
+    })}
+
+    /*  const botones = document.getElementById('boton-producto');
+      console.log(botones);
+
+      botones.addEventListener('click', (e) => {
+          console.log(e);
+      })*/
+
+    /* botones.forEach(boton => {
+         boton.addEventListener('click', (e) => {
+             console.log(e);
+         })
+     });*/
+
+
+    //grid.querySelectorAll('.product-card').forEach(card => {
     //  card.addEventListener('click', () => {
-      //    const id = card.getAttribute('data-id');
-        //  window.location.href = `/pages/store/product/productDetail.html?id=${id}`;
-        //});
+    //    const id = card.getAttribute('data-id');
+    //  window.location.href = `/pages/store/product/productDetail.html?id=${id}`;
     //});
+    //});
+}
 
+function funcionBoton(e: number, productos: IProduct[]): void {
+    addToCart(productos[e].id, productos[e].nombre, productos[e].precio, productos[e].imagen, 1);       
 }

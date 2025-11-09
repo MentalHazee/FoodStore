@@ -240,6 +240,7 @@ function renderCart(): void{
                 const cartActual = getCart(); // Leer carrito actualizado de localStorage
                 // Asegúrate de que ICreateOrder coincida con esta estructura
                 const orderData = {
+
                     idUser: user.id, // El ID del usuario autenticado
                     phone,          // Campo requerido del formulario
                     address,        // Campo requerido del formulario
