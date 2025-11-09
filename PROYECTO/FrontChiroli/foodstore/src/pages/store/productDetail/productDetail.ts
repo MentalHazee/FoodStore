@@ -1,6 +1,5 @@
 interface IProduct {
   stock: number;
-  // add other properties as needed, e.g. name, price, etc.
 }
 
 function renderProductDetail(product: IProduct): void {

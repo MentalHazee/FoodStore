@@ -1,0 +1,69 @@
+
+import type { ICart } from '../types/ICart';
+
+const cart_key = 'cart';
+
+export function getCart(): ICart {
+    const cartJson = localStorage.getItem(cart_key);
+    return cartJson ? JSON.parse(cartJson) : { items: [] };
+}
+
+export function saveCart (cart: ICart): void {
+    localStorage.setItem(cart_key, JSON.stringify(cart));
+}
+
+export function clearCart(): void {
+    localStorage.removeItem(cart_key);
+}
+
+export function addToCart(idProducto: number, nombre: string, precio: number, imagenUrl: string, cantidad: number): void{
+  const cart = getCart();
+  const existingItem = cart.items.find(item => item.productoId === idProducto);
+
+  if (existingItem) {
+    // Si el producto ya está en el carrito, actualiza la cantidad
+    existingItem.cantidad += cantidad;
+  } else {
+    // Si no está, añade un nuevo ítem
+    cart.items.push({ productoId: idProducto, nombre: nombre, precio: precio, cantidad: cantidad, imagenUrl: imagenUrl });
+  }
+
+  saveCart(cart);
+}
+
+export function updateItemCantidad(idProducto: number, newCantidad: number): void{
+  const cart = getCart();
+  const itemIndex = cart.items.findIndex(item => item.productoId === idProducto);
+
+  if (itemIndex !== -1) {
+    if (newCantidad <= 0) {
+      // Si la nueva cantidad es 0 o negativa, elimina el ítem
+      cart.items.splice(itemIndex, 1);
+    } else {
+      // Actualiza la cantidad
+      cart.items[itemIndex].cantidad = newCantidad;
+    }
+    saveCart(cart);
+  }
+}
+
+export function removeItem(idProducto: number): void{
+  const cart = getCart();
+  cart.items = cart.items.filter(item => item.productoId !== idProducto);
+  saveCart(cart);
+}
+
+export function calcularSubtotal(): number{
+  const cart = getCart();
+  return cart.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+}
+
+export function calcularTotal(envioCosto: number = 500): number{
+  const subTotal = calcularSubtotal();
+  return subTotal + envioCosto;
+}
+
+export function getTotalItems(): number{
+  const cart = getCart();
+  return cart.items.reduce((count, item) => count + item.cantidad, 0);
+}

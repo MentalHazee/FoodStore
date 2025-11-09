@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mi Carrito - Food Store</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Mi Carrito</h1>
+    <a href="/src/pages/store/home/home.html">Seguir comprando</a>
+  </header>
+
+  <main class="cartContainer">
+  <!-- Se llena dinámicamente con JS -->
+  </main>
+
+  <div class="cart-summary">
+    <h3>Resumen del Pedido</h3>
+    <p>Subtotal: $<span id="subtotal">0.00</span></p>
+    <p>Envío: $<span id="shipping">500.00</span></p>
+    <p class="total">Total: $<span id="total">500.00</span></p>
+    <div class="cart-buttons">
+      <button id="btnClearCart">Vaciar Carrito</button>
+      <button id="btnCheckout">Proceder al Pago</button>
+    </div>
+  </div>
+
+  <!-- Modal de Checkout -->
+  <div id="checkoutModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>Finalizar Pedido</h2>
+      <form id="checkoutForm">
+        <label for="phone">Teléfono *</label>
+        <input type="tel" id="phone" required />
+
+        <label for="address">Dirección *</label>
+        <textarea id="address" required></textarea>
+
+        <label for="paymentMethod">Método de Pago *</label>
+        <select id="paymentMethod" required>
+          <option value="">Seleccionar...</option>
+          <option value="cash">Efectivo</option>
+          <option value="card">Tarjeta</option>
+          <option value="transfer">Transferencia</option>
+        </select>
+
+        <label for="notes">Notas (opcional)</label>
+        <textarea id="notes"></textarea>
+
+        <div class="modal-actions">
+          <button type="button" id="btnCancelCheckout">Cancelar</button>
+          <button type="submit">Confirmar Pedido</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script type="module" src="./cart.ts"></script>
+</body>
+</html>

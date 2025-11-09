@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mis Pedidos - Food Store</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Mis Pedidos</h1>
+    <a href="/src/pages/store/home/home.html">Volver a la Tienda</a>
+  </header>
+
+  <main id="ordersContainer">
+    <!-- Se llena dinámicamente con JS -->
+  </main>
+
+  <!-- Modal de Detalle de Pedido -->
+  <div id="orderDetailModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <div id="orderDetailContent">
+        <!-- Se llena dinámicamente con JS -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./orders.ts"></script>
+</body>
+</html>

@@ -11,6 +11,7 @@
 import type { IUsers } from "../types/IUser";
 import type { ICategoria } from "../types/ICategoria";
 import type { IProduct } from "../types/IProduct";
+import type { ICartItem } from "../types/ICart";
 
 const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
 
@@ -85,4 +86,24 @@ export async function getProductos(categoriaId?: number): Promise<IProduct[]> {
         throw new Error('No se pudieron cargar los productos');
     }
     return response.json();//devuelve un array de IProduct
+}
+
+export interface ICreateOrder{
+    idUser: number,
+    phone: string;
+    address: string;
+    paymentMethod: 'cash' | 'card' | 'ttransfer';
+    notes?: string;
+    items: ICartItem[];
+}
+
+export async function createOrder(orderData: ICreateOrder): Promise<any>{
+    const response = await fetch (`${API_URL}/pedido/crear`,{
+        method: 'POST',
+        headers: {
+            'content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+    });
+    return response;
 }
