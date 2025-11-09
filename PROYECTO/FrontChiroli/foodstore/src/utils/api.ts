@@ -92,7 +92,7 @@ export interface ICreateOrder{
     idUser: number,
     phone: string;
     address: string;
-    paymentMethod: 'cash' | 'card' | 'ttransfer';
+    paymentMethod: 'cash' | 'card' | 'transfer';
     notes?: string;
     items: ICartItem[];
 }

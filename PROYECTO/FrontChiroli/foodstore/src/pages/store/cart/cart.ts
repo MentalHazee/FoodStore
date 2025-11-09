@@ -237,7 +237,8 @@ function renderCart(): void {
 
                 // 4. Preparar datos del pedido para enviar al back-end
                 const cartActual = getCart(); // Leer carrito actualizado de localStorage
-                const orderData = {
+                console.log("Carrito actual al confirmar pedido:", cartActual);
+                /* const orderData = {
                     idUser: user.id, // El ID del usuario autenticado
                     phone,
                     address,
@@ -259,7 +260,7 @@ function renderCart(): void {
                     // 7. Error del back-end
                     const errorText = await response.text(); // Obtener mensaje de error
                     throw new Error(errorText || `Error ${response.status} al crear el pedido`);
-                }
+                }*/
             } catch (error) {
                 // 8. Capturar y mostrar cualquier error
                 console.error("Error al confirmar el pedido:", error);
