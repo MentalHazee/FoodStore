@@ -4,8 +4,8 @@ import type { ICart } from '../types/ICart';
 const cart_key = 'cart';
 
 export function getCart(): ICart {
-    const cartJson = localStorage.getItem(cart_key);
-    return cartJson ? JSON.parse(cartJson) : { items: [] };
+    const cartStr = localStorage.getItem(cart_key);
+    return cartStr ? JSON.parse(cartStr) : { items: [] };
 }
 
 export function saveCart (cart: ICart): void {
@@ -18,14 +18,14 @@ export function clearCart(): void {
 
 export function addToCart(idProducto: number, nombre: string, precio: number, imagenUrl: string, cantidad: number): void{
   const cart = getCart();
-  const existingItem = cart.items.find(item => item.productoId === idProducto);
+  const existingItem = cart.items.find(item => item.idProducto === idProducto);
 
   if (existingItem) {
     // Si el producto ya está en el carrito, actualiza la cantidad
     existingItem.cantidad += cantidad;
   } else {
     // Si no está, añade un nuevo ítem
-    cart.items.push({ productoId: idProducto, nombre: nombre, precio: precio, cantidad: cantidad, imagenUrl: imagenUrl });
+    cart.items.push({ idProducto: idProducto, nombre: nombre, precio: precio, cantidad: cantidad, imagenUrl: imagenUrl });
   }
 
   saveCart(cart);
@@ -33,15 +33,14 @@ export function addToCart(idProducto: number, nombre: string, precio: number, im
 
 export function updateItemCantidad(idProducto: number, newCantidad: number): void{
   const cart = getCart();
-  const itemIndex = cart.items.findIndex(item => item.productoId === idProducto);
+  const item = cart.items.findIndex(item => item.idProducto === idProducto);
 
-  if (itemIndex !== -1) {
+  if (item) {
     if (newCantidad <= 0) {
-      // Si la nueva cantidad es 0 o negativa, elimina el ítem
-      cart.items.splice(itemIndex, 1);
+      removeItem(idProducto);
     } else {
       // Actualiza la cantidad
-      cart.items[itemIndex].cantidad = newCantidad;
+      cart.items[item].cantidad = newCantidad;
     }
     saveCart(cart);
   }
@@ -49,7 +48,7 @@ export function updateItemCantidad(idProducto: number, newCantidad: number): voi
 
 export function removeItem(idProducto: number): void{
   const cart = getCart();
-  cart.items = cart.items.filter(item => item.productoId !== idProducto);
+  cart.items = cart.items.filter(item => item.idProducto !== idProducto);
   saveCart(cart);
 }
 

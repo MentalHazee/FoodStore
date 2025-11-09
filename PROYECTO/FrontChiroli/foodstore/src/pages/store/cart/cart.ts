@@ -1,24 +1,21 @@
-
-import { getCart, clearCart, removeItem, updateItemCantidad, calcularTotal } from "../../../utils/cart";
-import { navigateTo } from "../../../utils/navigate";
-import { createOrder } from "../../../utils/api";
+import { getCart, updateItemCantidad, removeItem, clearCart, calcularTotal } from "../../../utils/cart";
 import { getCurrentUser } from "../../../utils/auth";
+import { createOrder } from "../../../utils/api";
+import { navigateTo } from "../../../utils/navigate";
 
 const envioCosto = 500;
 
-document.addEventListener('DOMContentLoaded',() => {
+document.addEventListener('DOMContentLoaded', () =>{
     renderCart();
-}); 
+});
 
-function renderCart(): void {
-    // 1. Obtener el carrito actual desde localStorage
+function renderCart(): void{
     const cart = getCart();
 
-    // 2. Obtener elementos del DOM y verificar que existan
     const container = document.getElementById('cartContainer');
     if (!container) {
         console.error("No se encontró el contenedor '#cartContainer' en el HTML.");
-        return; 
+        return; // Salimos de la función para evitar errores
     }
 
     // 3. Manejar estado vacío
@@ -54,7 +51,7 @@ function renderCart(): void {
 
         // Generar HTML para cada ítem del carrito
         itemsHtml += `
-            <div class="cart-item" data-product-id="${item.productoId}">
+            <div class="cart-item" data-product-id="${item.idProducto}">
                 <img src="${item.imagenUrl}" alt="${item.nombre}" width="80" />
                 <div class="item-info">
                     <h3>${item.nombre}</h3>
@@ -90,7 +87,7 @@ function renderCart(): void {
         </div>
     `;
 
-    // 6. Actualizar el resumen del pedido
+    // 6. Actualizar el resumen del pedido (ahora que los elementos span existen en el DOM)
     const subtotalElement = document.getElementById('subtotal');
     if (subtotalElement) {
         subtotalElement.textContent = subtotal.toFixed(2);
@@ -112,10 +109,11 @@ function renderCart(): void {
         console.warn("No se encontró el elemento '#total' para actualizar el total.");
     }
 
-  
-    const cartContainerElement = container; 
-    if (!cartContainerElement) return; 
+    // 7. --- Eventos de Interacción (Usando Event Delegation) ---
+    const cartContainerElement = container; // El contenedor principal ya lo tenemos y sabemos que no es null
+    if (!cartContainerElement) return; // Esta verificación es redundante ahora, pero por si acaso.
 
+    // Manejar clicks en botones de cantidad (+/-) y eliminar
     cartContainerElement.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
         const itemDiv = target.closest('.cart-item'); // Encuentra el contenedor del ítem
@@ -124,6 +122,7 @@ function renderCart(): void {
         const productId = Number(itemDiv.getAttribute('data-product-id'));
         if (isNaN(productId)) return; // Verificación de seguridad
 
+        // --- A. Botones de Cantidad ---
         if (target.classList.contains('qty-btn')) {
             const action = target.dataset.action;
             if (action !== 'inc' && action !== 'dec') return; // Verificación de seguridad
@@ -143,13 +142,15 @@ function renderCart(): void {
             renderCart(); // Vuelve a renderizar para reflejar el cambio y recalcular totales
         }
 
-        // B. Botón Eliminar
+        // --- B. Botón Eliminar ---
         if (target.classList.contains('btn-remove')) {
             // Eliminar ítem de localStorage y volver a renderizar
             removeItem(productId);
             renderCart(); // Vuelve a renderizar para reflejar el cambio y recalcular totales
         }
     });
+
+    // --- Eventos de Botones Superiores ---
     // Botón "Vaciar Carrito"
     const btnClearCart = document.getElementById('btnClearCart');
     if (btnClearCart) {
@@ -163,7 +164,7 @@ function renderCart(): void {
         console.warn("No se encontró el botón '#btnClearCart'.");
     }
 
-    // Botón "Proceder al Pago"
+    // Botón "Proceder al Pago" - Abre el modal
     const btnCheckout = document.getElementById('btnCheckout');
     if (btnCheckout) {
         btnCheckout.addEventListener('click', () => {
@@ -237,22 +238,26 @@ function renderCart(): void {
 
                 // 4. Preparar datos del pedido para enviar al back-end
                 const cartActual = getCart(); // Leer carrito actualizado de localStorage
+                // Asegúrate de que ICreateOrder coincida con esta estructura
                 const orderData = {
                     idUser: user.id, // El ID del usuario autenticado
-                    phone,
-                    address,
-                    paymentMethod,
-                    notes: notes || undefined, // Enviar solo si hay notas
+                    phone,          // Campo requerido del formulario
+                    address,        // Campo requerido del formulario
+                    paymentMethod,  // Campo requerido del formulario
+                    notes: notes || undefined, // Campo opcional del formulario
+                    // La lista de items del carrito local -> DetallePedido
                     items: cartActual.items.map(item => ({
-                        idProducto: item.productoId, // ID del producto
-                        cantidad: item.cantidad    // Cantidad pedida
+                        idProducto: item.idProducto, // ID del producto del carrito local
+                        cantidad: item.cantidad      // Cantidad del producto del carrito local
                     })),
+                    total: calcularTotal(envioCosto) // Total calculado localmente
                 };
 
                 // 5. Enviar pedido al back-end
                 const response = await createOrder(orderData);
 
                 if (response.ok) {
+                    // 6. Éxito: Limpiar carrito local y redirigir
                     clearCart(); // Limpia el carrito de localStorage
                     navigateTo('/src/pages/client/orders/orders.html'); // Ir a "Mis Pedidos"
                 } else {

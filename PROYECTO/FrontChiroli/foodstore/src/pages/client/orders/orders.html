@@ -2,21 +2,30 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mis Pedidos - Food Store</title>
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
   <header>
     <h1>Mis Pedidos</h1>
-    <a href="/src/pages/store/home/home.html">Volver a la Tienda</a>
+    <nav>
+      <!-- Ejemplo de navbar reutilizable, ajusta según tu estructura -->
+      <a href="/src/pages/store/home/home.html">Inicio</a>
+      <span id="userNameDisplay">Usuario</span> <!-- Se llenará con JS -->
+      <button id="logoutButton">Cerrar Sesión</button>
+    </nav>
   </header>
 
-  <main id="ordersContainer">
-    <!-- Se llena dinámicamente con JS -->
+  <main>
+    <!-- Contenedor principal donde se cargan las tarjetas de pedidos -->
+    <div id="ordersContainer">
+      <!-- Se llena dinámicamente con JS -->
+    </div>
   </main>
 
   <!-- Modal de Detalle de Pedido -->
-  <div id="orderDetailModal" class="modal" style="display:none;">
+  <div id="orderDetailModal" class="modal" style="display: none;">
     <div class="modal-content">
       <span class="close" id="closeModal">&times;</span>
       <div id="orderDetailContent">

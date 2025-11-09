@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mi Carrito - Food Store</title>
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compras - Food Store</title>
+  <!-- Asegúrate que esta ruta apunte a tu archivo de estilos global -->
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header>
-    <h1>Mi Carrito</h1>
-    <a href="/src/pages/store/home/home.html">Seguir comprando</a>
+    <h1>Food Store</h1>
+    <nav>
+      <!-- Ejemplo de navbar reutilizable, ajusta según tu estructura -->
+      <a href="/src/pages/store/home/home.html">Inicio</a>
+      <span id="userNameDisplay">Usuario</span> <!-- Se llenará con JS -->
+      <button id="logoutButton">Cerrar Sesión</button>
+    </nav>
   </header>
 
-  <main class="cartContainer">
-  <!-- Se llena dinámicamente con JS -->
+  <main>
+    <!-- Contenedor principal donde se carga el carrito -->
+    <div id="cartContainer">
+      <!-- Se llena dinámicamente con JS -->
+    </div>
+
+    <!-- Resumen del Pedido (se muestra/oculta con JS dependiendo si hay ítems) -->
+    <div class="cart-summary hidden">
+      <h3>Resumen del Pedido</h3>
+      <p>Subtotal: $<span id="subtotal">0.00</span></p>
+      <p>Envío: $<span id="shipping">500.00</span></p>
+      <p class="total">Total: $<span id="total">500.00</span></p>
+      <div class="cart-buttons hidden"> <!-- Este div también puede ocultarse -->
+        <button id="btnClearCart">Vaciar Carrito</button>
+        <button id="btnCheckout">Proceder al Pago</button>
+      </div>
+    </div>
+
   </main>
 
-  <div class="cart-summary">
-    <h3>Resumen del Pedido</h3>
-    <p>Subtotal: $<span id="subtotal">0.00</span></p>
-    <p>Envío: $<span id="shipping">500.00</span></p>
-    <p class="total">Total: $<span id="total">500.00</span></p>
-    <div class="cart-buttons">
-      <button id="btnClearCart">Vaciar Carrito</button>
-      <button id="btnCheckout">Proceder al Pago</button>
-    </div>
-  </div>
-
   <!-- Modal de Checkout -->
-  <div id="checkoutModal" class="modal" style="display:none;">
+  <div id="checkoutModal" class="modal" style="display: none;">
     <div class="modal-content">
       <h2>Finalizar Pedido</h2>
       <form id="checkoutForm">
@@ -56,6 +68,7 @@
     </div>
   </div>
 
-<script type="module" src="./cart.ts"></script>
+  <!-- Script del módulo TypeScript -->
+  <script type="module" src="./cart.ts"></script>
 </body>
 </html>

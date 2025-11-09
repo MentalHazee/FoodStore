@@ -11,7 +11,9 @@
 import type { IUsers } from "../types/IUser";
 import type { ICategoria } from "../types/ICategoria";
 import type { IProduct } from "../types/IProduct";
-import type { ICartItem } from "../types/ICart";
+//import type { ICartItem } from "../types/ICart";
+import type { ICreateOrder } from "../types/IOrders";
+import type {IOrder} from "../types/IOrders"
 
 const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
 
@@ -88,22 +90,24 @@ export async function getProductos(categoriaId?: number): Promise<IProduct[]> {
     return response.json();//devuelve un array de IProduct
 }
 
-export interface ICreateOrder{
-    idUser: number,
-    phone: string;
-    address: string;
-    paymentMethod: 'cash' | 'card' | 'ttransfer';
-    notes?: string;
-    items: ICartItem[];
-}
 
-export async function createOrder(orderData: ICreateOrder): Promise<any>{
-    const response = await fetch (`${API_URL}/pedido/crear`,{
+export async function createOrder(orderData: ICreateOrder): Promise<Response>{
+    const response = await fetch (`${API_URL}/pedido/create`,{
         method: 'POST',
         headers: {
-            'content-Type': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(orderData)
     });
     return response;
+}
+
+export async function getOrderById(idUser: number): Promise<IOrder[]>{
+    const response = await fetch (`${API_URL}/pedido/buscarTodos/${idUser}`);
+
+    if(!response.ok){
+        const errorText = await response.text();
+        throw new Error(errorText || `Error ${response.status} al cargar los pedidos`);
+    }
+    return response.json();
 }
