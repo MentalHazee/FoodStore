@@ -25,8 +25,8 @@ export interface IOrderItem{
 
 export interface IOrder{
     id: number;
-    idUsuario: number; // El ID del usuario que creó el pedido
-    estado: 'pending' | 'processing' | 'completed' | 'cancelled'; // Estados del TP
+    //idUsuario: number; // El ID del usuario que creó el pedido
+    estado: 'PENDIENTE' | 'COMPLETADO' | 'CANCELADO' | 'TERMINADO'; // Estados del TP
     fecha: string; // Fecha en formato ISO string
     phone: string;
     address: string;

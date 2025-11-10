@@ -43,7 +43,7 @@ public class PedidoController {
         }
     }
 
-    @GetMapping("/buscarTodos")
+    @GetMapping("/buscarTodos/{id}")
     public ResponseEntity<?> buscarTodos(){
         try {
             return ResponseEntity.ok().body(pedidoService.buscarTodos());

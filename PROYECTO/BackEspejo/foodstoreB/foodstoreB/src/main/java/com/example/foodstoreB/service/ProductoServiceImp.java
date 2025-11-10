@@ -1,6 +1,7 @@
 package com.example.foodstoreB.service;
 
 import com.example.foodstoreB.entity.Categoria;
+import com.example.foodstoreB.entity.Estado;
 import com.example.foodstoreB.entity.Producto;
 import com.example.foodstoreB.entity.dto.*;
 import com.example.foodstoreB.entity.dto.ProductoAdminDto;
@@ -61,4 +62,11 @@ public class ProductoServiceImp implements ProductoService {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         producto.setEliminado(true);
     }
+
+    @Override
+    public void actualizarStock(Long id, ProductoStockEdit pse) {
+
+    }
+
+
 }

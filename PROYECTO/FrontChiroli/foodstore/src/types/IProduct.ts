@@ -5,6 +5,5 @@ export interface IProduct{
     precio: number;
     stock: number;
     imagen: string;
-    //disponible: "true";
     idCategoria: number;
 }

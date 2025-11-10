@@ -1,6 +1,8 @@
 package com.example.foodstoreB.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class Pedido {
     private Long id;
 
     @Builder.Default
-    private LocalDate fecha = LocalDate.now();
+    private LocalDateTime fecha = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -34,6 +36,11 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     @Builder.Default
     private List<DetallePedido> detalles = new ArrayList<>();
+
+    private String phone;
+    private String address;
+    private String paymentMethod;
+    private String notes;
 
     @Builder.Default
     private boolean eliminado = false;

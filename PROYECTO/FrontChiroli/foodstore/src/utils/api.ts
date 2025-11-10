@@ -92,7 +92,7 @@ export async function getProductos(categoriaId?: number): Promise<IProduct[]> {
 
 
 export async function createOrder(orderData: ICreateOrder): Promise<Response>{
-    const response = await fetch (`${API_URL}/pedido/create`,{
+    const response = await fetch (`${API_URL}/pedido/crear`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class DetallePedidoEdit {
+public class Items {
+    private Long idProducto;
     private int cantidad;
 }

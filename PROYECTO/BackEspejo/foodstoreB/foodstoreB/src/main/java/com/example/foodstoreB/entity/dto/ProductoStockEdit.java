@@ -1,5 +1,6 @@
 package com.example.foodstoreB.entity.dto;
 
+import com.example.foodstoreB.entity.Estado;
 import lombok.*;
 
 @NoArgsConstructor
@@ -7,6 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class DetallePedidoEdit {
+public class ProductoStockEdit {
     private int cantidad;
 }

@@ -22,8 +22,6 @@ import java.util.Optional;
 public class UsuarioServiceImp implements UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
-    @Autowired
-    PedidoServiceImp pedidoServiceImp;
 
     @Override
     public UsuarioDto crear(UsuarioCreate uc) {

@@ -1,14 +1,13 @@
 package com.example.foodstoreB.service;
 
 import com.example.foodstoreB.entity.DetallePedido;
+import com.example.foodstoreB.entity.Producto;
 import com.example.foodstoreB.entity.dto.DetallePedidoCreate;
 import com.example.foodstoreB.entity.dto.DetallePedidoDto;
 import com.example.foodstoreB.entity.dto.DetallePedidoEdit;
-import com.example.foodstoreB.entity.dto.PedidoEdit;
 import com.example.foodstoreB.entity.mapper.DetallePedidoMapper;
 import com.example.foodstoreB.impl.DetallePedidoService;
 import com.example.foodstoreB.repository.DetallePedidoRepository;
-import com.example.foodstoreB.repository.PedidoRepository;
 import com.example.foodstoreB.repository.ProductoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +22,11 @@ public class DetallePedidoServiceImp implements DetallePedidoService {
     DetallePedidoRepository detallePedidoRepository;
     @Autowired
     ProductoRepository productoRepository;
-    @Autowired
-    PedidoRepository pedidoRepository;
+
 
     @Override
     public DetallePedidoDto crear(DetallePedidoCreate dpc) {
-        DetallePedido dp = DetallePedidoMapper.toEntity(dpc, pedidoRepository, productoRepository);
-        return DetallePedidoMapper.toDto(detallePedidoRepository.save(dp));
+        return null;
     }
 
     @Override
@@ -41,7 +38,6 @@ public class DetallePedidoServiceImp implements DetallePedidoService {
         }else {
             throw new RuntimeException("No hay suficiente stock");
         }
-        dp.setSubtotal(dpe.getSubtotal());
         return DetallePedidoMapper.toDto(detallePedidoRepository.save(dp));
     }
 

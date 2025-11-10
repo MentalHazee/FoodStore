@@ -1,11 +1,16 @@
 package com.example.foodstoreB.service;
 
+import com.example.foodstoreB.entity.DetallePedido;
+import com.example.foodstoreB.entity.Producto;
+import com.example.foodstoreB.entity.dto.Items;
 import com.example.foodstoreB.entity.Pedido;
+import com.example.foodstoreB.entity.Usuario;
 import com.example.foodstoreB.entity.dto.PedidoCreate;
 import com.example.foodstoreB.entity.dto.PedidoDto;
 import com.example.foodstoreB.entity.dto.PedidoEdit;
 import com.example.foodstoreB.entity.mapper.PedidoMapper;
 import com.example.foodstoreB.impl.PedidoService;
+import com.example.foodstoreB.repository.DetallePedidoRepository;
 import com.example.foodstoreB.repository.PedidoRepository;
 import com.example.foodstoreB.repository.ProductoRepository;
 import com.example.foodstoreB.repository.UsuarioRepository;
@@ -22,10 +27,36 @@ public class PedidoServiceImp implements PedidoService {
     PedidoRepository pedidoRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
+    @Autowired
+    DetallePedidoRepository detallePedidoRepository;
 
     @Override
     public PedidoDto crear(PedidoCreate pc) {
-        Pedido pedido = PedidoMapper.toEntity(pc, usuarioRepository);
+        Usuario usuario = usuarioRepository.findById(pc.getIdUser())
+                .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+        Pedido pedido = PedidoMapper.toEntity(pc, usuario);
+
+        for ( Items items : pc.getItems()){
+            Producto producto = productoRepository.findById(items.getIdProducto())
+                    .orElseThrow(()-> new RuntimeException("Producto no encontrado"));
+            if (producto.getStock() < items.getCantidad()){
+                throw new RuntimeException("No hay suficiente stock");
+            }else {
+                producto.setStock(producto.getStock() - items.getCantidad());
+                productoRepository.save(producto);
+            }
+            Double subtotal = items.getCantidad() * producto.getPrecio();
+            DetallePedido detallePedido = DetallePedido.builder()
+                    .cantidad(items.getCantidad())
+                    .subtotal(subtotal)
+                    .producto(producto)
+                    .pedido(pedido)
+                    .build();
+            detallePedidoRepository.save(detallePedido);
+            pedido.getDetalles().add(detallePedido);
+        }
         return PedidoMapper.toDto(pedidoRepository.save(pedido));
     }
 
@@ -34,7 +65,6 @@ public class PedidoServiceImp implements PedidoService {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID"));
         pedido.setEstado(pe.getEstado());
-        pedido.setTotal(pe.getTotal());
         return PedidoMapper.toDto(pedidoRepository.save(pedido));
     }
 

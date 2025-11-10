@@ -22,6 +22,11 @@ PREGUNTAS
 HACER
 - Nombre de usuario desaparece cuando se accede a pestaña productos o categorias
 - Vincular boton gestionar del dashboard con la pestaña correspondiente
+- Alerta o contador en el home para que el usuario sepa la cantidad que agrego al carrito
+- En el primer elemento del carrito no funciona el boton agregar
+- Revisar porque hay 2 resumenes de pedido
+- Arreglar pagina carrito que se congela como armani en el gol de ceballos
+- Corregir redireccion pedidos en cliente
 
 -----------------------------------------------------------------------------------------
 
