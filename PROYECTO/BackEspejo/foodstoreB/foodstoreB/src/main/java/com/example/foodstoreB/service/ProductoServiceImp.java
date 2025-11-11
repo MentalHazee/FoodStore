@@ -63,10 +63,6 @@ public class ProductoServiceImp implements ProductoService {
         producto.setEliminado(true);
     }
 
-    @Override
-    public void actualizarStock(Long id, ProductoStockEdit pse) {
-
-    }
 
 
 }

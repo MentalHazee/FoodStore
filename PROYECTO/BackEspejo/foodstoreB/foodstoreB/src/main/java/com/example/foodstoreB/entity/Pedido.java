@@ -8,17 +8,15 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class Pedido extends Base{
 
     @Builder.Default
     private LocalDateTime fecha = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
@@ -42,6 +40,4 @@ public class Pedido {
     private String paymentMethod;
     private String notes;
 
-    @Builder.Default
-    private boolean eliminado = false;
 }

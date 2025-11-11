@@ -2,20 +2,18 @@ package com.example.foodstoreB.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class Usuario extends Base{
 
     @Column(nullable = false)
     private String nombre;
@@ -36,6 +34,4 @@ public class Usuario {
     @Builder.Default
     private List<Pedido> pedidos = new ArrayList<>();
 
-    @Builder.Default
-    private boolean eliminado = false;
 }

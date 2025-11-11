@@ -2,7 +2,6 @@ package com.example.foodstoreB.controller;
 
 import com.example.foodstoreB.entity.dto.ProductoCreate;
 import com.example.foodstoreB.entity.dto.ProductoEdit;
-import com.example.foodstoreB.entity.dto.ProductoStockEdit;
 import com.example.foodstoreB.impl.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -56,16 +55,6 @@ public class ProductoController {
     public ResponseEntity<?> buscaId(@PathVariable Long id){
         try{
             return ResponseEntity.ok(productoService.buscaId(id));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
-        }
-    }
-
-    @PutMapping("/actualizarStock/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody ProductoStockEdit pse){
-        try{
-            productoService.actualizarStock(id, pse);
-            return ResponseEntity.ok().body("Stock actualizado");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }

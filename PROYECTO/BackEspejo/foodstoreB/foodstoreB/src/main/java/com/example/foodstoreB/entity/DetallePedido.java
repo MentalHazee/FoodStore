@@ -2,17 +2,15 @@ package com.example.foodstoreB.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class DetallePedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class DetallePedido extends Base{
 
     private int cantidad;
     private Double subtotal;
@@ -25,6 +23,4 @@ public class DetallePedido {
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    @Builder.Default
-    private boolean eliminado = false;
 }
