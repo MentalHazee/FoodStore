@@ -35,9 +35,9 @@ export function updateItemCantidad(idProducto: number, newCantidad: number): voi
   const cart = getCart();
   const item = cart.items.findIndex(item => item.idProducto === idProducto);
 
-  if (item) {
-    if (newCantidad <= 0) {
-      removeItem(idProducto);
+  if (item !== -1) {
+    if (newCantidad < 1) {
+        newCantidad = 1;
     } else {
       // Actualiza la cantidad
       cart.items[item].cantidad = newCantidad;
