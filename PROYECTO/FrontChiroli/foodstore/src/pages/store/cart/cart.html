@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito de Compras - Food Store</title>
   <link rel="stylesheet" href="/src/style.css">
-  <link rel="icon" href="/public/icono3.svg" type="image/x-icon">+
+  <link rel="icon" href="/public/icono3.svg" type="image/x-icon">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
     <img src="/public/frankysLogo-04.svg" alt="Hamburguesa con lentes" width="100px" class="header-logo">
     <nav class="header-nav">
       <a href="/src/pages/store/home/home.html">Tienda</a>
-      <a href="/src/pages/store/client\orders/orders.html">Mis Pedidos</a>
+      <a href="/src/pages/client/orders/orders.html">Mis Pedidos</a>
       <a href="/src/pages/store/cart/cart.html">Carrito</a>
       <span id="userNameHeader" class="user-name"></span>
       <button id="logoutBtn" class="btn btnPrimary"
@@ -28,29 +28,30 @@
       <div id="cartContainer"></div>
     </div>
 
-    <!-- Modal de Checkout -->
-    <div id="checkoutModal" class="modal" style="display: none;">
+    <!-- Formulario para proceder al pago -->
+    <div id="checkoutModal" class="modal-overlay" style="display: none;">
       <div class="modal-content">
-        <h2>Finalizar Pedido</h2>
-        <form id="checkoutForm">
-          <label for="phone">Teléfono *</label>
-          <input type="tel" id="phone" required />
+        <form id="checkoutForm" class="form-cart">
 
-          <label for="address">Dirección *</label>
-          <textarea id="address" required></textarea>
+          <h3 id="form-title">Finalizar Pedido</h3>
 
-          <label for="paymentMethod">Método de Pago *</label>
-          <select id="paymentMethod" required>
-            <option value="">Seleccionar...</option>
-            <option value="cash">Efectivo</option>
-            <option value="card">Tarjeta</option>
-            <option value="transfer">Transferencia</option>
-          </select>
+          <input type="tel" name="phone" id="phone" placeholder="Teléfono" required>
 
-          <label for="notes">Notas (opcional)</label>
-          <textarea id="notes"></textarea>
+          <textarea name="address" id="address" placeholder="Dirección" required></textarea>
 
-          <div class="modal-actions">
+          <textarea name="notes" id="notes" placeholder="Notas (Opcional)"></textarea>
+
+          <div class="select-method">
+            <label for="paymentMethod">Método de pago</label>
+            <select name="paymentMethod" id="paymentMethod" required>
+              <option value="">Seleccionar...</option>
+              <option value="cash">Efectivo</option>
+              <option value="card">Tarjeta</option>
+              <option value="transfer">Transferencia</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
             <button type="button" id="btnCancelCheckout">Cancelar</button>
             <button type="submit">Confirmar Pedido</button>
           </div>

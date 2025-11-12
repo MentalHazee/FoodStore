@@ -24,7 +24,7 @@ function renderCart(): void{
             <div class="empty-cart">
                 <h2>¡Tu carrito está vacío!</h2>
                 <p>Agrega productos antes de proceder al pago.</p>
-                <button onclick="location.href='/src/pages/store/home/home.html'">Ir a la tienda</button>
+                <button class="btnPrimary" onclick="location.href='/src/pages/store/home/home.html'">Ir a la tienda</button>
             </div>
         `;
         // Ocultar resumen y botones si no hay ítems (si los elementos existen)
@@ -77,11 +77,11 @@ function renderCart(): void{
         </div>
         <div class="cart-summary">
             <h3>Resumen del Pedido</h3>
-            <p>Subtotal: $<span id="subtotal">${subtotal.toFixed(2)}</span></p>
-            <p>Envío: $<span id="shipping">${envioCosto.toFixed(2)}</span></p>
-            <p class="total">Total: $<span id="total">${total.toFixed(2)}</span></p>
+            <p>Subtotal: <span id="subtotal">$${subtotal.toFixed(2)}</span></p>
+            <p>Envío: <span id="shipping">$${envioCosto.toFixed(2)}</span></p>
+            <p class="total">Total: <span id="total">$${total.toFixed(2)}</span></p>
             <div class="cart-buttons">
-                <button id="btnClearCart">Vaciar Carrito</button>
+                <button id="btnClearCart" class="btnPrimary">Vaciar Carrito</button>
                 <button id="btnCheckout">Proceder al Pago</button>
             </div>
         </div>

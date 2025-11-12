@@ -187,7 +187,7 @@ button {
 }
 
 /* =========================================================
-   LOGIN Y REGISTRO
+  LOGIN Y REGISTRO
 ========================================================= */
 
 #app {
@@ -484,7 +484,9 @@ button {
 .form-categoria input,
 .form-categoria textarea,
 .form-producto input,
-.form-producto textarea {
+.form-producto textarea,
+.form-cart input,
+.form-cart textarea {
   width: 100%;
   padding: 10px 10px;
   margin-top: 5px;
@@ -495,14 +497,15 @@ button {
   box-sizing: border-box;
 }
 
-.form-categoria .form-action .form-producto .form-action {
+.form-categoria .form-action .form-producto .form-action .form-cart .form-action {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   color: white;
 }
 
-.select-categoria {
+.select-categoria,
+.select-method {
   margin-bottom: 20px;
 }
 
@@ -682,7 +685,7 @@ button {
 }
 
 /*==========================================================
-   PRODUCTOS DEL CARRITO
+  PRODUCTOS DEL CARRITO
 ========================================================= */
 
 #cartContainer {
@@ -828,29 +831,17 @@ button {
   color: var(--tertiaryColor);
 }
 
-#btnClearCart {
-  background-color:  #dd1b1b;
-  color: #fff;
-}
-
-#btnClearCart:hover{
-  background-color: #ff0000;
-}
 
 /* CARRITO VACIO */
 .empty-cart {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: transparent;
-  text-align: center;
   width: 100%;
-  max-width: 500px;
 }
 
 .empty-cart h2 {
@@ -864,16 +855,6 @@ button {
   margin-bottom: 15px;
 }
 
-.empty-cart button {
-  background-color: var(--primaryColor);
-  color: #fff;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  font-weight: 600;
-}
 
 
 
