@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/style.css">
   <title>Mis Pedidos - Food Store</title>
-  <link rel="stylesheet" href="/style.css" />
 </head>
+
 <body>
+  <!-- Botonera principal -->
   <header>
-    <h1>Mis Pedidos</h1>
-    <nav>
-      <!-- Ejemplo de navbar reutilizable, ajusta según tu estructura -->
-      <a href="/src/pages/store/home/home.html">Inicio</a>
-      <span id="userNameDisplay">Usuario</span> <!-- Se llenará con JS -->
-      <button id="logoutButton">Cerrar Sesión</button>
+    <img src="/public/frankysLogo-04.svg" alt="Hamburguesa con lentes" width="100px" class="header-logo">
+    <nav class="header-nav">
+      <a href="/src/pages/store/home/home.html">Tienda</a>
+      <a href="/src/pages/store/client\orders/orders.html">Mis Pedidos</a>
+      <a href="/src/pages/store/cart/cart.html">Carrito</a>
+      <span id="userNameHeader" class="user-name"></span>
+      <button id="logoutBtn" class="btn btnPrimary"
+        onclick="window.location.href='/src/pages/auth/login/login.html'">Cerrar Sesión</button>
     </nav>
   </header>
 
@@ -36,4 +41,5 @@
 
   <script type="module" src="./orders.ts"></script>
 </body>
+
 </html>
