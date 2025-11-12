@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito de Compras - Food Store</title>
-  <!-- Asegúrate que esta ruta apunte a tu archivo de estilos global -->
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/src/style.css">
+  <link rel="icon" href="/public/icono3.svg" type="image/x-icon">+
 </head>
+
 <body>
   <header>
-    <h1>Food Store</h1>
-    <nav>
-      <!-- Ejemplo de navbar reutilizable, ajusta según tu estructura -->
-      <a href="/src/pages/store/home/home.html">Inicio</a>
-      <span id="userNameDisplay">Usuario</span> <!-- Se llenará con JS -->
-      <button id="logoutButton">Cerrar Sesión</button>
+    <img src="/public/frankysLogo-04.svg" alt="Hamburguesa con lentes" width="100px" class="header-logo">
+    <nav class="header-nav">
+      <a href="/src/pages/store/home/home.html">Tienda</a>
+      <a href="/src/pages/store/client\orders/orders.html">Mis Pedidos</a>
+      <a href="/src/pages/store/cart/cart.html">Carrito</a>
+      <span id="userNameHeader" class="user-name"></span>
+      <button id="logoutBtn" class="btn btnPrimary"
+        onclick="window.location.href='/src/pages/auth/login/login.html'">Cerrar Sesión</button>
     </nav>
   </header>
 
-  <main>
-    <!-- Contenedor principal donde se carga el carrito -->
-    <div id="cartContainer">
-      <!-- Se llena dinámicamente con JS -->
+  <main class="main-content">
+    <div class="cart-main">
+      <h2>Mi carrito</h2>
+      <div id="cartContainer"></div>
     </div>
 
-    
+    <!-- Modal de Checkout -->
+    <div id="checkoutModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h2>Finalizar Pedido</h2>
+        <form id="checkoutForm">
+          <label for="phone">Teléfono *</label>
+          <input type="tel" id="phone" required />
 
+          <label for="address">Dirección *</label>
+          <textarea id="address" required></textarea>
 
+          <label for="paymentMethod">Método de Pago *</label>
+          <select id="paymentMethod" required>
+            <option value="">Seleccionar...</option>
+            <option value="cash">Efectivo</option>
+            <option value="card">Tarjeta</option>
+            <option value="transfer">Transferencia</option>
+          </select>
+
+          <label for="notes">Notas (opcional)</label>
+          <textarea id="notes"></textarea>
+
+          <div class="modal-actions">
+            <button type="button" id="btnCancelCheckout">Cancelar</button>
+            <button type="submit">Confirmar Pedido</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </main>
-
-  <!-- Modal de Checkout -->
-  <div id="checkoutModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <h2>Finalizar Pedido</h2>
-      <form id="checkoutForm">
-        <label for="phone">Teléfono *</label>
-        <input type="tel" id="phone" required />
-
-        <label for="address">Dirección *</label>
-        <textarea id="address" required></textarea>
-
-        <label for="paymentMethod">Método de Pago *</label>
-        <select id="paymentMethod" required>
-          <option value="">Seleccionar...</option>
-          <option value="cash">Efectivo</option>
-          <option value="card">Tarjeta</option>
-          <option value="transfer">Transferencia</option>
-        </select>
-
-        <label for="notes">Notas (opcional)</label>
-        <textarea id="notes"></textarea>
-
-        <div class="modal-actions">
-          <button type="button" id="btnCancelCheckout">Cancelar</button>
-          <button type="submit">Confirmar Pedido</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Script del módulo TypeScript -->
   <script type="module" src="./cart.ts"></script>
 </body>
+
 </html>
