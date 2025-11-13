@@ -2,6 +2,8 @@ const API_URL = 'http://localhost:8080'; // dirección base del backend (localho
 import type { IProduct } from "../../../types/IProduct";
 import { getCategorias, getProductos } from "../../../utils/api";
 import type { ICategoria } from "../../../types/ICategoria";
+import { getCurrentUser} from "../../../utils/auth";
+import { navigateTo } from "../../../utils/navigate";
 
 //crear un nuevo producto (solo admin)
 export async function crearProducto(productoData: Omit<IProduct, 'id'>): Promise<IProduct>{
@@ -44,6 +46,17 @@ let editID: number | null = null;
 let categoriasCache: ICategoria[] | null = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    const session = getCurrentUser();
+        if (!session){
+            console.log("No hay sesion, redirigiendo al login");
+            navigateTo('/auth/login/login.html');
+        }
+        const userNameElement = document.getElementById('userNameHeader');
+            if (userNameElement){
+                userNameElement.textContent = session?.nombre || session?.mail || 'ADMIN';
+            }
+
     try{
         //cargar productos y categoria en paralelo
         const [productosData, categoriasData] = await Promise.all([getProductos(), getCategorias()]);

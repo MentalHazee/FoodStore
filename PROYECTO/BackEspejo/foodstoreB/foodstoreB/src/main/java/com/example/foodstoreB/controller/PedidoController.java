@@ -1,5 +1,6 @@
 package com.example.foodstoreB.controller;
 
+import com.example.foodstoreB.entity.dto.PedidoCancelado;
 import com.example.foodstoreB.entity.dto.PedidoCreate;
 import com.example.foodstoreB.entity.dto.PedidoEdit;
 import com.example.foodstoreB.service.PedidoServiceImp;
@@ -44,9 +45,9 @@ public class PedidoController {
     }
 
     @GetMapping("/buscarTodos/{id}")
-    public ResponseEntity<?> buscarTodos(){
+    public ResponseEntity<?> buscarTodos(@PathVariable Long id){
         try {
-            return ResponseEntity.ok().body(pedidoService.buscarTodos());
+            return ResponseEntity.ok().body(pedidoService.buscarTodos(id));
             }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }
@@ -56,6 +57,24 @@ public class PedidoController {
     public ResponseEntity<?> buscaId(@PathVariable Long id){
         try{
             return ResponseEntity.ok(pedidoService.buscaId(id));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
+        }
+    }
+
+    @GetMapping("/busquedaAdmin")
+    public ResponseEntity<?> busquedaAdmin(){
+        try {
+            return ResponseEntity.ok().body(pedidoService.busquedaAdmin());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
+        }
+    }
+
+    @PutMapping("/cancelarPedido/{id}")
+    public ResponseEntity<?> cancelarPedido(@PathVariable Long id, @RequestBody PedidoCancelado pc){
+        try {
+            return ResponseEntity.ok().body(pedidoService.cancelarPedido(id, pc));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Ocurrio un error " +e.getMessage());
         }

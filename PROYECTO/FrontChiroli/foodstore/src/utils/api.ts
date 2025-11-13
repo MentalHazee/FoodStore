@@ -111,3 +111,13 @@ export async function getOrderById(idUser: number): Promise<IOrder[]>{
     }
     return response.json();
 }
+
+export async function getAllOrders(): Promise<IOrder[]>{
+    const response = await fetch (`${API_URL}/pedido/busquedaAdmin`);
+
+    if(!response.ok){
+        const errorText = await response.text();
+        throw new Error(errorText || `Error ${response.status} al cargar los pedidos`);
+    }
+    return response.json();
+}

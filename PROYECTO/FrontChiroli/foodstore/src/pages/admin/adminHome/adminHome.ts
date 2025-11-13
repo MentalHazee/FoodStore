@@ -1,6 +1,6 @@
 import { getCurrentUser, clearSession } from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
-import {getCategorias, getProductos} from "../../../utils/api";
+import {getAllOrders, getCategorias, getProductos} from "../../../utils/api";
 
 document.addEventListener('DOMContentLoaded', async () =>{
     const session = getCurrentUser();
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
     try {
         const categorias = await getCategorias();
         const productos = await getProductos();
+        const pedidos = await getAllOrders();
  
         // Actualizar el contador de categorías
         const totalCategoriasElement = document.getElementById('totalCategoria');
@@ -44,6 +45,12 @@ document.addEventListener('DOMContentLoaded', async () =>{
         if (totalDisponiblesElement) {
             totalDisponiblesElement.textContent = (productosDisponibles + categorias.length).toString();
         }
+
+        const totalPedidosElement = document.getElementById('totalPedido');
+        if (totalPedidosElement) {
+            totalPedidosElement.textContent = pedidos.length.toString();
+        }
+        
     } catch (error) {
         console.error('Error al cargar datos:', error);
     }
