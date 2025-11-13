@@ -6,6 +6,16 @@ import { navigateTo } from "../../../utils/navigate";
 const envioCosto = 500;
 
 document.addEventListener('DOMContentLoaded', () =>{
+
+    const session = getCurrentUser();
+        if (!session){
+            console.log("No hay sesion, redirigiendo al login");
+            navigateTo('/auth/login/login.html');
+        }
+        const userNameElement = document.getElementById('userNameHeader');
+            if (userNameElement){
+                userNameElement.textContent = session?.nombre || session?.mail || 'CLIENTE';
+            }
     // 1. Dibuja el estado inicial (items y total)
     renderCart();
     

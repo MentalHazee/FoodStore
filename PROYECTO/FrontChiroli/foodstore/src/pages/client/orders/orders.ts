@@ -7,17 +7,14 @@ import type { IOrder } from "../../../types/IOrders";
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Verificar sesión
     const user = getCurrentUser();
-    if (!user) {
-        alert('Sesión expirada. Por favor, inicia sesión.');
-        navigateTo('/src/pages/auth/login/login.html');
-        return;
-    }
-
-    // Opcional: Mostrar nombre de usuario en el navbar
-    const userNameDisplay = document.getElementById('userNameDisplay');
-    if (userNameDisplay) {
-        userNameDisplay.textContent = user.nombre || user.mail;
-    }
+        if (!user){
+            console.log("No hay sesion, redirigiendo al login");
+            navigateTo('/auth/login/login.html');
+        }
+        const userNameElement = document.getElementById('userNameHeader');
+            if (userNameElement){
+                userNameElement.textContent = user?.nombre || user?.mail || 'CLIENTE';
+            }
 
     /* Opcional: Añadir evento de logout
     const logoutButton = document.getElementById('logoutButton');
@@ -31,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // 2. Cargar pedidos del usuario desde el back-end
         // Asumiendo que fetchOrdersByUserId llama a GET /api/pedidos?userId=${user.id} o similar
+        if (!user) return; // Asegurarse de que user no sea null antes de usar user.id
         const orders: IOrder[] = await getOrderById(user.id);
 
         // 3. Renderizar pedidos (o estado vacío)

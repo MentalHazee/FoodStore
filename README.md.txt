@@ -20,9 +20,7 @@ PREGUNTAS
 
 
 HACER
-- Nombre de usuario desaparece cuando se accede a pestaña productos o categorias
 - Alerta o contador en el home para que el usuario sepa la cantidad que agrego al carrito
-- Corregir redireccion pedidos en cliente
 
 -----------------------------------------------------------------------------------------
 
@@ -34,27 +32,7 @@ A TENER EN CUENTA
 - Como asignar el rol de usuario (cliente o admin) al momento de crear el usuario
 
 PREGUNTAS
--¿Las clases DTO deben recibir las relaciones en el tipo DTO?
--¿Como seria el PedidoCreate, ya que es una lista de DetallePedido?
--¿Los controladores deben estar separados?
 
-
-Próxima entrega
-========= Video ==========
---Mostrar frontend (código)
---Mostrar backend (código)
-CRUD Categoria
---Leer categoria
---Crear categoria
---Actualizar categoria
---Delete categoria
-CRUD producto
---Leer producto
---Crear producto
---Actualizar producto
---Delete producto
-
-La parte del admin debe tener una tabla ya que es el formato estandard para un dashboard en el aspecto de mostrar categorias y productos
 
 
 

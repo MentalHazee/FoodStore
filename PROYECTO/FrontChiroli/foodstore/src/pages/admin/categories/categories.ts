@@ -1,6 +1,20 @@
 const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
 import type { ICategoria } from "../../../types/ICategoria";
 import { getCategorias } from "../../../utils/api";
+import { getCurrentUser} from "../../../utils/auth";
+import { navigateTo } from "../../../utils/navigate";
+
+document.addEventListener('DOMContentLoaded', async () =>{
+    const session = getCurrentUser();
+    if (!session){
+        console.log("No hay sesion, redirigiendo al login");
+        navigateTo('/auth/login/login.html');
+    }
+    const userNameElement = document.getElementById('userNameHeader');
+        if (userNameElement){
+            userNameElement.textContent = session?.nombre || session?.mail || 'ADMIN';
+        }
+});
 
 //crear nueva categoria (solo admin)
 export async function crearCategoria(categoriaData: Omit<ICategoria, 'id'>): Promise<ICategoria>{
@@ -42,6 +56,17 @@ let categoriasCache: ICategoria[] | null = null;
 let editID: number | null = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    const session = getCurrentUser();
+    if (!session){
+        console.log("No hay sesion, redirigiendo al login");
+        navigateTo('/auth/login/login.html');
+    }
+    const userNameElement = document.getElementById('userNameHeader');
+        if (userNameElement){
+            userNameElement.textContent = session?.nombre || session?.mail || 'ADMIN';
+        }
+
     await loadCategorias();
     //configurar en comportamiento del formulario
     setUpFormulario();

@@ -2,12 +2,25 @@ import { getCategorias, getProductos } from "../../../utils/api";
 import type { ICategoria } from "../../../types/ICategoria";
 import type { IProduct } from "../../../types/IProduct";
 import { addToCart } from "../../../utils/cart";
+import { getCurrentUser} from "../../../utils/auth";
+import { navigateTo } from "../../../utils/navigate";
 
 //vaiables globales para mantener el estado en memoria 
 let allProductos: IProduct[] = [];//todos los productos cargados
 let currentCategoriaId: number | null = null;//categoria seleccionada actualmente
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    const session = getCurrentUser();
+        if (!session){
+            console.log("No hay sesion, redirigiendo al login");
+            navigateTo('/auth/login/login.html');
+        }
+        const userNameElement = document.getElementById('userNameHeader');
+            if (userNameElement){
+                userNameElement.textContent = session?.nombre || session?.mail || 'CLIENTE';
+            }
+
     setupAdminButton();
     try {
         const categorias = await getCategorias();
