@@ -2,12 +2,9 @@ package com.example.foodstoreB.service;
 
 import com.example.foodstoreB.entity.DetallePedido;
 import com.example.foodstoreB.entity.Producto;
-import com.example.foodstoreB.entity.dto.Items;
+import com.example.foodstoreB.entity.dto.*;
 import com.example.foodstoreB.entity.Pedido;
 import com.example.foodstoreB.entity.Usuario;
-import com.example.foodstoreB.entity.dto.PedidoCreate;
-import com.example.foodstoreB.entity.dto.PedidoDto;
-import com.example.foodstoreB.entity.dto.PedidoEdit;
 import com.example.foodstoreB.entity.mapper.PedidoMapper;
 import com.example.foodstoreB.impl.PedidoService;
 import com.example.foodstoreB.repository.DetallePedidoRepository;
@@ -18,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,8 +74,8 @@ public class PedidoServiceImp implements PedidoService {
     }
 
     @Override
-    public List<PedidoDto> buscarTodos() {
-        List<Pedido> pedidos = pedidoRepository.findAllByEliminadoFalse();
+    public List<PedidoDto> busquedaAdmin() {
+        List<Pedido> pedidos = pedidoRepository.findAll();
         return pedidos.stream()
                 .map(PedidoMapper::toDto)
                 .toList();
@@ -88,5 +86,33 @@ public class PedidoServiceImp implements PedidoService {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID"));
         pedido.setEliminado(true);
+    }
+
+    @Override
+    public List<PedidoDto> buscarTodos(Long id) {
+        List<Pedido> pedidos = pedidoRepository.findAllByEliminadoFalse();
+        List<Pedido> pedidoList = new ArrayList<>();
+        for (Pedido pedido : pedidos){
+            if (pedido.getUsuario().getId().equals(id)){
+                pedidoList.add(pedido);
+            }
+        }
+        return pedidoList.stream()
+                .map(PedidoMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public PedidoDto cancelarPedido(Long id, PedidoCancelado pc) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID"));
+        pedido.setEstado(pc.getEstado());
+        for (Items items : pc.getItems()){
+            Producto producto = productoRepository.findById(items.getIdProducto())
+                    .orElseThrow(()-> new RuntimeException("Producto no encontrado"));
+            producto.setStock(producto.getStock()+items.getCantidad());
+            productoRepository.save(producto);
+        }
+        return PedidoMapper.toDto(pedidoRepository.save(pedido));
     }
 }

@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Si la lista está vacía, muestra un mensaje de estado vacío.
  * @param orders - Array de objetos IOrder a renderizar.
  */
-function renderOrders(orders: IOrder[]): void {
+export function renderOrders(orders: IOrder[]): void {
     const container = document.getElementById('ordersContainer');
     if (!container) {
         console.error("No se encontró el contenedor '#ordersContainer'.");
