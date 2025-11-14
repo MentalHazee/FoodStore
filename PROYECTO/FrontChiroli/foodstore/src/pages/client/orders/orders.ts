@@ -1,20 +1,23 @@
 import { getCurrentUser } from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
-import { getOrderById } from "../../../utils/api";
+import { getOrderById, cancelarPedido } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
 
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Verificar sesión
     const user = getCurrentUser();
-        if (!user){
-            console.log("No hay sesion, redirigiendo al login");
-            navigateTo('/auth/login/login.html');
-        }
-        const userNameElement = document.getElementById('userNameHeader');
-            if (userNameElement){
-                userNameElement.textContent = user?.nombre || user?.mail || 'CLIENTE';
-            }
+    if (!user) {
+        alert('Sesión expirada. Por favor, inicia sesión.');
+        navigateTo('/src/pages/auth/login/login.html');
+        return;
+    }
+
+    // Mostrar nombre de usuario en el navbar
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    if (userNameDisplay) {
+        userNameDisplay.textContent = user.nombre || user.mail;
+    }
 
     /* Opcional: Añadir evento de logout
     const logoutButton = document.getElementById('logoutButton');
@@ -28,7 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // 2. Cargar pedidos del usuario desde el back-end
         // Asumiendo que fetchOrdersByUserId llama a GET /api/pedidos?userId=${user.id} o similar
-        if (!user) return; // Asegurarse de que user no sea null antes de usar user.id
         const orders: IOrder[] = await getOrderById(user.id);
 
         // 3. Renderizar pedidos (o estado vacío)
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Si la lista está vacía, muestra un mensaje de estado vacío.
  * @param orders - Array de objetos IOrder a renderizar.
  */
-export function renderOrders(orders: IOrder[]): void {
+function renderOrders(orders: IOrder[]): void {
     const container = document.getElementById('ordersContainer');
     if (!container) {
         console.error("No se encontró el contenedor '#ordersContainer'.");
@@ -77,6 +79,13 @@ export function renderOrders(orders: IOrder[]): void {
         const productosResumen = order.items.slice(0, 3).map(item => item.nombre).join(', ');
         const productosExtra = order.items.length > 3 ? `... +${order.items.length - 3}` : '';
 
+        const puedeCancelar = order.estado === 'PENDIENTE'; // Solo si está pendiente
+
+        // Botón de cancelar condicional
+        const botonCancelarHtml = puedeCancelar
+            ? `<button class="btn-cancelar" data-order-id="${order.id}">Cancelar Pedido</button>`
+            : ''; // Si no se puede cancelar, no se renderiza el botón
+
         return `
             <div class="order-card" data-order-id="${order.id}">
                 <div class="order-header">
@@ -87,6 +96,7 @@ export function renderOrders(orders: IOrder[]): void {
                 <p>Productos: ${productosResumen} ${productosExtra}</p>
                 <p class="order-total">Total: $${order.total.toFixed(2)}</p>
                 <button class="btn-detail">Ver detalle</button>
+                ${botonCancelarHtml}
             </div>
         `;
     }).join('');
@@ -138,7 +148,58 @@ export function renderOrders(orders: IOrder[]): void {
         }
     });
 });
+    //evento de boton cancelar
+    document.querySelectorAll('.btn-cancelar').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            if (!(e.currentTarget instanceof Element)) {
+                console.error("e.currentTarget no es un Element.");
+                return;
+            }
+            const clickedButton = e.currentTarget;
+            const orderId = Number(clickedButton.getAttribute('data-order-id'));
+            if (isNaN(orderId)) {
+                console.error("ID de pedido no válido para cancelar.");
+                return;
+            }
+
+            // Confirmar la cancelación
+            const confirmado = confirm(`¿Estás seguro de que deseas cancelar el pedido #${orderId}?`);
+            if (!confirmado) {
+                return; // Salir si el usuario no confirma
+            }
+
+            try {
+                // Llamar a la función para cancelar el pedido en el back-end
+                const response = await cancelarPedido(orderId);
+
+                if (response.ok) {
+                    // Cancelación exitosa
+                    alert(`El pedido #${orderId} ha sido cancelado.`);
+                    const pedidoIndex = orders.findIndex(o => o.id === orderId);
+                    if (pedidoIndex !== -1) {
+                        orders[pedidoIndex].estado = 'CANCELADO'; // Actualizar estado local
+                        renderOrders(orders); // Volver a renderizar con la lista actualizada
+                    } else {
+                        // Si no se encuentra localmente, recargar desde el back-end
+                        const user = getCurrentUser();
+                        if (user) {
+                            const ordersActualizados = await getOrderById(user.id);
+                            renderOrders(ordersActualizados);
+                        }
+                    }
+                } else {
+                    // Error del back-end
+                    const errorText = await response.text();
+                    throw new Error(errorText || `Error ${response.status} al cancelar el pedido.`);
+                }
+            } catch (error) {
+                console.error("Error al cancelar el pedido:", error);
+                alert('Error al cancelar el pedido: ' + (error as Error).message);
+            }
+        });
+    });
 }
+
 
 /**
  * Muestra el detalle de un pedido específico en un modal.
@@ -227,10 +288,10 @@ function getStatusClass(status: string): string {
 
 function getStatusIcon(status: string): string {
   const map: Record<string, string> = {
-    pending: '⏳',
-    processing: ' 󰞽', // Puedes usar un ícono de fuente o SVG aquí
-    completed: '✅',
-    cancelled: '❌'
+    PENDIENTE: '⏳',
+    CONFIRMADO: ' 󰞽', //usar un ícono de fuente o SVG
+    COMPLETADO: '✅',
+    CANCELADO: '❌'
   };
   return map[status] || '❓';
 }
@@ -246,10 +307,10 @@ function getPaymentMethodText(method: string): string {
 
 function getStatusMessage(status: string): string {
   const map: Record<string, string> = {
-    pending: 'Tu pedido ha sido recibido y está siendo procesado.',
-    processing: 'Tu pedido está en preparación.',
-    completed: 'Tu pedido ha sido entregado. ¡Gracias por tu compra!',
-    cancelled: 'Tu pedido ha sido cancelado.'
+    PENDIENTE: 'Tu pedido ha sido recibido y está siendo procesado.',
+    CONFIRMADO: 'Tu pedido está en preparación.',
+    COMPLETADO: 'Tu pedido ha sido entregado. ¡Gracias por tu compra!',
+    CANCELADO: 'Tu pedido ha sido cancelado.'
   };
   return map[status] || '';
 }

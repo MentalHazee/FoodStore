@@ -24,9 +24,11 @@ export interface IOrderItem{
 }
 
 export interface IOrder{
+    nombre: string;
+    apellido: string;
     id: number;
     //idUsuario: number; // El ID del usuario que creó el pedido
-    estado: 'PENDIENTE' | 'COMPLETADO' | 'CANCELADO' | 'TERMINADO'; // Estados del TP
+    estado: 'PENDIENTE' | 'CONFIRMADO' | 'CANCELADO' | 'TERMINADO'; // Estados del TP
     fecha: string; // Fecha en formato ISO string
     phone: string;
     address: string;

@@ -47,9 +47,30 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <div class="filters">
+                <!-- Sección de Filtros -->
+                <label for="statusFilter">Filtrar por estado:</label>
+                <select id="statusFilter">
+                    <option value="">Todos</option>
+                    <option value="PENDIENTE">PENDIENTE</option>
+                    <option value="CONFIRMADO">CONFIRMADO</option>
+                    <option value="TERMINADO">TERMINADO</option>
+                    <option value="CANCELADO">CANCELADO</option>
+                </select>
+            </div>
             <div id="ordersContainer"></div>
         </main>
     </div>
+    <!-- Modal de Detalle de Pedido -->
+    <div id="orderDetailModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <div id="orderDetailContent">
+                <!-- Se llena dinámicamente con JS -->
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="./orders.ts"></script>
 </body>
 

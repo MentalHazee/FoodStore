@@ -121,3 +121,28 @@ export async function getAllOrders(): Promise<IOrder[]>{
     }
     return response.json();
 }
+
+export async function updateStatus(idOrder: number, newStatus?: string ): Promise<Response>{
+    const response = await fetch (`${API_URL}/pedido/edit/${idOrder}`,{
+        method:'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({estado: newStatus})
+    });
+    if(!response.ok){
+        const errorText = await response.text();
+        throw new Error(errorText || `Error ${response.status} al actualizar el estado`);
+    }
+    return response;
+}
+
+export async function cancelarPedido(idOrder: number): Promise<Response>{
+    const response = await fetch (`${API_URL}/pedido/cancelar/${idOrder}`,{
+        method: 'PUT',
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    });
+    return response;
+}

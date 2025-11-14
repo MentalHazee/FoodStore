@@ -2,6 +2,7 @@ import { getCart, updateItemCantidad, removeItem, clearCart, calcularTotal, calc
 import { getCurrentUser } from "../../../utils/auth";
 import { createOrder } from "../../../utils/api";
 import { navigateTo } from "../../../utils/navigate";
+const API_URL = 'http://localhost:8080/api';
 
 const envioCosto = 500;
 
@@ -249,6 +250,35 @@ function setupEventListeners(): void {
                 }
                 
                 const cartActual = getCart();
+                if (cartActual.items.length === 0){
+                    alert('El carrito esta vacío. No se puede confirmar el pedido.');
+                    return;
+                }
+
+                //verificacion del Stock antes de enviar al backend
+                const validaciones = await Promise.all(cartActual.items.map(async (item) =>{
+                    const response = await fetch (`${API_URL}/producto/buscarId/${item.idProducto}`);
+                    if(!response.ok){
+                        console.error(`Error al verificar stock del producto ${item.idProducto}: ${response.status}`);
+                        return { productoId: item.idProducto, ok: false, error: 'Error al verificar producto' };
+                    }
+                    const product = await response.json();
+                    return{
+                        productoId: item.idProducto,
+                        nombre: item.nombre,
+                        okStock: item.cantidad <= product.stock, //verifica el stock
+                        stock: product.stock,
+                        solicitado: item.cantidad
+                    };
+                }));
+
+                //verifica las validaciones
+                const varValidaciones = validaciones.find(v => !v.ok);
+                if(varValidaciones){
+                    alert(`No hay suficiente stock para "${varValidaciones.nombre}". Solo hay ${varValidaciones.stock} unidades disponibles, pero solicitaste ${varValidaciones.solicitado}.`);
+                    return;
+                }
+
                 const orderData = {
                     idUser: user.id,
                     phone,
