@@ -100,7 +100,7 @@ function renderCart(): void{
             <div class="empty-cart">
                 <h2>¡Tu carrito está vacío!</h2>
                 <p>Agrega productos antes de proceder al pago.</p>
-                <button onclick="location.href='/src/pages/store/home/home.html'">Ir a la tienda</button>
+                <button class="btnPrimary" onclick="location.href='/src/pages/store/home/home.html'">Ir a la tienda</button>
             </div>
         `;
         return;
@@ -131,6 +131,53 @@ function renderCart(): void{
     }
 
     // 5. Insertar el HTML generado en el contenedor
+    container.innerHTML = `
+        <div class="cart-items">
+            ${itemsHtml}
+        </div>
+        <div class="cart-summary">
+            <h3>Resumen del Pedido</h3>
+            <p>Subtotal: <span id="subtotal">$${subtotal.toFixed(2)}</span></p>
+            <p>Envío: <span id="shipping">$${envioCosto.toFixed(2)}</span></p>
+            <p class="total">Total: <span id="total">$${total.toFixed(2)}</span></p>
+            <div class="cart-buttons">
+                <button id="btnClearCart" class="btnPrimary">Vaciar Carrito</button>
+                <button id="btnCheckout">Proceder al Pago</button>
+            </div>
+        </div>
+    `;
+
+    // 6. Actualizar el resumen del pedido (ahora que los elementos span existen en el DOM)
+    const subtotalElement = document.getElementById('subtotal');
+    if (subtotalElement) {
+        subtotalElement.textContent = subtotal.toFixed(2);
+    } else {
+        console.warn("No se encontró el elemento '#subtotal' para actualizar el subtotal.");
+    }
+
+    const shippingElement = document.getElementById('shipping');
+    if (shippingElement) {
+        shippingElement.textContent = envioCosto.toFixed(2);
+    } else {
+        console.warn("No se encontró el elemento '#shipping' para actualizar el envío.");
+    }
+
+    const totalElement = document.getElementById('total');
+    if (totalElement) {
+        totalElement.textContent = total.toFixed(2);
+    } else {
+        console.warn("No se encontró el elemento '#total' para actualizar el total.");
+    }
+
+    // 7. --- Eventos de Interacción (Usando Event Delegation) ---
+    const cartContainerElement = container; // El contenedor principal ya lo tenemos y sabemos que no es null
+    if (!cartContainerElement) return; // Esta verificación es redundante ahora, pero por si acaso.
+
+    // Manejar clicks en botones de cantidad (+/-) y eliminar
+    cartContainerElement.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const itemDiv = target.closest('.cart-item'); // Encuentra el contenedor del ítem
+        if (!itemDiv) return;
     // Solo actualizamos el listado de ítems dentro del contenedor principal
     container.innerHTML = `<div class="cart-items">${itemsHtml}</div>`;
     

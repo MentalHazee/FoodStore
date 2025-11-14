@@ -33,26 +33,27 @@
     <!-- Modal de Checkout -->
     <div id="checkoutModal" class="modal" style="display: none;">
       <div class="modal-content">
-        <h2>Finalizar Pedido</h2>
-        <form id="checkoutForm">
-          <label for="phone">Teléfono *</label>
-          <input type="tel" id="phone" required />
+        <form id="checkoutForm" class="form-cart">
 
-          <label for="address">Dirección *</label>
-          <textarea id="address" required></textarea>
+          <h3 id="form-title">Finalizar Pedido</h3>
 
-          <label for="paymentMethod">Método de Pago *</label>
-          <select id="paymentMethod" required>
-            <option value="">Seleccionar...</option>
-            <option value="cash">Efectivo</option>
-            <option value="card">Tarjeta</option>
-            <option value="transfer">Transferencia</option>
-          </select>
+          <input type="tel" name="phone" id="phone" placeholder="Teléfono" required>
 
-          <label for="notes">Notas (opcional)</label>
-          <textarea id="notes"></textarea>
+          <textarea name="address" id="address" placeholder="Dirección" required></textarea>
 
-          <div class="modal-actions">
+          <textarea name="notes" id="notes" placeholder="Notas (Opcional)"></textarea>
+
+          <div class="select-method">
+            <label for="paymentMethod">Método de pago</label>
+            <select name="paymentMethod" id="paymentMethod" required>
+              <option value="">Seleccionar...</option>
+              <option value="cash">Efectivo</option>
+              <option value="card">Tarjeta</option>
+              <option value="transfer">Transferencia</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
             <button type="button" id="btnCancelCheckout">Cancelar</button>
             <button type="submit">Confirmar Pedido</button>
           </div>
