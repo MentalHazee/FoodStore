@@ -4,97 +4,53 @@ import { createOrder } from "../../../utils/api";
 import { navigateTo } from "../../../utils/navigate";
 const API_URL = 'http://localhost:8080/api';
 
-const envioCosto = 500;
+const envioCosto = 500; 
 
-document.addEventListener('DOMContentLoaded', () =>{
-
+document.addEventListener('DOMContentLoaded', () => {
     const session = getCurrentUser();
-        if (!session){
-            console.log("No hay sesion, redirigiendo al login");
-            navigateTo('/auth/login/login.html');
-        }
-        const userNameElement = document.getElementById('userNameHeader');
-            if (userNameElement){
-                userNameElement.textContent = session?.nombre || session?.mail || 'CLIENTE';
-            }
+    if (!session) {
+        console.log("No hay sesion, redirigiendo al login");
+        navigateTo('/src/pages/auth/login/login.html');
+        return; // Importante salir si no hay sesión
+    }
+    const userNameElement = document.getElementById('userNameHeader');
+    if (userNameElement) {
+        userNameElement.textContent = session?.nombre || session?.mail || 'CLIENTE'; // Ajusta 'email' o 'mail' según tu IUsers
+    }
+
     // 1. Dibuja el estado inicial (items y total)
     renderCart();
-    
-    // 2. 🌟 Configura los eventos solo UNA VEZ
+
+    // 2. Configura los eventos solo UNA VEZ
     setupEventListeners();
+
+    // Agregar evento de logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Previene el comportamiento por defecto del onclick
+            // Limpia localStorage (simula logout)
+            localStorage.removeItem('user');
+            // Redirige al login
+            navigateTo('/src/pages/auth/login/login.html');
+        });
+    }
 });
-
-// ----------------------------------------------------------------------
-// 🔄 FUNCIÓN DE RENDERIZADO DE TOTALES (Nueva)
-// ----------------------------------------------------------------------
-
-/**
- * Genera y actualiza el HTML dentro del contenedor #totalContainer.
- * Contiene el resumen de totales y los botones principales.
- */
-function renderTotals(): void {
-    const cart = getCart();
-    
-    
-    const container = document.getElementById('totalContainer');
-    if (!container) {
-        console.warn("No se encontró el contenedor '#totalContainer'.");
-        return;
-    }
-
-    if (cart.items.length === 0) {
-        container.innerHTML = ''; // Limpiar contenido
-        container.style.display = 'none'; // 🌟 Ocultar el div completo
-        return;
-    }
-
-    container.style.display = 'block';
-    
-    const subtotal = calcularSubtotal();
-    const total = calcularTotal(envioCosto);
-
-    // Generar el HTML completo para el resumen de totales y botones
-    container.innerHTML = `
-        <div class="cart-summary">
-            <h3>Resumen del Pedido</h3>
-            <p>Subtotal: $${subtotal.toFixed(2)}</p>
-            <p>Envío: $${envioCosto.toFixed(2)}</p>
-            <p class="total">Total: $${total.toFixed(2)}</p>
-            <div class="cart-buttons">
-                <button id="btnClearCart">Vaciar Carrito</button>
-                <button id="btnCheckout">Proceder al Pago</button>
-            </div>
-        </div>
-    `;
-    
-    // Manejar visibilidad del resumen basado en el estado del carrito
-    //const cart = getCart();
-    const summaryElement = container.querySelector('.cart-summary');
-    if (summaryElement) {
-        if (cart.items.length === 0) {
-            summaryElement.classList.add('hidden');
-        } else {
-            summaryElement.classList.remove('hidden');
-        }
-    }
-}
 
 // ----------------------------------------------------------------------
 // --- Función Principal de Renderizado (Items del Carrito) ---
 // ----------------------------------------------------------------------
-function renderCart(): void{
+function renderCart(): void {
     const cart = getCart();
 
+    // --- Renderizar Items ---
     const container = document.getElementById('cartContainer');
     if (!container) {
         console.error("No se encontró el contenedor '#cartContainer' en el HTML.");
         return;
     }
 
-    // 🌟 Llama a renderTotals() para actualizar el resumen inmediatamente
-    renderTotals(); 
-    
-    // 3. Manejar estado vacío y visibilidad
+    // 3. Manejar estado vacío
     if (cart.items.length === 0) {
         container.innerHTML = `
             <div class="empty-cart">
@@ -103,15 +59,16 @@ function renderCart(): void{
                 <button class="btnPrimary" onclick="location.href='/src/pages/store/home/home.html'">Ir a la tienda</button>
             </div>
         `;
+        // Asegurar que el resumen también se oculte si el carrito está vacío
+        renderTotals(); // Esto ocultará #totalContainer si no hay ítems
         return;
-    } 
+    }
 
     // 4. Calcular valores y generar HTML de los ÍTEMS
     let itemsHtml = '';
-
     for (const item of cart.items) {
         const itemTotal = item.precio * item.cantidad;
-        
+
         itemsHtml += `
             <div class="cart-item" data-product-id="${item.idProducto}">
                 <img src="${item.imagenUrl}" alt="${item.nombre}" width="80" />
@@ -130,59 +87,54 @@ function renderCart(): void{
         `;
     }
 
-    // 5. Insertar el HTML generado en el contenedor
+    // 5. Insertar el HTML generado para los ítems en el contenedor
+    container.innerHTML = `<div class="cart-items">${itemsHtml}</div>`;
+
+    // --- Renderizar Totales ---
+    renderTotals(); // Llama a la función separada para actualizar el resumen
+}
+
+// ----------------------------------------------------------------------
+// 🔄 FUNCIÓN DE RENDERIZADO DE TOTALES (Nueva)
+// ----------------------------------------------------------------------
+
+/**
+ * Genera y actualiza el HTML dentro del contenedor #totalContainer.
+ * Contiene el resumen de totales y los botones principales.
+ */
+function renderTotals(): void {
+    const cart = getCart();
+    const container = document.getElementById('totalContainer');
+
+    if (!container) {
+        console.warn("No se encontró el contenedor '#totalContainer'.");
+        return;
+    }
+
+    if (cart.items.length === 0) {
+        container.innerHTML = ''; // Limpiar contenido
+        container.style.display = 'none'; // Ocultar el div completo si no hay ítems
+        return;
+    }
+
+    container.style.display = 'block'; // Mostrar si hay ítems
+
+    const subtotal = calcularSubtotal();
+    const total = calcularTotal(envioCosto);
+
+    // Generar el HTML completo para el resumen de totales y botones
     container.innerHTML = `
-        <div class="cart-items">
-            ${itemsHtml}
-        </div>
         <div class="cart-summary">
             <h3>Resumen del Pedido</h3>
-            <p>Subtotal: <span id="subtotal">$${subtotal.toFixed(2)}</span></p>
-            <p>Envío: <span id="shipping">$${envioCosto.toFixed(2)}</span></p>
-            <p class="total">Total: <span id="total">$${total.toFixed(2)}</span></p>
+            <p>Subtotal: $<span id="subtotal">${subtotal.toFixed(2)}</span></p>
+            <p>Envío: $<span id="shipping">${envioCosto.toFixed(2)}</span></p>
+            <p class="total">Total: $<span id="total">${total.toFixed(2)}</span></p>
             <div class="cart-buttons">
-                <button id="btnClearCart" class="btnPrimary">Vaciar Carrito</button>
-                <button id="btnCheckout">Proceder al Pago</button>
+                <button id="btnClearCart" class="btnSecondary">Vaciar Carrito</button>
+                <button id="btnCheckout" class="btnPrimary">Proceder al Pago</button>
             </div>
         </div>
     `;
-
-    // 6. Actualizar el resumen del pedido (ahora que los elementos span existen en el DOM)
-    const subtotalElement = document.getElementById('subtotal');
-    if (subtotalElement) {
-        subtotalElement.textContent = subtotal.toFixed(2);
-    } else {
-        console.warn("No se encontró el elemento '#subtotal' para actualizar el subtotal.");
-    }
-
-    const shippingElement = document.getElementById('shipping');
-    if (shippingElement) {
-        shippingElement.textContent = envioCosto.toFixed(2);
-    } else {
-        console.warn("No se encontró el elemento '#shipping' para actualizar el envío.");
-    }
-
-    const totalElement = document.getElementById('total');
-    if (totalElement) {
-        totalElement.textContent = total.toFixed(2);
-    } else {
-        console.warn("No se encontró el elemento '#total' para actualizar el total.");
-    }
-
-    // 7. --- Eventos de Interacción (Usando Event Delegation) ---
-    const cartContainerElement = container; // El contenedor principal ya lo tenemos y sabemos que no es null
-    if (!cartContainerElement) return; // Esta verificación es redundante ahora, pero por si acaso.
-
-    // Manejar clicks en botones de cantidad (+/-) y eliminar
-    cartContainerElement.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        const itemDiv = target.closest('.cart-item'); // Encuentra el contenedor del ítem
-        if (!itemDiv) return;
-    // Solo actualizamos el listado de ítems dentro del contenedor principal
-    container.innerHTML = `<div class="cart-items">${itemsHtml}</div>`;
-    
-    // Eliminamos el código anterior de actualización de spans por ID,
-    // ya que ahora todo el resumen se gestiona en renderTotals().
 }
 
 // ----------------------------------------------------------------------
@@ -191,8 +143,8 @@ function renderCart(): void{
 
 function setupEventListeners(): void {
     const cartContainerElement = document.getElementById('cartContainer');
-    const totalContainerElement = document.getElementById('totalContainer'); // Nuevo contenedor para delegación
-    
+    const totalContainerElement = document.getElementById('totalContainer');
+
     // --- 7. Eventos de Ítems (Delegación en #cartContainer) ---
     if (cartContainerElement) {
         cartContainerElement.addEventListener('click', (e) => {
@@ -212,25 +164,31 @@ function setupEventListeners(): void {
 
                 if (newCantidad < 1) {
                     newCantidad = 1;
-                } else {
-                    updateItemCantidad(productId, newCantidad);
                 }
-                renderCart();
+                // Opcional: Validar stock aquí si lo consultas al back-end
+                // const response = await fetch(`/api/productos/${productId}`);
+                // if (response.ok) {
+                //     const product = await response.json();
+                //     if (newCantidad > product.stock) newCantidad = product.stock;
+                // }
+
+                updateItemCantidad(productId, newCantidad);
+                renderCart(); // Vuelve a renderizar ítems y totales
             }
 
             if (target.classList.contains('btn-remove')) {
                 removeItem(productId);
-                renderCart();
+                renderCart(); // Vuelve a renderizar ítems y totales
             }
         });
     }
-    
+
     // --- Eventos de Botones Superiores (Delegación en #totalContainer) ---
     // Usamos delegación porque renderTotals() reemplaza estos botones cada vez.
     if (totalContainerElement) {
         totalContainerElement.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
-            
+
             // Botón "Vaciar Carrito"
             if (target.id === 'btnClearCart') {
                 if (confirm('¿Estás seguro de vaciar el carrito?')) {
@@ -251,7 +209,6 @@ function setupEventListeners(): void {
             }
         });
     }
-
 
     // Botón "Cancelar" del Modal (Este no necesita delegación si el modal es estático)
     const btnCancelCheckout = document.getElementById('btnCancelCheckout');
@@ -283,45 +240,45 @@ function setupEventListeners(): void {
                 const address = addressInput.value.trim();
                 const paymentMethod = paymentMethodSelect.value as "cash" | "card" | "transfer";
                 const notes = notesInput ? notesInput.value.trim() : '';
-                
+
                 if (!phone || !address || !paymentMethod) {
                     alert('Por favor completa todos los campos obligatorios (teléfono, dirección, método de pago).');
                     return;
                 }
-                
+
                 const user = getCurrentUser();
                 if (!user) {
                     alert('Sesión expirada. Por favor, inicia sesión.');
                     navigateTo('/src/pages/auth/login/login.html');
                     return;
                 }
-                
+
                 const cartActual = getCart();
-                if (cartActual.items.length === 0){
+                if (cartActual.items.length === 0) {
                     alert('El carrito esta vacío. No se puede confirmar el pedido.');
                     return;
                 }
 
-                //verificacion del Stock antes de enviar al backend
-                const validaciones = await Promise.all(cartActual.items.map(async (item) =>{
-                    const response = await fetch (`${API_URL}/producto/buscarId/${item.idProducto}`);
-                    if(!response.ok){
+                // Verificacion del Stock antes de enviar al backend
+                const validaciones = await Promise.all(cartActual.items.map(async (item) => {
+                    const response = await fetch(`${API_URL}/producto/buscarId/${item.idProducto}`);
+                    if (!response.ok) {
                         console.error(`Error al verificar stock del producto ${item.idProducto}: ${response.status}`);
                         return { productoId: item.idProducto, ok: false, error: 'Error al verificar producto' };
                     }
                     const product = await response.json();
-                    return{
+                    return {
                         productoId: item.idProducto,
                         nombre: item.nombre,
-                        okStock: item.cantidad <= product.stock, //verifica el stock
+                        okStock: item.cantidad <= product.stock, // verifica el stock
                         stock: product.stock,
                         solicitado: item.cantidad
                     };
                 }));
 
-                //verifica las validaciones
-                const varValidaciones = validaciones.find(v => !v.ok);
-                if(varValidaciones){
+                // verifica las validaciones
+                const varValidaciones = validaciones.find(v => !v.okStock); // Cambié 'ok' por 'okStock'
+                if (varValidaciones) {
                     alert(`No hay suficiente stock para "${varValidaciones.nombre}". Solo hay ${varValidaciones.stock} unidades disponibles, pero solicitaste ${varValidaciones.solicitado}.`);
                     return;
                 }
@@ -336,7 +293,7 @@ function setupEventListeners(): void {
                         idProducto: item.idProducto,
                         cantidad: item.cantidad
                     })),
-                    total: calcularTotal(envioCosto)
+                    total: calcularTotal(envioCosto) // Usar la función de utils
                 };
 
                 const response = await createOrder(orderData);
