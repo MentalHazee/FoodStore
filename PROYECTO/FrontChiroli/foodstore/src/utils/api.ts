@@ -12,7 +12,7 @@ import type { IUsers } from "../types/IUser";
 import type { ICategoria } from "../types/ICategoria";
 import type { IProduct } from "../types/IProduct";
 //import type { ICartItem } from "../types/ICart";
-import type { ICreateOrder } from "../types/IOrders";
+import type { ICreateOrder, IOrderCancelada } from "../types/IOrders";
 import type {IOrder} from "../types/IOrders"
 
 const API_URL = 'http://localhost:8080'; // dirección base del backend (localhost en desarrollo)
@@ -137,12 +137,17 @@ export async function updateStatus(idOrder: number, newStatus?: string ): Promis
     return response;
 }
 
-/*export async function cancelarPedido(idOrder: number): Promise<Response>{
-    const response = await fetch (`${API_URL}/pedido/actualizar/${idOrder}`,{
+export async function cancelarPedido(idOrder: number, items:IOrderCancelada['items']): Promise<Response>{
+    const requestBody: IOrderCancelada ={
+        estado: 'CANCELADO',
+        items: items
+    };
+    const response = await fetch (`${API_URL}/pedido/cancelarPedido/${idOrder}`,{
         method: 'PUT',
         headers:{
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(requestBody)
     });
     return response;
-}*/ // no usamos esta funcion para cancelar el pedido pero se mantiene paa futuras implementaciones
+}

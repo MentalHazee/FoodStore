@@ -1,7 +1,7 @@
 
 import { getCurrentUser} from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
-import { getAllOrders, updateStatus } from "../../../utils/api";
+import { getAllOrders, updateStatus, cancelarPedido, getOrderById } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
 
 //const API_URL = 'http://localhost:8080';
@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert('Acceso denegado. Debes ser administrador.');
     navigateTo('/src/pages/auth/login/login.html');
     return;
+  }
+  const userNameElement = document.getElementById('userNameHeader');
+  if (userNameElement) {
+    userNameElement.textContent = user.nombre || user.mail; // Ajusta 'email' o 'mail' según tu IUsers
   }
   try {
     // Cargar TODOS los pedidos
@@ -119,7 +123,7 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
       return;
     }
   const subtotal = order.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-  const envio = order.total - subtotal; // Asumiendo que total = subtotal + envío
+  const envio = 500;
 
   const itemsHtml = order.items.map(item => `
     <div class="order-item">
@@ -150,8 +154,7 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
     <div class="order-info">
         <h3>Información del Cliente</h3>
         <p><strong>ID Usuario:</strong> ${order.id}</p>
-        <!-- Si el back-end devuelve el nombre del cliente, muéstralo aquí -->
-        <!-- <p><strong>Nombre:</strong> ${order.nombre}</p> -->
+        <p><strong>Nombre:</strong> ${order.nombre}</p>
         <h3>Entrega</h3>
         <p><strong>Teléfono:</strong> ${order.phone}</p>
         <p><strong>Dirección:</strong> ${order.address}</p>
@@ -174,8 +177,73 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
             ${statusOptionsHtml}
         </select>
         <button id="updateStatusBtn">Actualizar Estado</button>
+        <button id="btn-cancelar">Cancelar Pedido</button>
     </div>
   `;
+
+   //evento de boton cancelar
+      document.querySelectorAll('btn-cancelar').forEach(button => {
+          button.addEventListener('click', async (e) => {
+              if (!(e.currentTarget instanceof Element)) {
+                  console.error("e.currentTarget no es un Element.");
+                  return;
+              }
+              const clickedButton = e.currentTarget;
+              const orderId = Number(clickedButton.getAttribute('data-order-id'));
+              if (isNaN(orderId)) {
+                  console.error("ID de pedido no válido para cancelar.");
+                  return;
+              }
+  
+              // Confirmar la cancelación
+              const confirmado = confirm(`¿Estás seguro de que deseas cancelar el pedido #${orderId}?`);
+              if (!confirmado) {
+                  return; // Salir si el usuario no confirma
+              }
+  
+              const orderToCancel = allOrders.find(o => o.id === orderId);
+              if (!orderToCancel) {
+                  console.error(`Pedido con ID ${orderId} no encontrado en la lista local para cancelar.`);
+                  alert("Error: Pedido no encontrado.");
+                  return;
+              }
+  
+              const itemsParaDevolver = orderToCancel.items.map(items => ({
+                  idProducto: items.idProducto,
+                  cantidad: items.cantidad      
+              }));
+  
+              try {
+                  // Llamar a la función para cancelar el pedido en el back-end
+                  const response = await cancelarPedido(orderId, itemsParaDevolver);
+  
+                  if (response.ok) {
+                      // Cancelación exitosa
+                      alert(`El pedido #${orderId} ha sido cancelado.`);
+                      const pedidoIndex = allOrders.findIndex(o => o.id === orderId);
+                      if (pedidoIndex !== -1) {
+  
+                          allOrders[pedidoIndex].estado = 'CANCELADO'; // Actualizar estado local
+                          renderOrders(allOrders); // Volver a renderizar con la lista actualizada
+                      } else {
+                          // Si no se encuentra localmente, recargar desde el back-end
+                          const user = getCurrentUser();
+                          if (user) {
+                              const ordersActualizados = await getOrderById(user.id);
+                              renderOrders(ordersActualizados);
+                          }
+                      }
+                  } else {
+                      // Error del back-end
+                      const errorText = await response.text();
+                      throw new Error(errorText || `Error ${response.status} al cancelar el pedido.`);
+                  }
+              } catch (error) {
+                  console.error("Error al cancelar el pedido:", error);
+                  alert('Error al cancelar el pedido: ' + (error as Error).message);
+              }
+          });
+      });
 
   // Agregar evento al botón de actualizar estado
   const updateStatusBtn = document.getElementById('updateStatusBtn');

@@ -1,6 +1,6 @@
 import { getCurrentUser } from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
-import { getOrderById, updateStatus } from "../../../utils/api";
+import { getOrderById, cancelarPedido } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
 
 
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Mostrar nombre de usuario en el navbar
-    const userNameDisplay = document.getElementById('userNameDisplay');
+    const userNameDisplay = document.getElementById('userNameHeader');
     if (userNameDisplay) {
         userNameDisplay.textContent = user.nombre || user.mail;
     }
@@ -168,15 +168,28 @@ function renderOrders(orders: IOrder[]): void {
                 return; // Salir si el usuario no confirma
             }
 
+            const orderToCancel = orders.find(o => o.id === orderId);
+            if (!orderToCancel) {
+                console.error(`Pedido con ID ${orderId} no encontrado en la lista local para cancelar.`);
+                alert("Error: Pedido no encontrado.");
+                return;
+            }
+
+            const itemsParaDevolver = orderToCancel.items.map(items => ({
+                idProducto: items.idProducto,
+                cantidad: items.cantidad      
+            }));
+
             try {
                 // Llamar a la función para cancelar el pedido en el back-end
-                const response = await updateStatus(orderId, 'CANCELADO');
+                const response = await cancelarPedido(orderId, itemsParaDevolver);
 
                 if (response.ok) {
                     // Cancelación exitosa
                     alert(`El pedido #${orderId} ha sido cancelado.`);
                     const pedidoIndex = orders.findIndex(o => o.id === orderId);
                     if (pedidoIndex !== -1) {
+
                         orders[pedidoIndex].estado = 'CANCELADO'; // Actualizar estado local
                         renderOrders(orders); // Volver a renderizar con la lista actualizada
                     } else {
@@ -215,9 +228,9 @@ function showOrderDetail(order: IOrder): void {
 
     // Calcular subtotal (asumiendo que el total incluye envío, si no, el back-end debería enviar subtotal también)
     // const subtotal = order.items.reduce((sum, item) => sum + item.subtotal, 0); // Si subtotal está en IOrderItem
-    // Si subtotal no está en IOrderItem, calcularlo aquí:
+
     const subtotal = order.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    const envio = order.total - subtotal; // Asumiendo total = subtotal + envío
+    const envio = 500; // Asumiendo total = subtotal + envío
 
     // Generar HTML para la lista de ítems del pedido
     const itemsHtml = order.items.map(item => `
@@ -241,6 +254,7 @@ function showOrderDetail(order: IOrder): void {
         </p>
         <div class="order-info">
             <h3>Información de Entrega</h3>
+            <p><strong>Nombre:</strong> ${order.nombre}</p>
             <p><strong>Teléfono:</strong> ${order.phone}</p>
             <p><strong>Dirección:</strong> ${order.address}</p>
             <p><strong>Método de Pago:</strong> ${getPaymentMethodText(order.paymentMethod)}</p>

@@ -37,3 +37,8 @@ export interface IOrder{
     total: number;
     items: IOrderItem[];
 }
+
+export interface IOrderCancelada{
+    estado: string;
+    items: Array<{idProducto: number, cantidad: number}>
+}
