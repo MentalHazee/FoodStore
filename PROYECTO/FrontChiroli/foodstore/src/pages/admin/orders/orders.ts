@@ -74,6 +74,10 @@ function renderOrders(orders: IOrder[]): void {
 
   const ordersHtml = sortedOrders.map(order => {
     const nombreCliente = order.id || `Usuario ${order.nombre}`; // Ajusta según lo que devuelva el back-end
+    const puedeCancelar = order.estado === 'PENDIENTE';
+    const botonCancelarHtml = puedeCancelar
+      ? `<button class="btn-cancelar" data-order-id="${order.id}">Cancelar Pedido</button>` // Añadido texto para distinguir
+          : ''; // Si no se puede cancelar, no se renderiza el botón
 
     return `
       <div class="order-card" data-order-id="${order.id}">
@@ -86,6 +90,7 @@ function renderOrders(orders: IOrder[]): void {
         <p>Productos: ${order.items.length}</p>
         <p class="order-total">Total: $${order.total.toFixed(2)}</p>
         <button class="btn-detail">Ver detalle</button>
+        ${botonCancelarHtml}<!-- Se inserta el botón aquí -->
       </div>    
     `;
   }).join('');
@@ -106,6 +111,68 @@ function renderOrders(orders: IOrder[]): void {
       } else{
         console.warn("El atributo data-order-id no es válido o no existe.")
       }
+    });
+  });
+
+  document.querySelectorAll('.btn-cancelar').forEach(button =>{
+    button.addEventListener('click', async (e) =>{
+      if (!(e.currentTarget instanceof Element)){
+        console.error("e.currentTarget no es un Element.");
+        return;
+      }
+      const clikedButton = e.currentTarget;
+      const orderId = Number(clikedButton.getAttribute('data-order-id'));
+      if(isNaN(orderId)){
+        console.error("ID de pedido no válido para cancelar.");
+        return;
+      }
+      // Confirmar la cancelación
+      const confirmado = confirm(`¿Estás seguro de que deseas cancelar el pedido #${orderId}?`);
+      if (!confirmado) {
+      return; // Salir si el usuario no confirma
+      }
+      // Buscar el pedido en la LISTA LOCAL 'orders' que se pasó a renderOrders
+      const orderToCancel = orders.find(o => o.id === orderId);
+      if (!orderToCancel) {
+        console.error(`Pedido con ID ${orderId} no encontrado en la lista local para cancelar.`);
+        alert("Error: Pedido no encontrado.");
+        return;
+      }
+      const itemsParaDevolver = orderToCancel.items.map(item => ({
+        idProducto: item.idProducto,
+        cantidad: item.cantidad
+      }));
+      
+      try{
+        // Llamar a la función para cancelar el pedido en el back-end
+        // Esta función debería enviar PUT /pedido/cancelar/{id} con { estado: 'cancelled', items: [...] }
+        const response = await cancelarPedido(orderId, itemsParaDevolver);
+
+        if (response.ok) {
+            // Cancelación exitosa
+            alert(`El pedido #${orderId} ha sido cancelado.`);
+            // Actualizar la vista local (opcional, o recargar toda la lista)
+            const pedidoIndex = allOrders.findIndex(o => o.id === orderId); // Buscar en la lista GLOBAL 'allOrders'
+            if (pedidoIndex !== -1) {
+              allOrders[pedidoIndex].estado = 'CANCELADO'; // Actualizar estado local en la lista GLOBAL
+              renderOrders(allOrders); // Volver a renderizar la lista GLOBAL con el estado actualizado
+            } else {
+                // Si no se encuentra en la lista global (improbable si el pedido existía antes), recargar desde el back-end
+                // allOrders = await fetchAllOrders(); // <-- Opcional: Recargar todo
+                // renderOrders(allOrders);             // <-- Opcional: Volver a renderizar
+                // O simplemente recargar la lista actualizada
+                const ordersActualizados = await getAllOrders(); // Recarga todos los pedidos
+                allOrders = ordersActualizados; // Actualiza la variable global
+                renderOrders(allOrders); // Vuelve a renderizar con los datos frescos
+              }
+          } else {
+              // Error del back-end
+              const errorText = await response.text();
+              throw new Error(errorText || `Error ${response.status} al cancelar el pedido.`);
+            }
+        } catch (error) {
+            console.error("Error al cancelar el pedido:", error);
+            alert('Error al cancelar el pedido: ' + (error as Error).message);}
     });
   });
 }
@@ -181,70 +248,7 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
     </div>
   `;
 
-   //evento de boton cancelar
-      document.querySelectorAll('btn-cancelar').forEach(button => {
-          button.addEventListener('click', async (e) => {
-              if (!(e.currentTarget instanceof Element)) {
-                  console.error("e.currentTarget no es un Element.");
-                  return;
-              }
-              const clickedButton = e.currentTarget;
-              const orderId = Number(clickedButton.getAttribute('data-order-id'));
-              if (isNaN(orderId)) {
-                  console.error("ID de pedido no válido para cancelar.");
-                  return;
-              }
   
-              // Confirmar la cancelación
-              const confirmado = confirm(`¿Estás seguro de que deseas cancelar el pedido #${orderId}?`);
-              if (!confirmado) {
-                  return; // Salir si el usuario no confirma
-              }
-  
-              const orderToCancel = allOrders.find(o => o.id === orderId);
-              if (!orderToCancel) {
-                  console.error(`Pedido con ID ${orderId} no encontrado en la lista local para cancelar.`);
-                  alert("Error: Pedido no encontrado.");
-                  return;
-              }
-  
-              const itemsParaDevolver = orderToCancel.items.map(items => ({
-                  idProducto: items.idProducto,
-                  cantidad: items.cantidad      
-              }));
-  
-              try {
-                  // Llamar a la función para cancelar el pedido en el back-end
-                  const response = await cancelarPedido(orderId, itemsParaDevolver);
-  
-                  if (response.ok) {
-                      // Cancelación exitosa
-                      alert(`El pedido #${orderId} ha sido cancelado.`);
-                      const pedidoIndex = allOrders.findIndex(o => o.id === orderId);
-                      if (pedidoIndex !== -1) {
-  
-                          allOrders[pedidoIndex].estado = 'CANCELADO'; // Actualizar estado local
-                          renderOrders(allOrders); // Volver a renderizar con la lista actualizada
-                      } else {
-                          // Si no se encuentra localmente, recargar desde el back-end
-                          const user = getCurrentUser();
-                          if (user) {
-                              const ordersActualizados = await getOrderById(user.id);
-                              renderOrders(ordersActualizados);
-                          }
-                      }
-                  } else {
-                      // Error del back-end
-                      const errorText = await response.text();
-                      throw new Error(errorText || `Error ${response.status} al cancelar el pedido.`);
-                  }
-              } catch (error) {
-                  console.error("Error al cancelar el pedido:", error);
-                  alert('Error al cancelar el pedido: ' + (error as Error).message);
-              }
-          });
-      });
-
   // Agregar evento al botón de actualizar estado
   const updateStatusBtn = document.getElementById('updateStatusBtn');
   if (updateStatusBtn) {
