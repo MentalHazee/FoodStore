@@ -30,6 +30,10 @@ public class PedidoMapper {
                 .items(detallePedidoDtos)
                 .total(total)
                 .estado(p.getEstado())
+                .address(p.getAddress())
+                .phone(p.getPhone())
+                .paymentMethod(p.getPaymentMethod())
+                .notes(p.getNotes())
                 .build();
     }
 

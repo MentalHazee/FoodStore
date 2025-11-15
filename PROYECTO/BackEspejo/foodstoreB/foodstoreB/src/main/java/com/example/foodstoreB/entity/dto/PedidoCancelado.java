@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @Builder
 public class PedidoCancelado {
-    private Long id;
     private Estado estado;
     @Builder.Default
     List<Items> items = new ArrayList<>();
