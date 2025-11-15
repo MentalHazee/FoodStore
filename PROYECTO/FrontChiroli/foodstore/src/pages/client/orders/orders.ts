@@ -268,20 +268,20 @@ function showOrderDetail(order: IOrder): void {
 // --- Funciones auxiliares para estados, badges, etc. ---
 function getStatusText(status: string): string {
   const map: Record<string, string> = {
-    pending: 'Pendiente',
-    processing: 'En Preparación',
-    completed: 'Entregado',
-    cancelled: 'Cancelado'
+    PENDIENTE: 'Pendiente',
+    CONFIRMADO: 'En Preparación',
+    COMPLETADO: 'Entregado',
+    CANCELADO: 'Cancelado'
   };
   return map[status] || status;
 }
 
 function getStatusClass(status: string): string {
   const map: Record<string, string> = {
-    pending: 'pending',
-    processing: 'processing',
-    completed: 'completed',
-    cancelled: 'cancelled'
+    PENDIENTE: 'pending',
+    CONFIRMADO: 'processing',
+    COMPLETADO: 'completed',
+    CANCELADO: 'cancelled'
   };
   return map[status] || 'default';
 }
