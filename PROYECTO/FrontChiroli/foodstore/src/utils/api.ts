@@ -123,7 +123,7 @@ export async function getAllOrders(): Promise<IOrder[]>{
 }
 
 export async function updateStatus(idOrder: number, newStatus?: string ): Promise<Response>{
-    const response = await fetch (`${API_URL}/pedido/edit/${idOrder}`,{
+    const response = await fetch (`${API_URL}/pedido/actualizar/${idOrder}`,{
         method:'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -137,12 +137,12 @@ export async function updateStatus(idOrder: number, newStatus?: string ): Promis
     return response;
 }
 
-export async function cancelarPedido(idOrder: number): Promise<Response>{
-    const response = await fetch (`${API_URL}/pedido/cancelar/${idOrder}`,{
+/*export async function cancelarPedido(idOrder: number): Promise<Response>{
+    const response = await fetch (`${API_URL}/pedido/actualizar/${idOrder}`,{
         method: 'PUT',
         headers:{
             'Content-Type': 'application/json'
         }
     });
     return response;
-}
+}*/ // no usamos esta funcion para cancelar el pedido pero se mantiene paa futuras implementaciones

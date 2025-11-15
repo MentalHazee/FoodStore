@@ -2,7 +2,7 @@ import { getCart, updateItemCantidad, removeItem, clearCart, calcularTotal, calc
 import { getCurrentUser } from "../../../utils/auth";
 import { createOrder } from "../../../utils/api";
 import { navigateTo } from "../../../utils/navigate";
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'http://localhost:8080';
 
 const envioCosto = 500; 
 

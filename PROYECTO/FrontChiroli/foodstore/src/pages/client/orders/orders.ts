@@ -1,6 +1,6 @@
 import { getCurrentUser } from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
-import { getOrderById, cancelarPedido } from "../../../utils/api";
+import { getOrderById, updateStatus } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
 
 
@@ -170,7 +170,7 @@ function renderOrders(orders: IOrder[]): void {
 
             try {
                 // Llamar a la función para cancelar el pedido en el back-end
-                const response = await cancelarPedido(orderId);
+                const response = await updateStatus(orderId, 'CANCELADO');
 
                 if (response.ok) {
                     // Cancelación exitosa

@@ -4,7 +4,7 @@ import { navigateTo } from "../../../utils/navigate";
 import { getAllOrders, updateStatus } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
 
-//const API_URL = 'http://localhost:8080/api';
+//const API_URL = 'http://localhost:8080';
 
 let currentStatus: string | null = null;
 let allOrders: IOrder[];
@@ -118,7 +118,7 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
       console.error("No se encontró el modal '#orderDetailModal' o su contenido '#orderDetailContent'.");
       return;
     }
-     const subtotal = order.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+  const subtotal = order.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
   const envio = order.total - subtotal; // Asumiendo que total = subtotal + envío
 
   const itemsHtml = order.items.map(item => `
@@ -136,9 +136,9 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
   // Generar opciones para el select de estado
   // Asegúrate de que las claves del objeto coincidan con los estados que maneja tu back-end
   const statusOptionsHtml = Object.keys({
-    PPENDIENTE: 'PENDIENTE',
-    CONDIRMADO: 'CONFIRMADO',
-    COMPLETADO: 'TERMINADO',
+    PENDIENTE: 'PENDIENTE',
+    CONFIRMADO: 'CONFIRMADO',
+    TERMINADO: 'TERMINADO',
     CANCELADO: 'CANCELADO',
     // Añade aquí todos los estados posibles que el admin pueda seleccionar
   }).map(status => `
@@ -227,8 +227,8 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
 function getStatusText(status: string): string {
   const map: Record<string, string> = {
     PENDIENTE: 'PENDIENTE',
-    CONDIRMADO: 'CONFIRMADO',
-    COMPLETADO: 'TERMINADO',
+    CONFIRMADO: 'CONFIRMADO',
+    TERMINADO: 'TERMINADO',
     CANCELADO: 'CANCELADO',
     // Ajusta según los estados reales de tu back-end
   };
@@ -238,8 +238,8 @@ function getStatusText(status: string): string {
 function getStatusClass(status: string): string {
   const map: Record<string, string> = {
     PENDIENTE: 'PENDIENTE',
-    CONDIRMADO: 'CONFIRMADO',
-    COMPLETADO: 'TERMINADO',
+    CONFIRMADO: 'CONFIRMADO',
+    TERMINADO: 'TERMINADO',
     CANCELADO: 'CANCELADO',
     // Ajusta según los estados reales de tu back-end
   };
