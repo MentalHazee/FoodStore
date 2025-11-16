@@ -636,7 +636,7 @@ main {
    BARRA DE BÚSQUEDA Y FILTROS
 ========================================================= */
 
-.toolbar {
+.toolbar, .filters {
   background-color: var(--primaryColor);
   margin: 5px;
   padding: 15px;
