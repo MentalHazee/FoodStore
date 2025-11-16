@@ -155,9 +155,10 @@ function renderProductDetail(product: IProduct): void {
 
       // Agregar al carrito (usando la función que sincroniza con el back-end)
       await addToCart(product.id, product.nombre, product.precio, product.imagen, quantity);
-
+      const carritoMessage = `¡${quantity}x ${product.nombre} agregado(s) al carrito!`;
+      carritoModal(carritoMessage);
       // Mensaje de confirmación
-      alert(`¡${quantity}x ${product.nombre} agregado(s) al carrito!`);
+      //alert(`¡${quantity}x ${product.nombre} agregado(s) al carrito!`);
 
       // Opcional: Actualizar badge del carrito en la navbar si es necesario
       // updateCartBadge();
@@ -166,6 +167,36 @@ function renderProductDetail(product: IProduct): void {
       alert('Error al agregar al carrito: ' + (error as Error).message);
     }
   });
+
+  function carritoModal(message: string): Promise<void> {
+                return new Promise((resolve) => {
+                    const modal = document.getElementById('agregarCarrito') as HTMLElement;
+                    const messageHeader = document.getElementById('carrito-mensaje') as HTMLHeadingElement;
+                    const aceptarButton = document.getElementById('aceptar') as HTMLButtonElement;
+
+                    if (!modal || !messageHeader || !aceptarButton) {
+                        console.error("Faltan elementos del modal de carrito.");
+                        resolve();
+                        return;
+                    }
+
+                    // 1. Insertar el mensaje de error
+                    messageHeader.textContent = message;
+
+                    // 2. Mostrar el modal (usando flex para centrar)
+                    modal.style.display = 'flex'; 
+
+                    // 3. Manejar el clic en "Aceptar"
+                    const onAceptarClick = () => {
+                        modal.style.display = 'none'; // Ocultar
+                        aceptarButton.removeEventListener('click', onAceptarClick);
+                        resolve(); // Resolver la promesa
+                    };
+
+                    // 4. Asociar evento
+                    aceptarButton.addEventListener('click', onAceptarClick);
+                });
+            }
 
   // Botón "Volver"
   document.getElementById('backButton')?.addEventListener('click', () => {
