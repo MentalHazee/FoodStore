@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         userNameElement.textContent = session?.nombre || session?.mail || 'CLIENTE'; // Ajusta 'email' o 'mail' según tu IUsers
     }
 
+    setupAdminButton();
+    
     // 1. Dibuja el estado inicial (items y total)
     renderCart();
 
@@ -38,6 +40,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function setupAdminButton() {
+    const userStr = localStorage.getItem('user');
+    // Si no hay sesión, no hacer nada.
+    if (!userStr) return;
+
+    try {
+        const user = JSON.parse(userStr);
+
+        // Solo si el rol es ADMIN, procedemos a crear y añadir el botón.
+        if (user && user.rol === 'ADMIN') {
+            const navContainer = document.querySelector('.header-nav');
+            if (!navContainer) return;
+
+            // Crear el nuevo botón como un elemento 'a'
+            const adminButton = document.createElement('a');
+            adminButton.href = "/src/pages/admin/adminHome/adminHome.html";
+            adminButton.id = "adminPanelButton";
+            adminButton.className = "active adminButton";
+            adminButton.textContent = "Panel Admin";
+
+            // Insertarlo después del enlace "Tienda"
+            const tiendaLink = navContainer.querySelector('a[href*="home.html"]');
+            tiendaLink?.insertAdjacentElement('afterend', adminButton);
+        }
+    } catch (e) {
+        // Si el JSON en localStorage es inválido, el botón permanecerá oculto.
+        console.error("Error al parsear datos de usuario desde localStorage:", e);
+    }
+}
 // ----------------------------------------------------------------------
 // --- Función Principal de Renderizado (Items del Carrito) ---
 // ----------------------------------------------------------------------

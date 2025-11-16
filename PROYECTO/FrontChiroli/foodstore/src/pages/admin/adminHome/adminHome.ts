@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
         const productosDisponibles = productos.filter(p => p.stock > 0).length;
         const totalDisponiblesElement = document.getElementById('totalDisponible');
         if (totalDisponiblesElement) {
-            totalDisponiblesElement.textContent = (productosDisponibles + categorias.length).toString();
+            totalDisponiblesElement.textContent = (productosDisponibles).toString();
         }
 
         const totalPedidosElement = document.getElementById('totalPedido');
