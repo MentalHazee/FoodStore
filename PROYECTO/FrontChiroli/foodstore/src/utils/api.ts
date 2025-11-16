@@ -90,6 +90,17 @@ export async function getProductos(categoriaId?: number): Promise<IProduct[]> {
     return response.json();//devuelve un array de IProduct
 }
 
+export async function getProductoById (id: number): Promise<IProduct> {
+  const response = await fetch(`${API_URL}/producto/buscarId/${id}`); 
+  if (!response.ok) {
+    // Otro error (500, etc.)
+    const errorText = await response.text(); // O response.json() si el back-end devuelve JSON
+    throw new Error(errorText || `Error ${response.status} al cargar el producto`);
+  }
+
+  return response.json()
+}   
+
 
 export async function createOrder(orderData: ICreateOrder): Promise<Response>{
     const response = await fetch (`${API_URL}/pedido/crear`,{

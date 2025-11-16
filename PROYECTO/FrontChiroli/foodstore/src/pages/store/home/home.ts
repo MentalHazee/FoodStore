@@ -166,7 +166,7 @@ function renderProductos(productos: IProduct[]): void {
             <span class="badge ${disponible ? 'available' : 'unavailable'}">
               ${disponible ? 'Disponible' : 'Agotado'}
             </span>
-            
+            <a href="/src/pages/store/productDetail/productDetail.html?id=${producto.id}">Ver detalle</a>
             ${disponible ? `<button id="boton-producto-${i}" class="btnPrimary">Agregar al carrito</button>` : `<button class="btn-add-cart disabled" disabled>No disponible</button>`}
         </div>
     `;
@@ -174,11 +174,11 @@ function renderProductos(productos: IProduct[]): void {
 
     setupSearchListener();
     
-    if (productos.length > 0) {
+    /* if (productos.length > 0) {
         productos.forEach((producto, i) => {
             const boton = document.getElementById(`boton-producto-${i}`);
             boton?.addEventListener('click', (ev) => funcionBoton(i, productos));
-    })}
+    })}*/
 
     /*  const botones = document.getElementById('boton-producto');
       console.log(botones);

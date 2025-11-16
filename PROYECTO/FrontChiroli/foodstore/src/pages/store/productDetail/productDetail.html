@@ -22,6 +22,26 @@
                 onclick="window.location.href='/src/pages/auth/login/login.html'">Cerrar Sesión</button>
         </nav>
     </header>
+
+    <main class="product-detail-main"> <!-- Opcional: Clase específica para esta página -->
+
+    <!-- Contenedor principal del detalle del producto -->
+    <div id="productContainer" class="product-detail-container">
+      <!-- Se llena dinámicamente con JS -->
+      <!-- Ejemplo de estado de carga (opcional, puedes manejarlo solo en JS) -->
+      <!--
+      <div class="loading">Cargando producto...</div>
+      -->
+    </div>
+
+    <!-- Botón "Volver" -->
+    <div class="product-detail-actions">
+        <button id="backButton" class="btn btnSecondary">← Volver</button>
+    </div>
+
+  </main>
+
+  <script type="module" src="./productDetail.ts"></script>  
 </body>
 
 </html>
