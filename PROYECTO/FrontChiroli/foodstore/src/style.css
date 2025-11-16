@@ -931,6 +931,13 @@ main {
   margin-top: 10px;
 }
 
+.cancelar-pedido {
+  display: inline;
+}
+.cancelar-pedido h2, .cancelar-pedido p, .modal-actions {
+  margin-top: 20px;
+}
+
 /* CARRITO VACIO */
 .empty-cart, #ordersContainer {
   display: flex;
@@ -964,8 +971,6 @@ main {
 .order-items, .order-info, .order-summary {
   margin-top: 20px;
 }
-
-
 
 /*PEDIDOS ADMIN*/
 #ordersContainer{
