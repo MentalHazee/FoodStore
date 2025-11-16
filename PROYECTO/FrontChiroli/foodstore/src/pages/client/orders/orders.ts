@@ -94,7 +94,7 @@ function renderOrders(orders: IOrder[]): void {
                 </div>
                 <p>Estado: <span class="badge ${getStatusClass(order.estado)}">${getStatusText(order.estado)}</span></p>
                 <p>Productos: ${productosResumen} ${productosExtra}</p>
-                <p class="order-total">Total: $${order.total.toFixed(2)}</p>
+                <p class="order-total">Total: $${order.total.toFixed(2)}</p><br>
                 <button class="btn-detail">Ver detalle</button>
                 ${botonCancelarHtml}
             </div>

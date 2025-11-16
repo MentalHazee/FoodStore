@@ -3,7 +3,7 @@
 ========================================================= */
 
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -11,6 +11,8 @@
   --primaryColor: #E94232;
   --secondaryColor: #FCEEC9;
   --tertiaryColor: #232327;
+  --whiteColor: rgb(255, 255, 255);
+  --blackColor: rgb(16, 16, 16);
   --radio: 8px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -181,7 +183,7 @@ button {
 }
 
 .btnPrimary:hover {
-  background-color: #000000;
+  background-color: var(--blackColor);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
@@ -253,13 +255,27 @@ button {
   border-radius: 5px;
 }
 
+html,
+body,
+main {
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 7.5%;
+}
+
 /* =========================================================
    SIDEBAR
 ========================================================= */
 
 .sidebar {
   width: 250px;
-  background: white;
+  background: var(--whiteColor);
   border-right: 1px solid #ddd;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
@@ -349,7 +365,7 @@ button {
 
 .main-content h3 {
   margin-bottom: 20px;
-  color: white;
+  color: var(--whiteColor);
   font-size: 1.8em;
 }
 
@@ -367,7 +383,7 @@ button {
 .stat-card {
   padding: 20px;
   border-radius: 12px;
-  color: white;
+  color: var(--whiteColor);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -420,7 +436,7 @@ button {
 }
 
 .stat-card button:hover {
-  background: black;
+  background: var(--blackColor);
 }
 
 /* =========================================================
@@ -428,7 +444,7 @@ button {
 ========================================================= */
 
 .quick-summary {
-  background: white;
+  background: var(--whiteColor);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -479,6 +495,49 @@ button {
   justify-content: center;
   align-items: center;
   z-index: 100;
+  padding: 100px 7.5%;
+}
+
+#orderDetailContent {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+#orderDetailContent h2,
+#orderDetailContent .status-detail,
+.order-item,
+.item-details    {
+  width: 100%!important;
+}
+
+#orderDetailContent h3 {
+  margin-bottom: 15px;
+}
+
+#orderDetailContent div {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  width: calc((100% - 60px) / 3);
+}
+
+#orderDetailContent div,
+#orderDetailContent div * {
+  color: #000;
+}
+
+.status-message {
+  text-align: center;
+}
+
+.modal-content .close  {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 20px;
 }
 
 .form-categoria input,
@@ -501,7 +560,7 @@ button {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  color: white;
+  color: var(--whiteColor);
 }
 
 .select-categoria,
@@ -525,7 +584,7 @@ button {
 }
 
 .table th {
-  color: #ffff;
+  color: var(--whiteColor);
   text-align: left;
   padding: 10px;
   font-weight: bold;
@@ -549,14 +608,14 @@ button {
 }
 
 .table tbody {
-  background-color: #ffff;
-  color: #000000;
+  background-color: var(--whiteColor);
+  color: var(--blackColor);
   font-weight: 600;
 }
 
 .btn-edit {
   background-color: #b4b4b4;
-  color: #000000;
+  color: var(--blackColor);
   font-weight: bold;
 }
 
@@ -592,7 +651,7 @@ button {
   margin-top: 0;
   width: 84%;
   background-color: var(--tertiaryColor);
-  color: #ffff;
+  color: var(--whiteColor);
 }
 
 .toolbar select {
@@ -600,7 +659,7 @@ button {
   margin-left: 0px;
   padding: 12px 16px;
   background-color: var(--tertiaryColor);
-  color: #ffff;
+  color: var(--whiteColor);
 }
 
 /* =========================================================
@@ -628,7 +687,7 @@ button {
 }
 
 .product-card {
-  background: #fff;
+  background: var(--whiteColor);
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -676,12 +735,14 @@ button {
 
 .badge.available {
   background-color: var(--primaryColor);
-  color: white;
 }
 
 .badge.unavailable {
   background-color: var(--tertiaryColor);
-  color: white;
+}
+
+.badge.unavailable, .badge.available {
+  color: var(--whiteColor);
 }
 
 /*==========================================================
@@ -704,13 +765,15 @@ button {
 }
 
 .cart-item {
-  background-color: #fff;
+  background-color: var(--whiteColor);
   border-radius: 10px;
   padding: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--shadow);
+  max-width: 99%;
+  min-width: 740px;
 }
 
 .cart-item img {
@@ -778,14 +841,17 @@ button {
 
 
 /* RESUMEN DEL PEDIDO */
-
-.cart-summary {
-  flex: 1;
-  background-color: #fff;
+.cart-summary, .order-card {
+  background-color: var(--whiteColor);
   border-radius: 10px;
   padding: 20px;
   box-shadow: var(--shadow-lg);
   height: fit-content;
+  width: calc((100% - 40px) / 2);
+}
+.cart-summary {
+  width: 400px;
+  margin-left: 10px;
 }
 
 .cart-summary h3 {
@@ -826,21 +892,29 @@ button {
   font-size: 0.95rem;
 }
 
+.cart-main {
+  display: flex;
+}
+
 #btnCheckout {
   background-color: var(--primaryColor);
   color: var(--tertiaryColor);
 }
 
+/* ORDER CARD */
+.order-card {
+  color: var(--tertiaryColor);
+  text-align: center;
+  margin-top: 10px;
+}
 
 /* CARRITO VACIO */
-.empty-cart {
+.empty-cart, #ordersContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 40px;
   align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -855,8 +929,17 @@ button {
   margin-bottom: 15px;
 }
 
+/* =========================================================
+   DETALLE PEDIDO
+========================================================= */
 
+.order-items, .order-info, .order-summary {
+  margin-top: 20px;
+}
 
+.item-details {
+  margin-top: 10px;
+}
 
 /* =========================================================
    CONFIGURACIÓN RESPONSIVA
