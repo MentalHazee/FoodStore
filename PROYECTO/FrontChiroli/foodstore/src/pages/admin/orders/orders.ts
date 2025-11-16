@@ -195,7 +195,6 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
 
   const itemsHtml = order.items.map(item => `
     <div class="order-item">
-        <img src="${item.imagenUrl || '/src/assets/default-product.png'}" alt="${item.nombre}" width="50" />
         <div class="item-details">
             <h4>${item.nombre}</h4>
             <p>Cantidad: ${item.cantidad}</p>

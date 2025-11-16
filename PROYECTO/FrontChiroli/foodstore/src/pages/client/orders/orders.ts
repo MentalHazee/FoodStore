@@ -187,7 +187,7 @@ function renderOrders(orders: IOrder[]): void {
 
                 if (response.ok) {
                     // Cancelación exitosa
-                    alert(`El pedido #${orderId} ha sido cancelado.`);
+                    /*alert(`El pedido #${orderId} ha sido cancelado.`);*/
                     const pedidoIndex = orders.findIndex(o => o.id === orderId);
                     if (pedidoIndex !== -1) {
 
@@ -236,7 +236,6 @@ function showOrderDetail(order: IOrder): void {
     // Generar HTML para la lista de ítems del pedido
     const itemsHtml = order.items.map(item => `
         <div class="order-item">
-            <img src="${item.imagenUrl}" alt="${item.nombre}" width="50" />
             <div class="item-details">
                 <h4>${item.nombre}</h4>
                 <p>Cantidad: ${item.cantidad}</p>
@@ -269,7 +268,7 @@ function showOrderDetail(order: IOrder): void {
             <h3>Resumen</h3>
             <p>Subtotal: $${subtotal.toFixed(2)}</p>
             <p>Envío: $${envio.toFixed(2)}</p>
-            <p class="total">Total: $${order.total.toFixed(2)}</p>
+            <p class="total">Total: $${subtotal + envio}</p>
         </div>
         <div class="status-message">
             ${getStatusMessage(order.estado)}
