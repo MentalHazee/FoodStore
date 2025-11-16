@@ -2,6 +2,7 @@ import { getCart, updateItemCantidad, removeItem, clearCart, calcularTotal, calc
 import { getCurrentUser } from "../../../utils/auth";
 import { createOrder } from "../../../utils/api";
 import { navigateTo } from "../../../utils/navigate";
+import { modalCancelarPedido } from "../../../utils/order";
 const API_URL = 'http://localhost:8080';
 
 const envioCosto = 500; 
@@ -186,15 +187,18 @@ function setupEventListeners(): void {
     // --- Eventos de Botones Superiores (Delegación en #totalContainer) ---
     // Usamos delegación porque renderTotals() reemplaza estos botones cada vez.
     if (totalContainerElement) {
-        totalContainerElement.addEventListener('click', (e) => {
+        totalContainerElement.addEventListener('click', async(e) => {
             const target = e.target as HTMLElement;
 
             // Botón "Vaciar Carrito"
             if (target.id === 'btnClearCart') {
-                if (confirm('¿Estás seguro de vaciar el carrito?')) {
+                const confirmado = await modalCancelarPedido('¿Estas seguro que quieres vaciar el carrito?')
+                    if (!confirmado) {
+                        return; // Salir si el usuario no confirma
+                    }
                     clearCart();
                     renderCart(); // Actualiza ítems y totales
-                }
+                
             }
 
             // Botón "Proceder al Pago"
