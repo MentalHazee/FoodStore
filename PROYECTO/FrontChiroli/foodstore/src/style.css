@@ -524,7 +524,7 @@ main {
   width: calc((100% - 60px) / 3);
 }
 
-.order-summary, .order-info, .order-items, .admin-actions label{
+.order-summary, .order-info, .order-items, .admin-actions label, .status-message{
   color: var(--tertiaryColor);
 }
 
@@ -739,9 +739,10 @@ main {
   margin: 10px 0;
 }
 
-.product-card button{
-  margin: 10px;
+.product-card button {
+  margin-top: 10px;
 }
+
 
 /* =========================================================
    BADGES
@@ -940,6 +941,10 @@ main {
   width: 100%;
 }
 
+.empty-cart {
+  display: inline;
+  text-align: center;
+}
 
 .empty-cart h2, #ordersContainer h2 {
   font-size: 1.6rem;
