@@ -311,12 +311,48 @@ function setupEventListeners(): void {
                     };
                 }));
 
-                // verifica las validaciones
-                const varValidaciones = validaciones.find(v => !v.okStock); // Cambié 'ok' por 'okStock'
+                const varValidaciones = validaciones.find(v => !v.okStock);
+
                 if (varValidaciones) {
-                    alert(`No hay suficiente stock para "${varValidaciones.nombre}". Solo hay ${varValidaciones.stock} unidades disponibles, pero solicitaste ${varValidaciones.solicitado}.`);
+                    // 1. Construir el mensaje de error
+                    const errorMessage = `No hay suficiente stock para "${varValidaciones.nombre}". Solo hay ${varValidaciones.stock} unidades disponibles, pero solicitaste ${varValidaciones.solicitado}.`;
+                    
+                    // 2. 🌟 Usar await para mostrar el modal y esperar el clic en "Aceptar"
+                    await showStockModal(errorMessage);
+
+                    // 3. Salir de la función (el proceso de pedido se detiene)
                     return;
                 }
+
+                function showStockModal(message: string): Promise<void> {
+                return new Promise((resolve) => {
+                    const modal = document.getElementById('stockModal') as HTMLElement;
+                    const messageHeader = document.getElementById('faltante-stock') as HTMLHeadingElement;
+                    const aceptarButton = document.getElementById('aceptar') as HTMLButtonElement;
+
+                    if (!modal || !messageHeader || !aceptarButton) {
+                        console.error("Faltan elementos del modal de stock.");
+                        resolve();
+                        return;
+                    }
+
+                    // 1. Insertar el mensaje de error
+                    messageHeader.textContent = message;
+
+                    // 2. Mostrar el modal (usando flex para centrar)
+                    modal.style.display = 'flex'; 
+
+                    // 3. Manejar el clic en "Aceptar"
+                    const onAceptarClick = () => {
+                        modal.style.display = 'none'; // Ocultar
+                        aceptarButton.removeEventListener('click', onAceptarClick);
+                        resolve(); // Resolver la promesa
+                    };
+
+                    // 4. Asociar evento
+                    aceptarButton.addEventListener('click', onAceptarClick);
+                });
+            }
 
                 const orderData = {
                     idUser: user.id,
