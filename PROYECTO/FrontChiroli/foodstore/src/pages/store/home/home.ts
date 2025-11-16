@@ -8,6 +8,10 @@ import { navigateTo } from "../../../utils/navigate";
 //vaiables globales para mantener el estado en memoria 
 let allProductos: IProduct[] = [];//todos los productos cargados
 let currentCategoriaId: number | null = null;//categoria seleccionada actualmente
+const DEBOUNCE_DELAY = 300; // Tiempo de espera en milisegundos
+let timeoutId: number | undefined;
+const debouncedSearch = debounce(performSearch, DEBOUNCE_DELAY);
+let currentDisplayedProducts;
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -166,6 +170,8 @@ function renderProductos(productos: IProduct[]): void {
     `;
     }).join('');
 
+    setupSearchListener();
+    
     if (productos.length > 0) {
         productos.forEach((producto, i) => {
             const boton = document.getElementById(`boton-producto-${i}`);
@@ -196,4 +202,48 @@ function renderProductos(productos: IProduct[]): void {
 
 function funcionBoton(e: number, productos: IProduct[]): void {
     addToCart(productos[e].id, productos[e].nombre, productos[e].precio, productos[e].imagen, 1);       
+}
+
+function performSearch(query: string): void {
+    const lowerCaseQuery = query.toLowerCase().trim();
+
+    if (lowerCaseQuery.length < 1) {
+        // Muestra todos los productos si la consulta está vacía
+        currentDisplayedProducts = allProductos;
+    } else {
+        // 🌟 Filtrado en el Front-end
+        const filteredResults = allProductos.filter(product => {
+            // Busca si el nombre o cualquier otro campo relevante CONTIENE la cadena
+            const productName = product.nombre.toLowerCase();
+            return productName.includes(lowerCaseQuery);
+        });
+        currentDisplayedProducts = filteredResults;
+    }
+
+    renderProductos(currentDisplayedProducts);
+}
+
+    function setupSearchListener() {
+    const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = (e.target as HTMLInputElement).value;
+            // Llama a la versión Debounced de la búsqueda
+            debouncedSearch(query);
+        });
+    } else {
+        console.warn("Elemento 'searchInput' no encontrado. La búsqueda no funcionará.");
+    }
+}
+
+    function debounce<T extends any[]>(func: (...args: T) => void, delay: number) {
+    return (...args: T) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    };
 }
