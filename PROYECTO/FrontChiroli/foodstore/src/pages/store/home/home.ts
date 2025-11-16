@@ -156,9 +156,12 @@ function renderProductos(productos: IProduct[]): void {
             <h3>${producto.nombre}</h3>
             <p class="description">${producto.descripcion}</p>
             <p class="price">$${producto.precio.toFixed(2)}</p>
-            <span id="boton-producto-${i}" class="badge ${disponible ? 'available' : 'unavailable'}">
+
+            <span class="badge ${disponible ? 'available' : 'unavailable'}">
               ${disponible ? 'Disponible' : 'Agotado'}
             </span>
+            
+            ${disponible ? `<button id="boton-producto-${i}" class="btnPrimary">Agregar al carrito</button>` : `<button class="btn-add-cart disabled" disabled>No disponible</button>`}
         </div>
     `;
     }).join('');

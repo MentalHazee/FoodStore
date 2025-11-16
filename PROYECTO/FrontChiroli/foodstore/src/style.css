@@ -263,7 +263,7 @@ main {
 }
 
 main {
-  display: flex;
+  /*display: flex;*/
   justify-content: center;
   align-items: center;
   padding: 60px 7.5%;
@@ -524,9 +524,17 @@ main {
   width: calc((100% - 60px) / 3);
 }
 
-#orderDetailContent div,
-#orderDetailContent div * {
-  color: #000;
+.order-summary, .order-info, .order-items, .admin-actions label{
+  color: var(--tertiaryColor);
+}
+
+.admin-actions{
+  color: var(--whiteColor);
+  justify-content: center;
+}
+
+.admin-actions select{
+  margin: 1rem;
 }
 
 .status-message {
@@ -686,6 +694,11 @@ main {
   margin-top: 20px;
 }
 
+#productGrid p{
+  color: var(--tertiaryColor);
+  font-weight: bold;
+}
+
 .product-card {
   background: var(--whiteColor);
   border-radius: 12px;
@@ -695,7 +708,6 @@ main {
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  cursor: pointer;
   transition: transform 0.1s;
 }
 
@@ -710,15 +722,25 @@ main {
   border-radius: 8px;
 }
 
+.description{
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .product-card h3,
-.product-card .price,
-.description {
+.product-card .price, .description {
   color: var(--tertiaryColor);
 }
 
 .product-card .price {
   font-weight: bold;
   margin: 10px 0;
+}
+
+.product-card button{
+  margin: 10px;
 }
 
 /* =========================================================
@@ -741,7 +763,7 @@ main {
   background-color: var(--tertiaryColor);
 }
 
-.badge.unavailable, .badge.available {
+.badge.unavailable, .badge.available{
   color: var(--whiteColor);
 }
 
@@ -918,13 +940,14 @@ main {
   width: 100%;
 }
 
-.empty-cart h2 {
+
+.empty-cart h2, #ordersContainer h2 {
   font-size: 1.6rem;
   color: var(--tertiaryColor);
   margin-bottom: 10px;
 }
 
-.empty-cart p {
+.empty-cart p, #ordersContainer p {
   color: var(--tertiaryColor);
   margin-bottom: 15px;
 }
@@ -937,9 +960,14 @@ main {
   margin-top: 20px;
 }
 
-.item-details {
-  margin-top: 10px;
+
+
+/*PEDIDOS ADMIN*/
+#ordersContainer{
+  color: var(--tertiaryColor);
+  font-weight: bold;
 }
+
 
 /* =========================================================
    CONFIGURACIÓN RESPONSIVA

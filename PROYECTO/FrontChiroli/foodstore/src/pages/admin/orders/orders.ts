@@ -64,7 +64,7 @@ function renderOrders(orders: IOrder[]): void {
   }
 
   if (orders.length === 0) {
-    container.innerHTML = `<p class="no-orders">No hay pedidos ${currentStatus ? `con estado "${getStatusText(currentStatus)}"` : ''}.</p>`;
+    container.innerHTML = `<p class="no-orders">No hay pedidos ${currentStatus ? `con estado "${getStatusText(currentStatus)}"` : ''}</p>`;
     return;
   }
 
@@ -193,8 +193,7 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
   const envio = 500;
 
   const itemsHtml = order.items.map(item => `
-    <div class="order-item">
-        <img src="${item.imagenUrl || '/src/assets/default-product.png'}" alt="${item.nombre}" width="50" />
+    <div class="order-item"> 
         <div class="item-details">
             <h4>${item.nombre}</h4>
             <p>Cantidad: ${item.cantidad}</p>
@@ -236,13 +235,14 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
         <h3>Resumen</h3>
         <p>Subtotal: $${subtotal.toFixed(2)}</p>
         <p>Envío: $${envio.toFixed(2)}</p>
-        <p class="total">Total: $${order.total.toFixed(2)}</p>
+        <p class="total">Total: $${subtotal+envio}</p>
     </div>
     <div class="admin-actions">
         <label for="newStatusSelect">Cambiar Estado:</label>
         <select id="newStatusSelect">
             ${statusOptionsHtml}
         </select>
+        <br>
         <button id="updateStatusBtn">Actualizar Estado</button>
         <button id="btn-cancelar">Cancelar Pedido</button>
     </div>
