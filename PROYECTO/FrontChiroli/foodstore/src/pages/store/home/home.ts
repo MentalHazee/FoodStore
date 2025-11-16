@@ -84,9 +84,11 @@ function renderCategorias(categorias: ICategoria[]): void {
 
     //enlaces para cada categoria
     for (const categoria of categorias) {
-        html += `<li><a href="#" class="category-link" data-id="${categoria.id}">${categoria.nombre}</button></li>`;
+        html += `<li><a href="#" class="category-link" data-id="${categoria.id}">${categoria.nombre}</a></li>`;
     }
-    sidebar.innerHTML = html;
+
+    let pedidos = `<li><a href="/src/pages/client/orders/orders.html" class="category-link">Pedidos</a></li>`;
+    sidebar.innerHTML = html + pedidos;
 
     //agregar eventos a los botones
     sidebar.querySelectorAll('.category-link').forEach(link => {
@@ -147,7 +149,7 @@ function renderProductos(productos: IProduct[]): void {
     }
 
     if (productos.length === 0) {
-        grid.innerHTML = '<p>No hay productos disponibles en esta categoría.</p>';
+        grid.innerHTML = '<p>No hay productos disponibles.</p>';
         return;
     }
 
