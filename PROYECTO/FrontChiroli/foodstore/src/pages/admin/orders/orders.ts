@@ -3,6 +3,7 @@ import { getCurrentUser} from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
 import { getAllOrders, updateStatus, cancelarPedido, getOrderById } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
+import { modalCancelarPedido } from "../../../utils/order";
 
 //const API_URL = 'http://localhost:8080';
 
@@ -64,7 +65,7 @@ function renderOrders(orders: IOrder[]): void {
   }
 
   if (orders.length === 0) {
-    container.innerHTML = `<p class="no-orders">No hay pedidos ${currentStatus ? `con estado "${getStatusText(currentStatus)}"` : ''}</p>`;
+    container.innerHTML = `<p class="no-orders">No hay pedidos ${currentStatus ? `con estado "${getStatusText(currentStatus)}"` : ''}.</p>`;
     return;
   }
 
@@ -127,7 +128,7 @@ function renderOrders(orders: IOrder[]): void {
         return;
       }
       // Confirmar la cancelación
-      const confirmado = confirm(`¿Estás seguro de que deseas cancelar el pedido #${orderId}?`);
+      const confirmado = await modalCancelarPedido(`¿Estás seguro de que deseas cancelar el pedido?`);
       if (!confirmado) {
       return; // Salir si el usuario no confirma
       }
@@ -150,7 +151,7 @@ function renderOrders(orders: IOrder[]): void {
 
         if (response.ok) {
             // Cancelación exitosa
-            alert(`El pedido #${orderId} ha sido cancelado.`);
+            modalCancelarPedido(`El pedido #${orderId} ha sido cancelado.`);
             // Actualizar la vista local (opcional, o recargar toda la lista)
             const pedidoIndex = allOrders.findIndex(o => o.id === orderId); // Buscar en la lista GLOBAL 'allOrders'
             if (pedidoIndex !== -1) {
@@ -193,7 +194,8 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
   const envio = 500;
 
   const itemsHtml = order.items.map(item => `
-    <div class="order-item"> 
+    <div class="order-item">
+        <img src="${item.imagenUrl || '/src/assets/default-product.png'}" alt="${item.nombre}" width="50" />
         <div class="item-details">
             <h4>${item.nombre}</h4>
             <p>Cantidad: ${item.cantidad}</p>
@@ -235,14 +237,13 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
         <h3>Resumen</h3>
         <p>Subtotal: $${subtotal.toFixed(2)}</p>
         <p>Envío: $${envio.toFixed(2)}</p>
-        <p class="total">Total: $${subtotal+envio}</p>
+        <p class="total">Total: $${subtotal + envio}</p>
     </div>
     <div class="admin-actions">
         <label for="newStatusSelect">Cambiar Estado:</label>
         <select id="newStatusSelect">
             ${statusOptionsHtml}
         </select>
-        <br>
         <button id="updateStatusBtn">Actualizar Estado</button>
         <button id="btn-cancelar">Cancelar Pedido</button>
     </div>

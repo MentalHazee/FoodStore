@@ -2,6 +2,7 @@ import { getCurrentUser } from "../../../utils/auth";
 import { navigateTo } from "../../../utils/navigate";
 import { getOrderById, cancelarPedido } from "../../../utils/api";
 import type { IOrder } from "../../../types/IOrders";
+import { modalCancelarPedido } from "../../../utils/order";
 
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -163,7 +164,7 @@ function renderOrders(orders: IOrder[]): void {
             }
 
             // Confirmar la cancelación
-            const confirmado = confirm(`¿Estás seguro de que deseas cancelar el pedido #${orderId}?`);
+            const confirmado = await modalCancelarPedido('¿Estas seguro que quiere cancelar el pedido?')
             if (!confirmado) {
                 return; // Salir si el usuario no confirma
             }
