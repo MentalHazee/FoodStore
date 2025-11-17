@@ -743,6 +743,13 @@ main {
   margin-top: 10px;
 }
 
+.product-card a{
+  margin: 5px;
+}
+
+.product-card a:hover{
+  color: var(--primaryColor);
+}
 
 /* =========================================================
    BADGES
@@ -978,6 +985,157 @@ main {
   font-weight: bold;
 }
 
+/* ==========================================================
+DETALLES DE PRODUCTO
+=========================================================== */
+
+.product-detail-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  justify-content: flex-start;
+}
+
+
+.product-detail-container{
+  width: 100%;
+  min-height: 450px;
+  max-width: 1100px;
+  background: var(--whiteColor);
+  border-radius: var(--radio);
+  padding: 30px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  justify-content: center;
+}
+
+.product-detail-content {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.product-detail-image {
+  width: 450px;
+  height: auto;
+  border-radius: var(--radio);
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.product-info h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.product-description {
+  color: #555;
+  font-size: 1rem;
+}
+
+.product-price {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primaryColor);
+}
+
+/* Stock y estado */
+.product-stock {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.available {
+  background-color: #d4fcdc;
+  color: #157a2c;
+}
+
+.unavailable {
+  background-color: #ffdada;
+  color: #c62828;
+}
+
+.product-info h1,
+.product-description,
+.product-price,
+.product-stock,
+.quantity-selector label,
+.quantity-selector input {
+  color: var(--tertiaryColor);
+}
+
+/* ---------------------- ACCIONES ---------------------- */
+
+.product-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.quantity-selector input {
+  width: 70px;
+  text-align: center;
+  background: #f9f9f9;
+  border-radius: var(--radio);
+  padding: 10px;
+  border: 2px solid #ddd;
+  font-size: 1rem;
+}
+
+/* Botón agregar al carrito */
+#addToCartBtn {
+  background-color: var(--primaryColor);
+  color: var(--whiteColor);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: var(--radio);
+  border: none;
+  cursor: pointer;
+}
+
+#addToCartBtn:hover {
+  background-color: #c73528;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Botón Volver */
+.product-detail-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#backButton {
+  margin-top: 25px;
+  background-color: #e5e5e5;
+  color: var(--blackColor);
+  border: none;
+}
+
+#backButton:hover {
+  background-color: #d0d0d0;
+  transform: translateY(-2px);
+}
 
 /* =========================================================
    CONFIGURACIÓN RESPONSIVA
