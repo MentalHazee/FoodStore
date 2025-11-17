@@ -275,7 +275,11 @@ function showOrderDetail(orderId: number, allOrders: IOrder[]): void {
                 // Cerrar modal y refrescar lista
                 modal.style.display = 'none';
                 applyFilters(); // Aplica filtros y vuelve a renderizar con los datos actualizados localmente (si la API fue exitosa)
-                alert('Estado del pedido actualizado correctamente.');
+                const errorMessage = `Estado del pedido actualizado correctamente.`;
+                    
+                    // 2. 🌟 Usar await para mostrar el modal y esperar el clic en "Aceptar"
+                await showEstadoModal(errorMessage);
+                //alert('Estado del pedido actualizado correctamente.');
             } else {
                 // Si el back-end devuelve un error, lo manejamos aquí
                 const errorText = await response.text();
@@ -339,3 +343,32 @@ window.addEventListener('click', (e) => {
     if (modal) modal.style.display = 'none';
   }
 });
+
+function showEstadoModal(message: string): Promise<void> {
+                return new Promise((resolve) => {
+                    const modal = document.getElementById('estadoModal') as HTMLElement;
+                    const messageHeader = document.getElementById('cambiar-estado') as HTMLHeadingElement;
+                    const aceptarButton = document.getElementById('aceptar') as HTMLButtonElement;
+
+                    if (!modal || !messageHeader || !aceptarButton) {
+                        console.error("Faltan elementos del modal.");
+                        resolve();
+                        return;
+                    }
+
+                    // 1. Insertar el mensaje de error
+                    messageHeader.textContent = message;
+
+                    // 2. Mostrar el modal (usando flex para centrar)
+                    modal.style.display = 'flex'; 
+
+                    // 3. Manejar el clic en "Aceptar"
+                    const onAceptarClick = () => {
+                        modal.style.display = 'none'; // Ocultar
+                        aceptarButton.removeEventListener('click', onAceptarClick);
+                        resolve(); // Resolver la promesa
+                    };
+
+                    // 4. Asociar evento
+                    aceptarButton.addEventListener('click', onAceptarClick);
+                })};

@@ -174,11 +174,11 @@ function renderProductos(productos: IProduct[]): void {
 
     setupSearchListener();
     
-    /* if (productos.length > 0) {
+     if (productos.length > 0) {
         productos.forEach((producto, i) => {
             const boton = document.getElementById(`boton-producto-${i}`);
             boton?.addEventListener('click', (ev) => funcionBoton(i, productos));
-    })}*/
+    })}
 
     /*  const botones = document.getElementById('boton-producto');
       console.log(botones);
